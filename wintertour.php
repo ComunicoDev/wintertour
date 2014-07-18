@@ -1,6 +1,5 @@
 <?php
 	/**
-	 *
 	 * Gestionale WinterTour
 	 *
 	 * Plugin per gestire i tornei e l'anagrafica e le iscrizioni dei membri
@@ -20,6 +19,11 @@
 	 * This plugin, like WordPress, is licensed under the GPL.
 	 */
 	
+	// Make sure we don't expose any info if called directly
+	if ( !function_exists( 'add_action' ) ) {
+		exit;
+	}
+	
 	/**
 	 * Admin menu handler
 	 */
@@ -31,7 +35,7 @@
 	 * Add options page handler
 	 */
 	function wintertour_admin_actions() {
-		add_options_page("Gestionale WinterTour", "Gestionale WinterTour", 1, "Gestionale WinterTour", "wintertour_admin");
+		add_options_page("Gestionale WinterTour", "Gestionale WinterTour", 1, "GestionaleWinterTour", "wintertour_admin");
 	}
 	
 	add_action('admin_menu', 'wintertour_admin_actions');
