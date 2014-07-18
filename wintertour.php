@@ -25,17 +25,25 @@
 	}
 	
 	/**
-	 * Admin menu handler
+	 * Admin options handler
 	 */
 	function wintertour_options() {
 		include ('wintertour_options.php');
 	}
 	
 	/**
-	 * Add options page handler
+	 * Admin menu handler
+	 */
+	function wintertour_menu() {
+		include ('wintertour_menu.php');
+	}
+	
+	/**
+	 * Adds admin_menu handlers
 	 */
 	function wintertour_admin_actions() {
 		add_options_page("Opzioni Gestionale", "Opzioni Gestionale", 1, "OpzioniGestionale", "wintertour_options");
+		add_menu_page("Gestionale", "Gestionale", 1, "Gestionale", "wintertour_menu", plugins_url("images/logo.png", __FILE__ ), 5);
 	}
 	
 	add_action('admin_menu', 'wintertour_admin_actions');
