@@ -14,6 +14,6 @@
 	}
 ?>
 <style>
-	@import url('<?php echo plugins_url( 'css/style.css' , __FILE__ ) ?>');
+	@import url('<?php echo plugins_url("css/style.css", __FILE__ ); ?>');
 </style>
-<h1>Gestionale WinterTour - Pagina di amministrazione</h1>
+<h1>Gestionale WinterTour - Opzioni</h1>

@@ -27,15 +27,15 @@
 	/**
 	 * Admin menu handler
 	 */
-	function wintertour_admin() {
-		include ('wintertour_import_admin.php');
+	function wintertour_options() {
+		include ('wintertour_options.php');
 	}
 	
 	/**
 	 * Add options page handler
 	 */
 	function wintertour_admin_actions() {
-		add_options_page("Gestionale WinterTour", "Gestionale WinterTour", 1, "GestionaleWinterTour", "wintertour_admin");
+		add_options_page("Opzioni Gestionale", "Opzioni Gestionale", 1, "OpzioniGestionale", "wintertour_options");
 	}
 	
 	add_action('admin_menu', 'wintertour_admin_actions');
