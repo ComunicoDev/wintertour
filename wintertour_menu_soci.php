@@ -1,0 +1,234 @@
+<?php
+	/**
+	 * Gestionale WinterTour - Pagina di amministrazione
+	 *
+	 * Plugin per gestire i tornei e l'anagrafica e le iscrizioni dei membri
+	 * @author Comunico S.r.l. <info@comunico.info>
+	 * @version 1.0
+	 * @package wintertour
+	 */
+	
+	// Make sure we don't expose any info if called directly
+	if ( !function_exists( 'plugins_url' ) ) {
+		exit;
+	}
+?>
+<div class="wgest_page wgest_soci">
+	<h1>Gestionale WinterTour</h1>
+	<h2>Gestione Soci</h2>
+	
+	<!-- <form action="" method="post"> -->
+	<form action="" method="get">
+		<input type="hidden" name="page" id="page" value="<?php echo $_GET['page']; ?>" />
+		<table cellpadding="2" cellspacing="0" border="0">
+			<thead>
+				<tr>
+					<th colspan="2">
+						<h3>Aggiungi nuovo socio</h3>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<label for="nome">Nome:</label>
+					</td>
+					<td>
+						<input name="nome" id="nome" type="text" placeholder="Nome" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="cognome">Cognome:</label>
+					</td>
+					<td>
+						<input name="cognome" id="cognome" type="text" placeholder="Cognome" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="email">Email:</label>
+					</td>
+					<td>
+						<input name="email" id="email" type="email" placeholder="Email" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="tipologia">Tipologia:</label>
+					</td>
+					<td>
+						<select name="tipologia" id="tipologia">
+							<option>Esempio 1</option>
+							<option>Esempio 2</option>
+							<option>Esempio 3</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="saldo">Saldo:</label>
+					</td>
+					<td>
+						<input name="saldo" id="saldo" type="number" placeholder="Saldo" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="indirizzo">Indirizzo:</label>
+					</td>
+					<td>
+						<input name="indirizzo" id="indirizzo" type="text" placeholder="Indirizzo" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="citta">Città:</label>
+					</td>
+					<td>
+						<input name="citta" id="citta" type="text" placeholder="Città" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="cap">CAP:</label>
+					</td>
+					<td>
+						<input name="cap" id="cap" type="text" placeholder="CAP" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="provincia">Provincia:</label>
+					</td>
+					<td>
+						<input name="provincia" id="provincia" type="text" placeholder="Provincia" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="telefono">Telefono:</label>
+					</td>
+					<td>
+						<input name="telefono" id="telefono" type="tel" placeholder="Telefono" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="cellulare">Cellulare:</label>
+					</td>
+					<td>
+						<input name="cellulare" id="cellulare" type="tel" placeholder="Cellulare" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="attivo">Stato Attivo:</label>
+					</td>
+					<td>
+						<table>
+							<tr>
+								<td>
+									<input name="attivo" id="attivo1" type="radio" value="1" checked="checked" />Attivo
+								</td>
+								<td>
+									<input name="attivo" id="attivo0" type="radio" value="0" />Inattivo
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="datanascita">Data di Nascita:</label>
+					</td>
+					<td>
+						<input name="datanascita" id="datanascita" type="date" placeholder="gg/mm/aaaa" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="cittanascita">Citt&agrave; di Nascita:</label>
+					</td>
+					<td>
+						<input name="cittanascita" id="cittanascita" type="text" placeholder="Citt&agrave; di Nascita" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="dataiscrizione">Data di Iscrizione:</label>
+					</td>
+					<td>
+						<input name="dataiscrizione" id="dataiscrizione" type="date" placeholder="gg/mm/aaaa" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="codicefiscale">Codice Fiscale:</label>
+					</td>
+					<td>
+						<input name="codicefiscale" id="codicefiscale" type="text" placeholder="Codice Fiscale" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="dataimmissione">Data Immissione:</label>
+					</td>
+					<td>
+						<input name="dataimmissione" id="dataimmissione" type="text" placeholder="gg/mm/aaaa - hh:mm" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="numerotessera">Numero Tessera:</label>
+					</td>
+					<td>
+						<input name="numerotessera" id="numerotessera" type="text" placeholder="Numero Tessera" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="certificatomedico">Certificato Medico:</label>
+					</td>
+					<td>
+						<table style="min-width: 246px; width: 246px;">
+							<tr>
+								<td>
+									<input name="certificatomedico" id="certificatomedico1" type="radio" value="1" checked="checked" />Pervenuto
+								</td>
+								<td>
+									<input name="certificatomedico" id="certificatomedico0" type="radio" value="0" />Non Pervenuto
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="domandaassociazione">Domanda di Associazione:</label>
+					</td>
+					<td>
+						<input name="domandaassociazione" id="domandaassociazione" type="date" placeholder="gg/mm/aaaa" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="circolo">Circolo:</label>
+					</td>
+					<td>
+						<select name="circolo" id="circolo">
+							<option>Esempio 1</option>
+							<option>Esempio 2</option>
+							<option>Esempio 3</option>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<td colspan="2" align="center">
+					<input type="submit" value="Aggiungi" />
+				</td>
+			</tfoot>
+		</table>
+	</form>
+</div>

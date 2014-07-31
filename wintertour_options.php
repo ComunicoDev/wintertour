@@ -13,7 +13,6 @@
 		exit;
 	}
 ?>
-<style>
-	@import url('<?php echo plugins_url("css/style.css", __FILE__ ); ?>');
-</style>
-<h1>Gestionale WinterTour - Opzioni</h1>
+<div class="wgest_page wgest_opt">
+	<h1>Gestionale WinterTour - Opzioni</h1>
+</div>
