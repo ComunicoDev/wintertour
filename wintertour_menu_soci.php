@@ -98,9 +98,26 @@
 					</td>
 					<td>
 						<select name="tipologia" id="tipologia">
-							<option>Esempio 1</option>
-							<option>Esempio 2</option>
-							<option>Esempio 3</option>
+							<?php
+								global $wpdb;
+								
+								$query = "SELECT `ID`, `nome` FROM `wintertourtennis_tipologie_soci`;";
+								$res = $wpdb->get_results($query);
+								
+								if(!$res) {
+							?>
+								<option disabled="disabled" selected="selected" value="">--Non esiste nessuna tipologia--</option>
+							<?php
+								} else {
+							?>
+								<option disabled="disabled" selected="selected" value="">--Selezionare una tipologia--</option>
+							<?php	
+								}
+								
+								foreach ($res as $x) {
+									echo "<option value=\"$x->ID\">$x->nome</option>";
+								}
+							?>
 						</select>
 					</td>
 				</tr>
