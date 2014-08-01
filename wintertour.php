@@ -60,17 +60,25 @@
 	 */
 	function wintertour_custom_wp_admin_style() {
 		wp_register_style('wintertour_wp_admin_css', plugins_url("css/wintertour_style.css", __FILE__ ), false, '1.0.0');
-        wp_enqueue_style('wintertour_wp_admin_css');
-	}
+		wp_enqueue_style('wintertour_wp_admin_css');
+}
 	
 	/**
 	 * Create the tables if they do not exist already
 	 */
 	function wintertour_install() {
-		global $wpdb;
+		$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta(file_get_contents(plugins_url("CREATE_DATABASE.sql", __FILE__ )));
+		if (!mysqli_connect_errno()) {
+			$check = mysqli_multi_query($con, file_get_contents(plugins_url("CREATE_DATABASE.sql", __FILE__ )));
+			
+			if(!$check) {
+				die('Query error: ' . mysqli_error($con));
+			}
+		}
+		else {
+			die("Connection error: " . mysqli_connect_error());
+		}
 	}
 	
 	add_action('admin_menu', 'wintertour_admin_actions');
