@@ -12,14 +12,53 @@
 	if ( !function_exists( 'plugins_url' ) ) {
 		exit;
 	}
+	
+	if(isset($_POST['submit0'])) {
+		wintertour_addTipologiaSoci();
+	} else if(isset($_POST['submit1'])) {
+		wintertour_addSocio();
+	}
 ?>
 <div class="wgest_page wgest_soci">
 	<h1>Gestionale WinterTour</h1>
 	<h2>Gestione Soci</h2>
 	
-	<!-- <form action="" method="post"> -->
-	<form action="" method="get">
-		<input type="hidden" name="page" id="page" value="<?php echo $_GET['page']; ?>" />
+	<form action="" method="post">
+		<table cellpadding="2" cellspacing="0" border="0">
+			<thead>
+				<tr>
+					<th colspan="2">
+						<h3>Aggiungi nuova tipologia</h3>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<label for="nometipologia">Nome tipologia:</label>
+					</td>
+					<td>
+						<input name="nometipologia" id="nometipologia" type="text" placeholder="Nome tipologia" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="descrizionetipologia">Descrizione tipologia:</label>
+					</td>
+					<td>
+						<input name="descrizionetipologia" id="descrizionetipologia" type="text" placeholder="Descrizione tipologia" />
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<td colspan="2" align="center">
+					<input name="submit0" id="submit0" type="submit" value="Aggiungi" />
+				</td>
+			</tfoot>
+		</table>
+	</form>
+	
+	<form action="" method="post">
 		<table cellpadding="2" cellspacing="0" border="0">
 			<thead>
 				<tr>
@@ -226,7 +265,7 @@
 			</tbody>
 			<tfoot>
 				<td colspan="2" align="center">
-					<input type="submit" value="Aggiungi" />
+					<input name="submit1" id="submit1"  type="submit" value="Aggiungi" />
 				</td>
 			</tfoot>
 		</table>

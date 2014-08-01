@@ -18,6 +18,8 @@
 	 *
 	 * This plugin, like WordPress, is licensed under the GPL.
 	 */
+	 
+	include_once('wintertour_functions.php');
 	
 	// Make sure we don't expose any info if called directly
 	if (!function_exists( 'add_action' )) {
@@ -50,9 +52,9 @@
 	 */
 	function wintertour_admin_actions() {
 		add_options_page("Opzioni Gestionale", "Opzioni Gestionale", 1, "OpzioniGestionale", "wintertour_options");
-		add_menu_page("Gestionale", "Gestionale", 1, "Gestionale", "wintertour_menu", plugins_url("images/logo.png", __FILE__), 26);
-		add_submenu_page("Gestionale", "Gestionale", "Homepage", 1, "Gestionale", "wintertour_menu");
-		add_submenu_page("Gestionale", "Gestionale Soci", "Soci", 1, "GestionaleSoci", "wintertour_menu_soci");
+		add_menu_page("gestionale", "Gestionale", 1, "gestionale", "wintertour_menu", plugins_url("images/logo.png", __FILE__), 26);
+		add_submenu_page("gestionale", "Gestionale", "Homepage", 1, "gestionale", "wintertour_menu");
+		add_submenu_page("gestionale", "Gestionale Soci", "Soci", 1, "gestionale_soci", "wintertour_menu_soci");
 	}
 	
 	/**
@@ -61,7 +63,7 @@
 	function wintertour_custom_wp_admin_style() {
 		wp_register_style('wintertour_wp_admin_css', plugins_url("css/wintertour_style.css", __FILE__ ), false, '1.0.0');
 		wp_enqueue_style('wintertour_wp_admin_css');
-}
+	}
 	
 	/**
 	 * Create the tables if they do not exist already
@@ -73,12 +75,15 @@
 			$check = mysqli_multi_query($con, file_get_contents(plugins_url("CREATE_DATABASE.sql", __FILE__ )));
 			
 			if(!$check) {
+				mysqli_close($con);
 				die('Query error: ' . mysqli_error($con));
 			}
-		}
-		else {
+		} else {
+			mysqli_close($con);
 			die("Connection error: " . mysqli_connect_error());
 		}
+		
+		mysqli_close($con);
 	}
 	
 	add_action('admin_menu', 'wintertour_admin_actions');

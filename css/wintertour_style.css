@@ -16,6 +16,16 @@
 	margin: 0 auto;
 	text-align: center;
 }
+#wpbody-content div.wgest_page h2 {
+	margin-bottom: 30px;
+}
+
+#wpbody-content div.wgest_page form {
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 50px;
+	margin-bottom: 30px;
+}
 
 #wpbody-content div.wgest_page form table input, #wpbody-content div.wgest_page form table select {
 	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
@@ -36,7 +46,7 @@
 }
 
 #wpbody-content div.wgest_page form table>tfoot>tr:first-child>td {
-	padding-top: 3px;
+	padding-top: 9px;
 }
 
 #wpbody-content div.wgest_page form table h3 {
