@@ -16,5 +16,6 @@
 <div class="wgest_page wgest_opt">
 	<h1>Gestionale WinterTour</h1>
 	<h2>Homepage</h2>
-	<a href="<?php echo admin_url('admin.php?page=gestionale_soci'); ?>">Soci</a>
+	<a href="<?php echo admin_url('admin.php?page=gestionale_soci'); ?>">Soci</a><br />
+	<a href="<?php echo admin_url('admin.php?page=gestionale_circoli'); ?>">Circoli</a>
 </div>

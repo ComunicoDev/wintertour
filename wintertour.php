@@ -48,6 +48,13 @@
 	}
 	
 	/**
+	 * Admin menu_soci handler
+	 */
+	function wintertour_menu_circoli() {
+		include ('wintertour_menu_circoli.php');
+	}
+	
+	/**
 	 * Adds admin_menu handlers
 	 */
 	function wintertour_admin_actions() {
@@ -55,12 +62,13 @@
 		add_menu_page("gestionale", "Gestionale", 1, "gestionale", "wintertour_menu", plugins_url("images/logo.png", __FILE__), 26);
 		add_submenu_page("gestionale", "Gestionale", "Homepage", 1, "gestionale", "wintertour_menu");
 		add_submenu_page("gestionale", "Gestionale Soci", "Soci", 1, "gestionale_soci", "wintertour_menu_soci");
+		add_submenu_page("gestionale", "Gestionale Circoli", "Circoli", 1, "gestionale_circoli", "wintertour_menu_circoli");
 	}
 	
 	/**
 	 * Adds admin_menu stylesheets
 	 */
-	function wintertour_custom_wp_admin_style() {
+	function wintertour_admin_scripts() {
 		wp_register_style('wintertour_wp_admin_css', plugins_url("css/wintertour_style.css", __FILE__ ), false, '1.0.0');
 		wp_enqueue_style('wintertour_wp_admin_css');
 	}
@@ -86,7 +94,17 @@
 		mysqli_close($con);
 	}
 	
+	function wintertour_autocomplete() {
+		wintertour_get_autocomplete();
+		
+		die();
+	}
+	
+	
 	add_action('admin_menu', 'wintertour_admin_actions');
-	add_action( 'admin_enqueue_scripts', 'wintertour_custom_wp_admin_style' );
+	add_action( 'admin_enqueue_scripts', 'wintertour_admin_scripts' );
+	if (is_admin()) {
+		add_action('wp_ajax_wintertour_autocomplete', 'wintertour_autocomplete');
+	}
 	register_activation_hook( __FILE__, 'wintertour_install' );
 ?>
