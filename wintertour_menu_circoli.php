@@ -12,6 +12,10 @@
 	if ( !function_exists( 'plugins_url' ) ) {
 		exit;
 	}
+	
+	if(isset($_POST['submit0'])) {
+		wintertour_addCircolo();
+	}
 ?>
 <div class="wgest_page wgest_soci">
 	<h1>Gestionale WinterTour</h1>
@@ -45,18 +49,18 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="cittacircolo">Citt&agrave; circolo:</label>
-					</td>
-					<td>
-						<input name="cittacircolo" id="cittacircolo" type="text" placeholder="Citt&agrave; circolo" />
-					</td>
-				</tr>
-				<tr>
-					<td>
 						<label for="capcircolo">CAP circolo:</label>
 					</td>
 					<td>
 						<input name="capcircolo" id="capcircolo" type="text" placeholder="CAP circolo" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="cittacircolo">Citt&agrave; circolo:</label>
+					</td>
+					<td>
+						<input name="cittacircolo" id="cittacircolo" type="text" placeholder="Citt&agrave; circolo" />
 					</td>
 				</tr>
 				<tr>
@@ -72,18 +76,38 @@
 						<label for="referentecircolo">Referente circolo:</label>
 					</td>
 					<td>
-						<input name="referentecircolo_id" type="hidden" value="" />
-						<table cellpadding="0" cellspacing="0" border="0" style="min-width: 250; width: 250;">
+						<table cellpadding="0" cellspacing="0" border="0" style="min-width: 500px; width: 500px;">
 							<tr>
-								<td style="padding: 0;">
-									<input type="text" name="referentecircolo" id="referentecircolo" />
+								<td width="40%" style="padding: 0; width: 45%;">
+									<input type="text" id="referentecircolo" placeholder="Cerca un socio" />
+								</td>
+								<td width="60%" style="padding: 0; width: 55%;">
+									<select name="referentecircolo" id="mySelect" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+										<option disabled="disabled" selected="selected" value=""><?php
+											global $wpdb;
+											
+											$count = $wpdb->get_var("SELECT COUNT(*) FROM `wintertourtennis_soci`;");
+											
+											echo ($count == NULL || $count <= 0) ? '--Non esistono soci--' : '--Cercare un socio--';
+										?></option>
+									</select>
 								</td>
 							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="certificatomedico">Sovrascrivi circolo referente:</label>
+					</td>
+					<td>
+						<table style="min-width: 500px; width: 500px;">
 							<tr>
-								<td style="padding: 0;">
-									<select id="mySelect">
-										<option disabled="disabled" selected="selected" value="">--Nessun referente--</option>
-									</select>
+								<td width="40%" style="width: 40%;">
+									<input name="certificatomedico" id="certificatomedico1" type="radio" value="1" checked="checked" />S&igrave;
+								</td>
+								<td width="60%" style="width: 60%;">
+									<input name="certificatomedico" id="certificatomedico0" type="radio" value="0" />No
 								</td>
 							</tr>
 						</table>
@@ -97,40 +121,76 @@
 			</tfoot>
 		</table>
 	</form>
-	<form action="javascript:void(0);" id="lolform" onsubmit="scriviSoci()">
-		<input type="submit" value="Scrivi Soci" />
-		<textarea id="asd" rows="10" cols="60"></textarea>
-	</form>
 	<script>
-		function scriviSoci() {
-			var data = {
-				action: 'wintertour_autocomplete',
-				select: 'soci',
-				wt_nonce: '<?php echo wp_create_nonce(wt_nonce); ?>'
-			};
+		jQuery(document).ready(function() {
+			var esistonoUtenti = false;
+			var current = null;
 			
-			jQuery.post(ajaxurl, data, function(response) {
-				jQuery('#asd').val(response);
-				
-				var obj = jQuery.parseJSON(response);
-				var y = document.getElementById("mySelect");
-				
-				while(y.length > 0) {
-					y.remove(y.length - 1);
+			if(jQuery('select option').text() === '--Cercare un socio--') {
+				esistonoUtenti = true;
+			}
+			
+			jQuery('#referentecircolo').val('');
+			
+			jQuery('#referentecircolo').bind("input", function() {
+				if(current != null && typeof(current) === 'object' && current.abort) {
+					current.abort();
 				}
 				
-				for(var i = 0; i < obj.length; i++) {
-					var x = obj[i];
-					console.dir(x);
-					var option = document.createElement('option');
-					option.value = x.ID;
-					option.text = x.nome + ' ' + x.cognome;
+				var data = {
+					action: 'wintertour_autocomplete',
+					select: 'soci',
+					partial: jQuery('#referentecircolo').val(),
+					wt_nonce: '<?php echo wp_create_nonce(wt_nonce); ?>'
+				};
+				
+				if(data.partial.length > 0) {
+					current = jQuery.ajax({
+						type : 'POST',
+						url: ajaxurl,
+						data: data,
+						success: function(response) {
+							var obj = jQuery.parseJSON(response);
+							var y = jQuery('#mySelect')[0];
+							
+							while(y.length > 0) {
+								y.remove(y.length - 1);
+							}
+							
+							if(obj != null && obj.length > 0) {
+								for(var i = 0; i < obj.length; i++) {
+									var x = obj[i];
+									var option = document.createElement('option');
+									option.value = x.ID;
+									option.text = x.nome + ' ' + x.cognome;
+									
+									y.add(option);
+								}
+							} else {
+								var option = document.createElement('option');
+								option.value = '';
+								option.text = (esistonoUtenti) ? '--Nessun risultato--' : '--Non esistono soci--';
+								option.disabled = true;
+								y.add(option);
+								y.selectedIndex = 0;
+							}
+						}
+					});
+				} else {
+					var y = jQuery('#mySelect')[0];
 					
+					while(y.length > 0) {
+						y.remove(y.length - 1);
+					}
+					
+					var option = document.createElement('option');
+					option.value = '';
+					option.text = (esistonoUtenti) ? '--Cercare un socio--' : '--Non esistono soci--';
+					option.disabled = true;
 					y.add(option);
+					y.selectedIndex = 0;
 				}
 			});
-			
-			return false;
-		}
+		});
 	</script>
 </div>

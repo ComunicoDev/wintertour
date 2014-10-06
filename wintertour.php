@@ -69,8 +69,27 @@
 	 * Adds admin_menu stylesheets
 	 */
 	function wintertour_admin_scripts() {
-		wp_register_style('wintertour_wp_admin_css', plugins_url("css/wintertour_style.css", __FILE__ ), false, '1.0.0');
-		wp_enqueue_style('wintertour_wp_admin_css');
+		wp_register_style('jscrollpane', plugins_url("css/jquery.jscrollpane.css", __FILE__ ));
+		wp_register_style('datetimepicker', plugins_url("css/jquery.datetimepicker.css", __FILE__ ));
+		wp_register_style('wintertour_style', plugins_url("css/wintertour_style.css", __FILE__ ));
+		
+		wp_register_script('mousewheel', plugins_url('js/jquery.mousewheel.js', __FILE__), array('jquery'), '3.1.9');
+		wp_register_script('mwheelIntent', plugins_url('js/mwheelIntent.js', __FILE__), array('jquery'), '1.2');
+		wp_register_script('jscrollpane', plugins_url('js/jquery.jscrollpane.js', __FILE__), array('jquery'), '2.0.19');
+		wp_register_script('datetimepicker', plugins_url('js/jquery.datetimepicker.js', __FILE__), array('jquery'), '2.3.6');
+		
+		wp_register_script('footready', plugins_url('js/footready.js', __FILE__), array('jquery'), '1.0.0', true);
+		
+		wp_enqueue_style('jscrollpane');
+		wp_enqueue_style('datetimepicker');
+		wp_enqueue_style('wintertour_style');
+		
+		wp_enqueue_script('mousewheel');
+		wp_enqueue_script('mwheelIntent');
+		wp_enqueue_script('jscrollpane');
+		wp_enqueue_script('datetimepicker');
+		
+		wp_enqueue_script('footready');
 	}
 	
 	/**
