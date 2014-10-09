@@ -16,7 +16,7 @@
 	if(isset($_POST['submit0'])) {
 		wintertour_addTipologiaSoci();
 	} else if(isset($_POST['submit1'])) {
-		wintertour_addSocio();
+		wintertour_action();
 	}
 ?>
 <div class="wgest_page wgest_soci">
@@ -25,12 +25,13 @@
 	
 	
 	<p>
-		<a href="<?php echo admin_url('admin.php?page=gestionale_soci&addsocio=1'); ?>">Aggiungi Socio o tipologia socio</a><br />
-		<a href="<?php echo admin_url('admin.php?page=gestionale_soci&addsocio=0'); ?>">Consulta o modifica tipologie o anagrafica dei soci</a>
+		<a href="<?php echo admin_url('admin.php?page=gestionale_soci&action=add'); ?>">Aggiungi Socio o tipologia socio</a><br />
+		<a href="<?php echo admin_url('admin.php?page=gestionale_soci&action=view'); ?>">Consulta tipologie e anagrafica dei soci</a><br />
+		<a href="<?php echo admin_url('admin.php?page=gestionale_soci&action=search'); ?>">Ricerca tipologie e anagrafica dei soci</a>
 	</p>
 	
-	<?php if(isset($_REQUEST['addsocio']) && $_REQUEST['addsocio'] === '1') { ?>
-		<form action="<?php echo admin_url('admin.php?page=gestionale_soci'); ?>" method="post">
+	<?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
+		<form action="<?php echo admin_url('admin.php?page=gestionale_soci&action=add'); ?>" method="post">
 			<table cellpadding="2" cellspacing="0" border="0">
 				<thead>
 					<tr>
@@ -65,7 +66,7 @@
 			</table>
 		</form>
 		
-		<form action="<?php echo admin_url('admin.php?page=gestionale_soci'); ?>" method="post">
+		<form action="<?php echo admin_url('admin.php?page=gestionale_soci&action=add'); ?>" method="post">
 			<table cellpadding="2" cellspacing="0" border="0">
 				<thead>
 					<tr>
@@ -106,10 +107,7 @@
 						<td>
 							<select name="tipologia" id="tipologia">
 								<?php
-									global $wpdb;
-									
-									$query = "SELECT `ID`, `nome` FROM `wintertourtennis_tipologie_soci`;";
-									$res = $wpdb->get_results($query);
+									$res = wintertour_elencatipi();
 									
 									if(!$res) {
 								?>
@@ -118,7 +116,7 @@
 									} else {
 								?>
 									<option disabled="disabled" selected="selected" value="">--Selezionare una tipologia--</option>
-								<?php	
+								<?php
 									}
 									
 									foreach ($res as $x) {
@@ -130,10 +128,10 @@
 					</tr>
 					<tr>
 						<td>
-							<label for="saldo">Saldo:</label>
+							<label for="saldo">Saldo (&euro;):</label>
 						</td>
 						<td>
-							<input name="saldo" id="saldo" type="number" placeholder="Saldo" />
+							<input name="saldo" id="saldo" type="text" pattern="([+-]?[0-9]+)?([.,][0-9]+)?" placeholder="Saldo" />
 						</td>
 					</tr>
 					<tr>
@@ -157,7 +155,7 @@
 							<label for="cap">CAP:</label>
 						</td>
 						<td>
-							<input name="cap" id="cap" type="text" placeholder="CAP" />
+							<input name="cap" id="cap" type="text" pattern="^[0-9]{5}$" placeholder="CAP" />
 						</td>
 					</tr>
 					<tr>
@@ -165,7 +163,7 @@
 							<label for="provincia">Provincia:</label>
 						</td>
 						<td>
-							<input name="provincia" id="provincia" type="text" placeholder="Provincia" />
+							<?=selectProvincia('provincia')?>
 						</td>
 					</tr>
 					<tr>
@@ -173,7 +171,7 @@
 							<label for="telefono">Telefono:</label>
 						</td>
 						<td>
-							<input name="telefono" id="telefono" type="tel" placeholder="Telefono" />
+							<input name="telefono" id="telefono" type="tel" pattern="^[0-9]{10}$" placeholder="Telefono" />
 						</td>
 					</tr>
 					<tr>
@@ -181,7 +179,7 @@
 							<label for="cellulare">Cellulare:</label>
 						</td>
 						<td>
-							<input name="cellulare" id="cellulare" type="tel" placeholder="Cellulare" />
+							<input name="cellulare" id="cellulare" type="tel" pattern="^[0-9]{10}$" placeholder="Cellulare" />
 						</td>
 					</tr>
 					<tr>
@@ -206,7 +204,7 @@
 							<label for="datanascita">Data di Nascita:</label>
 						</td>
 						<td>
-							<input name="datanascita" id="datanascita" type="date" placeholder="gg/mm/aaaa" />
+							<input name="datanascita" id="datanascita" type="text" class="date" placeholder="gg/mm/aaaa" />
 						</td>
 					</tr>
 					<tr>
@@ -222,7 +220,7 @@
 							<label for="dataiscrizione">Data di Iscrizione:</label>
 						</td>
 						<td>
-							<input name="dataiscrizione" id="dataiscrizione" type="date" placeholder="gg/mm/aaaa" />
+							<input name="dataiscrizione" id="dataiscrizione" type="text" class="date" placeholder="gg/mm/aaaa" />
 						</td>
 					</tr>
 					<tr>
@@ -238,7 +236,7 @@
 							<label for="dataimmissione">Data Immissione:</label>
 						</td>
 						<td>
-							<input name="dataimmissione" id="dataimmissione" type="text" placeholder="gg/mm/aaaa - hh:mm" />
+							<input name="dataimmissione" id="dataimmissione" type="text" class="datetime" placeholder="gg/mm/aaaa - hh:mm" />
 						</td>
 					</tr>
 					<tr>
@@ -271,7 +269,7 @@
 							<label for="domandaassociazione">Domanda di Associazione:</label>
 						</td>
 						<td>
-							<input name="domandaassociazione" id="domandaassociazione" type="date" placeholder="gg/mm/aaaa" />
+							<input name="domandaassociazione" id="domandaassociazione" type="text" class="date" placeholder="gg/mm/aaaa" />
 						</td>
 					</tr>
 					<tr>
@@ -294,19 +292,64 @@
 				</tfoot>
 			</table>
 		</form>
-	<?php } else if(isset($_REQUEST['addsocio']) && $_REQUEST['addsocio'] === '0') {
+	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'view') {
+		$tipologie = wintertour_elencatipi();
 		$soci = wintertour_elencaSoci();
-	} ?>
+	?>
+	<?php if(count($tipologie) > 0) { ?>
+		<div class="editor">
+			<h3>Elenco tipologie</h3>
+			<table class="output-table">
+				<thead>
+					<tr>
+						<?php foreach($tipologie[0] as $colonna => $valore) {?>
+							<th style="padding:3px"><?=ucfirst($colonna)?></th>
+						<?php } ?>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($tipologie as $index => $riga) { ?>
+						<tr>
+							<?php foreach($riga as $colonna => $valore) { ?>
+								<td>
+									<?=$valore?>
+								</td>
+							<?php } ?>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+			</div>
+		</div>
+	<?php } ?>
 	<?php if(count($soci) > 0) { ?>
-		<form class="editor" action="<?php echo admin_url('admin.php?page=gestionale_soci&addsocio=0'); ?>" method="post">
+		<div class="scrollable-view">
 			<h3>Elenco soci</h3>
 			<div class="scrolling">
 				<table class="output-table">
 					<thead>
 						<tr>
-							<?php foreach($soci[0] as $colonna => $valore) {?>
-								<th style="padding:3px"><?=ucfirst($colonna)?></th>
-							<?php } ?>
+							<th>ID</th>
+							<th>Nome</th>
+							<th>Cognome</th>
+							<th>Email</th>
+							<th>Tipologia</th>
+							<th>Saldo</th>
+							<th>Indirizzo</th>
+							<th>Città</th>
+							<th>CAP</th>
+							<th>Provincia</th>
+							<th>Telefono</th>
+							<th>Cellulare</th>
+							<th>Stato Attivo</th>
+							<th>Data Nascita</th>
+							<th>Città Nascita</th>
+							<th>Codice Fiscale</th>
+							<th>Data Immissione</th>
+							<th>Numero Tessera</th>
+							<th>Certificato Medico</th>
+							<th>Domanda Associazione</th>
+							<th>Circolo</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -323,6 +366,136 @@
 				</table>
 				<div class="scrollbar"></div>
 			</div>
+		</div>
+	<?php } ?>
+	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'search') { ?>
+		<h3>Ricerca Tipologie</h3>
+		<form action="<?php echo admin_url('admin.php'); ?>" method="get">
+			<?php foreach ($_GET as $key => $value) { ?>
+			<input name="<?=$key?>" type="hidden" value="<?=$value?>" />
+			<?php } ?>
+			<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<input data-autocompname="tipologia" type="text" placeholder="Cerca una tipologia" class="searchbox autocompletion" />
+						</td>
+						<td>
+							<select data-autocomptype="tipologie_soci" name="tipologia" class="searchbox autocompletion">
+								<option disabled="disabled" selected="selected" value="">--Cerca una tipologia--</option>
+							</select>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>
+							<input data-autocompname="tipologia" class="autocompletion" type="submit" value="Modifica" />
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</form>
+		<h3>Ricerca Soci</h3>
+		<form action="<?php echo admin_url('admin.php'); ?>" method="get">
+			<?php foreach ($_GET as $key => $value) { ?>
+			<input name="<?=$key?>" type="hidden" value="<?=$value?>" />
+			<?php } ?>
+			<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<input data-autocompname="socio" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
+						</td>
+						<td>
+							<select data-autocomptype="soci" name="socio" class="searchbox autocompletion">
+								<option disabled="disabled" selected="selected" value="">--Cerca un socio--</option>
+							</select>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>
+							<input data-autocompname="socio" class="autocompletion" type="submit" value="Modifica" />
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</form>
+	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'tipologiaedit' && isset($_REQUEST['tipologia'])) { ?>
+		<?php
+			if(isset($_POST['soci_tipo']) && isset($_POST['ID']) && isset($_POST['nome']) && isset($_POST['descrizione'])) {
+				if(wintertour_edit_tipologia_soci($_REQUEST['tipologia'], $_POST['ID'], $_POST['nome'], $_POST['descrizione'])) {
+					echo 'Operazione effettuata correttamente';
+				} else {
+					echo "Impossibile completare l'operazione richiesta";
+				}
+			}
+			
+			$obj_tipo = wintertour_get_tipologia_soci($_REQUEST['tipologia']);
+		?>
+		<h3>Modifica Tipologia</h3>
+		<form class="editor" action="<?php echo admin_url('admin.php?page=gestionale_soci&action=tipologiaedit&tipologia=' . $_REQUEST['tipologia']); ?>" method="post">
+			<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<label for="ID">ID</label>
+						</td>
+						<td>
+							<input name="ID" readonly="readonly" type="text" value="<?=$obj_tipo->ID?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="nome">Nome</label>
+						</td>
+						<td>
+							<input name="nome" type="text" value="<?=$obj_tipo->nome?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="descrizione">Descrizione</label>
+						</td>
+						<td>
+							<input name="descrizione" type="text" value="<?=$obj_tipo->descrizione?>" />
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>
+							<input data-autocompname="tipologia" name="soci_tipo" type="submit" value="Salva" />
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</form>
+	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'sociedit') { ?>
+		<h3>Modifica Socio</h3>
+		<form class="editor" action="<?php echo admin_url('admin.php?page=gestionale_soci&action=sociedit'); ?>" method="post">
+			<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>
+							<input data-autocompname="tipologia" type="submit" value="Salva" />
+						</td>
+					</tr>
+				</tfoot>
+			</table>
 		</form>
 	<?php } ?>
 </div>

@@ -166,20 +166,60 @@
 		) or die('Errore: Impossibile effettuare l\'operazione richiesta!<br /> Controllare i dati e riprovare.');
 	}
 	
+	function wintertour_get_tipologia_soci($id) {
+		global $wpdb;
+		
+		if(is_numeric($id)) {
+			$sql = "SELECT * FROM `wintertourtennis_tipologie_soci` WHERE `ID` = " . $id . ";";
+			
+			return $wpdb->get_row($sql);
+		}
+	}
+	
+	function wintertour_edit_tipologia_soci($id, $new_id, $nome, $descrizione) {
+		if(is_numeric($id) && is_numeric($new_id) && is_string($nome) && is_string($descrizione) && !empty($nome) && !empty($descrizione)) {
+			global $wpdb;
+			
+			if(wp_verify_nonce($_POST['wt_nonce'], 'wt_nonce')) {
+				return $wpdb->update(
+					'wintertourtennis_tipologie_soci',
+					array(
+						'ID' => $new_id,
+						'nome' => $nome,
+						'descrizione' => $descrizione
+					),
+					array('ID' => $id),
+					array(
+						'%d',
+						'%s',
+						'%s'
+					), 
+					array( '%d' )
+				);
+			}
+		}
+	}
+	
 	function wintertour_get_autocomplete() {
 		global $wpdb;
 		
-		wp_verify_nonce($_POST['wt_nonce'], 'wt_nonce') or die('Fuck off');
+		wp_verify_nonce($_POST['wt_nonce'], 'wt_nonce') or die(0);
 		
-		if(empty($_POST['partial'])) {
+		if(empty($_POST['partial']) || empty($_POST['type'])) {
 			die(0);
 		}
 		
-		$sql = "SELECT `ID`, `nome`, `cognome` FROM `wintertourtennis_soci` WHERE `nome` LIKE '" . $_POST['partial'] . "%' OR `cognome` LIKE '" . $_POST['partial'] . "%';";
-		
-		$res = $wpdb->get_results($sql);
-		
-		echo json_encode($res);
+		if($_POST['type'] == 'soci') {
+			$sql = "SELECT `ID`, `nome`, `cognome` FROM `wintertourtennis_soci` WHERE `nome` LIKE '" . $_POST['partial'] . "%' OR `cognome` LIKE '" . $_POST['partial'] . "%';";
+			
+			echo json_encode($wpdb->get_results($sql));
+		} else if($_POST['type'] == 'tipologie_soci') {
+			$sql = "SELECT `ID`, `nome` FROM `wintertourtennis_tipologie_soci` WHERE `nome` LIKE '" . $_POST['partial'] . "%';";
+			
+			echo json_encode($wpdb->get_results($sql));
+		} else {
+			die(0);
+		}
 	}
 	
 	function wintertour_addCircolo() {
@@ -206,6 +246,13 @@
 		return $wpdb->get_results($sql);
 	}
 	
+	function wintertour_elencatipi() {
+		global $wpdb;
+		
+		$query = "SELECT * FROM `wintertourtennis_tipologie_soci`;";
+		return $wpdb->get_results($query);
+	}
+	
 	function countObj($ogg) {
 		$i = 0;
 		
@@ -214,5 +261,20 @@
 		}
 		
 		return $i;
+	}
+	
+	function selectProvincia($attr) {
+		global $provincie;
+		
+		$sel = "<select name=\"$attr\" id=\"$attr\">";
+		$sel .= "<option disabled=\"disabled\" selected=\"selected\">--Selezionare una provincia--</option>";
+		foreach ($provincie as $code => $name) {
+			$sel .= "<option value=\"$code\">";
+			$sel .= "$name ($code)";
+			$sel .= "</option>";
+		}
+		$sel .= "</select>";
+		
+		return $sel;
 	}
 ?>

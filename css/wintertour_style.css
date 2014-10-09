@@ -121,18 +121,18 @@ table td, table th {
 .output-table {
   border-collapse: collapse;
 }
-.output-table td, table th {
+.output-table td, .output-table th {
   border: 1px solid black;
 }
-.output-table tr:first-child th {
+.scrolling .output-table tr:first-child th {
   border-top: 0;
 }
-.output-table tr td:first-child,
-.output-table tr th:first-child {
+.scrolling .output-table tr td:first-child,
+.scrolling .output-table tr th:first-child {
   border-left: 0;
 }
-.output-table tr td:last-child,
-.output-table tr th:last-child {
+.scrolling .output-table tr td:last-child,
+.scrolling .output-table tr th:last-child {
   border-right: 0;
 }
 
@@ -147,6 +147,13 @@ table td, table th {
 	height: 16px;
 }
 
-form.editor {
-	width: 95%;
+div.scrollable-view {
+	width: 98%;
+}
+
+input:invalid {
+	border-color: #F80012;
+	-webkit-box-shadow: 0 0 2px rgba(208, 0, 15, 0.8);
+	box-shadow: 0 0 2px rgba(208, 0, 15, 0.8);
+	outline: none;
 }
