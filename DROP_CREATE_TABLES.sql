@@ -1,7 +1,3 @@
--- Gestionale WinterTour Tennis
--- @Author: Tommaso Ricci, Comunico S.r.l.
--- WARNING! Do note that this script will attempt to DROP the tables before CREATE them
-
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
@@ -9,10 +5,11 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 CREATE SCHEMA IF NOT EXISTS `wintertourtennis` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `wintertourtennis` ;
 
+DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_tipologie_soci`, `wintertourtennis`.`wintertourtennis_circoli`, `wintertourtennis`.`wintertourtennis_soci`, `wintertourtennis`.`wintertourtennis_tornei`, `wintertourtennis`.`wintertourtennis_iscritti_newsletter`, `wintertourtennis`.`wintertourtennis_incontri`, `wintertourtennis`.`wintertourtennis_risultati`, `wintertourtennis`.`wintertourtennis_socio_partecipa_torneo`, `wintertourtennis`.`wintertourtennis_tessere` ;
+
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_tipologie_soci`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_tipologie_soci` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_tipologie_soci` (
   `ID` INT NOT NULL AUTO_INCREMENT,
@@ -25,7 +22,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_circoli`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_circoli` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_circoli` (
   `ID` INT NOT NULL AUTO_INCREMENT,
@@ -48,7 +44,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_soci`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_soci` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_soci` (
   `ID` INT NOT NULL AUTO_INCREMENT,
@@ -69,7 +64,6 @@ CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_soci` (
   `dataiscrizione` DATE NULL,
   `codicefiscale` CHAR(16) NULL,
   `dataimmissione` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `numerotessera` INT NULL,
   `certificatomedico` TINYINT(1) NULL,
   `domandaassociazione` DATE NULL,
   `circolo` INT NULL,
@@ -92,10 +86,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_tornei`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_tornei` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_tornei` (
-  `ID` INT NOT NULL,
+  `ID` INT NOT NULL AUTO_INCREMENT,
   `datainizio` DATE NOT NULL,
   `datafine` DATE NOT NULL,
   `circolo` INT NOT NULL,
@@ -113,21 +106,26 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_iscritti_newsletter`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_iscritti_newsletter` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_iscritti_newsletter` (
   `ID` INT NOT NULL AUTO_INCREMENT,
-  `email` VARCHAR(254) NOT NULL,
-  `nome` VARCHAR(35) NOT NULL,
-  `cognome` VARCHAR(35) NOT NULL,
-  PRIMARY KEY (`ID`))
+  `email` VARCHAR(254) NULL,
+  `nome` VARCHAR(35) NULL,
+  `cognome` VARCHAR(35) NULL,
+  `socio` INT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_wintertourtennis_iscritti_newsletter_wintertourtennis_so_idx` (`socio` ASC),
+  CONSTRAINT `fk_wintertourtennis_iscritti_newsletter_wintertourtennis_soci1`
+    FOREIGN KEY (`socio`)
+    REFERENCES `wintertourtennis`.`wintertourtennis_soci` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_incontri`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_incontri` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_incontri` (
   `ID` INT NOT NULL AUTO_INCREMENT,
@@ -183,7 +181,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_risultati`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_risultati` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_risultati` (
   `ID` INT NOT NULL AUTO_INCREMENT,
@@ -204,7 +201,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_socio_partecipa_torneo`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_socio_partecipa_torneo` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_socio_partecipa_torneo` (
   `socio` INT NOT NULL,
@@ -220,6 +216,23 @@ CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_socio_partecipa_
   CONSTRAINT `fk_wintertourtennis_soci_has_wintertourtennis_tornei_winterto2`
     FOREIGN KEY (`torneo`)
     REFERENCES `wintertourtennis`.`wintertourtennis_tornei` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wintertourtennis`.`wintertourtennis_tessere`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_tessere` (
+  `numerotessera` VARCHAR(75) NOT NULL,
+  `socio` INT NOT NULL,
+  INDEX `fk_wintertourtennis_tessere_wintertourtennis_soci1_idx` (`socio` ASC),
+  PRIMARY KEY (`numerotessera`),
+  CONSTRAINT `fk_wintertourtennis_tessere_wintertourtennis_soci1`
+    FOREIGN KEY (`socio`)
+    REFERENCES `wintertourtennis`.`wintertourtennis_soci` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

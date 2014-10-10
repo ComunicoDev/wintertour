@@ -59,10 +59,10 @@
 	 */
 	function wintertour_admin_actions() {
 		add_options_page("Opzioni Gestionale", "Opzioni Gestionale", 1, "OpzioniGestionale", "wintertour_options");
-		add_menu_page("gestionale", "Gestionale", 1, "gestionale", "wintertour_menu", plugins_url("images/logo.png", __FILE__), 26);
-		add_submenu_page("gestionale", "Gestionale", "Homepage", 1, "gestionale", "wintertour_menu");
-		add_submenu_page("gestionale", "Gestionale Soci", "Soci", 1, "gestionale_soci", "wintertour_menu_soci");
-		add_submenu_page("gestionale", "Gestionale Circoli", "Circoli", 1, "gestionale_circoli", "wintertour_menu_circoli");
+		add_menu_page("wintertour", "Wintertour", 1, "wintertour", "wintertour_menu", plugins_url("images/logo.png", __FILE__), 26);
+		add_submenu_page("wintertour", "Gestionale", "Homepage", 1, "wintertour", "wintertour_menu");
+		add_submenu_page("wintertour", "Gestionale Soci", "Soci", 1, "wintertour_soci", "wintertour_menu_soci");
+		add_submenu_page("wintertour", "Gestionale Circoli", "Circoli", 1, "wintertour_circoli", "wintertour_menu_circoli");
 	}
 	
 	/**

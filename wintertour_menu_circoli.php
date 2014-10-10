@@ -69,7 +69,7 @@
 						<label for="provinciacircolo">Provincia circolo:</label>
 					</td>
 					<td>
-						<input name="provinciacircolo" id="provinciacircolo" type="text" placeholder="Provincia circolo" />
+						<?=selectProvincia('provinciacircolo')?>
 					</td>
 				</tr>
 				<tr>
@@ -86,23 +86,6 @@
 									<select data-autocomptype="soci" name="referentecircolo" class="searchbox autocompletion" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 										<option disabled="disabled" selected="selected" value="">--Cercare un socio--</option>
 									</select>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="certificatomedico">Sovrascrivi circolo referente:</label>
-					</td>
-					<td>
-						<table style="min-width: 500px; width: 500px;">
-							<tr>
-								<td width="40%" style="width: 40%;">
-									<input name="certificatomedico" id="certificatomedico1" type="radio" value="1" checked="checked" />S&igrave;
-								</td>
-								<td width="60%" style="width: 60%;">
-									<input name="certificatomedico" id="certificatomedico0" type="radio" value="0" />No
 								</td>
 							</tr>
 						</table>

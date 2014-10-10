@@ -16,7 +16,7 @@
 	if(isset($_POST['submit0'])) {
 		wintertour_addTipologiaSoci();
 	} else if(isset($_POST['submit1'])) {
-		wintertour_action();
+		wintertour_addSocio();
 	}
 ?>
 <div class="wgest_page wgest_soci">
@@ -25,13 +25,13 @@
 	
 	
 	<p>
-		<a href="<?php echo admin_url('admin.php?page=gestionale_soci&action=add'); ?>">Aggiungi Socio o tipologia socio</a><br />
-		<a href="<?php echo admin_url('admin.php?page=gestionale_soci&action=view'); ?>">Consulta tipologie e anagrafica dei soci</a><br />
-		<a href="<?php echo admin_url('admin.php?page=gestionale_soci&action=search'); ?>">Ricerca tipologie e anagrafica dei soci</a>
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>">Aggiungi Socio o tipologia socio</a><br />
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=view'); ?>">Consulta tipologie e anagrafica dei soci</a><br />
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=search'); ?>">Ricerca tipologie e anagrafica dei soci</a>
 	</p>
 	
 	<?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
-		<form action="<?php echo admin_url('admin.php?page=gestionale_soci&action=add'); ?>" method="post">
+		<form action="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>" method="post">
 			<table cellpadding="2" cellspacing="0" border="0">
 				<thead>
 					<tr>
@@ -66,7 +66,7 @@
 			</table>
 		</form>
 		
-		<form action="<?php echo admin_url('admin.php?page=gestionale_soci&action=add'); ?>" method="post">
+		<form action="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>" method="post">
 			<table cellpadding="2" cellspacing="0" border="0">
 				<thead>
 					<tr>
@@ -278,9 +278,16 @@
 						</td>
 						<td>
 							<select name="circolo" id="circolo">
-								<option>Esempio 1</option>
-								<option>Esempio 2</option>
-								<option>Esempio 3</option>
+								<?php
+								$res = wintertour_elencacircoli();
+								
+								if(count($res) <= 0) { ?>
+									<option value="" disabled="disabled" selected="selected">--Non esistono circoli--</option>
+								<?php } else { ?>
+									<option value="" disabled="disabled" selected="selected">--Selezionare un circolo--</option>
+								<?php } foreach(wintertour_elencacircoli() as $row) { ?>
+									<option value="<?=$row->ID?>"><?=$row->nome?></option>
+								<?php } ?>
 							</select>
 						</td>
 					</tr>
@@ -302,6 +309,9 @@
 			<table class="output-table">
 				<thead>
 					<tr>
+						<th>
+							Azione
+						</th>
 						<?php foreach($tipologie[0] as $colonna => $valore) {?>
 							<th style="padding:3px"><?=ucfirst($colonna)?></th>
 						<?php } ?>
@@ -310,6 +320,9 @@
 				<tbody>
 					<?php foreach($tipologie as $index => $riga) { ?>
 						<tr>
+							<td>
+								<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=tipologiaedit&tipologia=' . $riga->ID); ?>">Modifica</a>
+							</td>
 							<?php foreach($riga as $colonna => $valore) { ?>
 								<td>
 									<?=$valore?>
@@ -321,6 +334,8 @@
 			</table>
 			</div>
 		</div>
+	<?php } else { ?>
+		<h3>Nessuna Tipologia</h3>
 	<?php } ?>
 	<?php if(count($soci) > 0) { ?>
 		<div class="scrollable-view">
@@ -329,6 +344,9 @@
 				<table class="output-table">
 					<thead>
 						<tr>
+						<th>
+							Azione
+						</th>
 							<th>ID</th>
 							<th>Nome</th>
 							<th>Cognome</th>
@@ -355,6 +373,9 @@
 					<tbody>
 						<?php foreach($soci as $index => $riga) { ?>
 							<tr>
+								<td>
+									<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $riga->ID); ?>">Modifica</a>
+								</td>
 								<?php foreach($riga as $colonna => $valore) { ?>
 									<td>
 										<?=$valore?>
@@ -367,6 +388,8 @@
 				<div class="scrollbar"></div>
 			</div>
 		</div>
+	<?php } else { ?>
+		<h3>Nessun Socio</h3>
 	<?php } ?>
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'search') { ?>
 		<h3>Ricerca Tipologie</h3>
@@ -438,7 +461,7 @@
 			$obj_tipo = wintertour_get_tipologia_soci($_REQUEST['tipologia']);
 		?>
 		<h3>Modifica Tipologia</h3>
-		<form class="editor" action="<?php echo admin_url('admin.php?page=gestionale_soci&action=tipologiaedit&tipologia=' . $_REQUEST['tipologia']); ?>" method="post">
+		<form class="editor" action="<?php echo admin_url('admin.php?page=wintertour_soci&action=tipologiaedit&tipologia=' . $_REQUEST['tipologia']); ?>" method="post">
 			<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
 			<table>
 				<tbody>
@@ -476,22 +499,255 @@
 				</tfoot>
 			</table>
 		</form>
-	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'sociedit') { ?>
+	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'sociedit' && isset($_REQUEST['socio'])) { ?>
+		<?php
+			if(isset($_POST['savesocio'])) {
+				if(wintertour_edit_socio($_REQUEST['socio'], $_POST)) {
+					echo 'Operazione effettuata correttamente';
+				} else {
+					global $wpdb;
+					
+					echo "Impossibile completare l'operazione richiesta";
+					echo $wpdb->last_query;
+				}
+			}
+			
+			$obj_socio = wintertour_get_socio($_REQUEST['socio']);
+		?>
 		<h3>Modifica Socio</h3>
-		<form class="editor" action="<?php echo admin_url('admin.php?page=gestionale_soci&action=sociedit'); ?>" method="post">
+		<form class="editor" action="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $_REQUEST['socio']); ?>" method="post">
 			<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
 			<table>
 				<tbody>
 					<tr>
 						<td>
-							
+							<label for="ID">ID</label>
+						</td>
+						<td>
+							<input name="ID" readonly="readonly" type="text" value="<?=$obj_socio->ID?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="nome">Nome:</label>
+						</td>
+						<td>
+							<input name="nome" id="nome" type="text" placeholder="Nome" value="<?=$obj_socio->nome?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="cognome">Cognome:</label>
+						</td>
+						<td>
+							<input name="cognome" id="cognome" type="text" placeholder="Cognome" value="<?=$obj_socio->cognome?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="email">Email:</label>
+						</td>
+						<td>
+							<input name="email" id="email" type="email" placeholder="Email" value="<?=$obj_socio->email?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="tipologia">Tipologia:</label>
+						</td>
+						<td>
+							<select name="tipologia" id="tipologia">
+								<?php
+									$res = wintertour_elencatipi();
+									
+									if(!$res) {
+								?>
+									<option disabled="disabled" selected="selected" value="">--Non esiste nessuna tipologia--</option>
+								<?php } else { ?>
+									<option disabled="disabled" value="">--Selezionare una tipologia--</option>
+								<?php }
+									
+									foreach ($res as $x) {
+										echo "<option " . (($x->ID == $obj_socio->tipologia) ? "selected=\"selected\"" : "" ) . " value=\"$x->ID\">$x->nome</option>";
+									}
+								?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="saldo">Saldo (&euro;):</label>
+						</td>
+						<td>
+							<input name="saldo" id="saldo" type="text" pattern="([+-]?[0-9]+)?([.,][0-9]+)?" placeholder="Saldo" value="<?=$obj_socio->saldo?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="indirizzo">Indirizzo:</label>
+						</td>
+						<td>
+							<input name="indirizzo" id="indirizzo" type="text" placeholder="Indirizzo" value="<?=$obj_socio->indirizzo?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="citta">Città:</label>
+						</td>
+						<td>
+							<input name="citta" id="citta" type="text" placeholder="Città" value="<?=$obj_socio->citta?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="cap">CAP:</label>
+						</td>
+						<td>
+							<input name="cap" id="cap" type="text" pattern="^[0-9]{5}$" placeholder="CAP" value="<?=$obj_socio->cap?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="provincia">Provincia:</label>
+						</td>
+						<td>
+							<?=selectProvincia('provincia', $obj_socio->provincia)?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="telefono">Telefono:</label>
+						</td>
+						<td>
+							<input name="telefono" id="telefono" type="tel" pattern="^[0-9]{10}$" placeholder="Telefono" value="<?=$obj_socio->telefono?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="cellulare">Cellulare:</label>
+						</td>
+						<td>
+							<input name="cellulare" id="cellulare" type="tel" pattern="^[0-9]{10}$" placeholder="Cellulare" value="<?=$obj_socio->cellulare?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="attivo">Stato Attivo:</label>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td>
+										<input name="attivo" id="attivo1" type="radio" value="1"<?php if($obj_socio->statoattivo) { ?> checked="checked"<?php } ?> />Attivo
+									</td>
+									<td>
+										<input name="attivo" id="attivo0" type="radio" value="0"<?php if(!$obj_socio->statoattivo) { ?> checked="checked"<?php } ?> />Inattivo
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="datanascita">Data di Nascita:</label>
+						</td>
+						<td>
+							<input name="datanascita" id="datanascita" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=wintertour_localdate($obj_socio->datanascita)?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="cittanascita">Citt&agrave; di Nascita:</label>
+						</td>
+						<td>
+							<input name="cittanascita" id="cittanascita" type="text" placeholder="Citt&agrave; di Nascita" value="<?=$obj_socio->cittanascita?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="dataiscrizione">Data di Iscrizione:</label>
+						</td>
+						<td>
+							<input name="dataiscrizione" id="dataiscrizione" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=wintertour_localdate($obj_socio->dataiscrizione)?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="codicefiscale">Codice Fiscale:</label>
+						</td>
+						<td>
+							<input name="codicefiscale" id="codicefiscale" type="text" placeholder="Codice Fiscale" value="<?=$obj_socio->codicefiscale?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="dataimmissione">Data Immissione:</label>
+						</td>
+						<td>
+							<input name="dataimmissione" id="dataimmissione" type="text" readonly="readonly" placeholder="gg/mm/aaaa - hh:mm" value="<?=wintertour_localdatetime($obj_socio->dataimmissione)?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="numerotessera">Numero Tessera:</label>
+						</td>
+						<td>
+							<input name="numerotessera" id="numerotessera" type="text" placeholder="Numero Tessera" value="<?=$obj_socio->numerotessera?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="certificatomedico">Certificato Medico:</label>
+						</td>
+						<td>
+							<table style="min-width: 246px; width: 246px;">
+								<tr>
+									<td>
+										<input name="certificatomedico" id="certificatomedico1" type="radio" value="1"<?php if($obj_socio->certificatomedico) { ?> checked="checked"<?php } ?> />Pervenuto
+									</td>
+									<td>
+										<input name="certificatomedico" id="certificatomedico0" type="radio" value="0"<?php if(!$obj_socio->certificatomedico) { ?> checked="checked"<?php } ?> />Non Pervenuto
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="domandaassociazione">Domanda di Associazione:</label>
+						</td>
+						<td>
+							<input name="domandaassociazione" id="domandaassociazione" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=wintertour_localdate($obj_socio->domandaassociazione)?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="circolo">Circolo:</label>
+						</td>
+						<td>
+							<select name="circolo" id="circolo">
+								<?php
+									$res = wintertour_elencacircoli();
+									
+									if(!$res) {
+								?>
+									<option disabled="disabled" selected="selected" value="">--Non esiste nessun circolo--</option>
+								<?php } else { ?>
+									<option disabled="disabled" selected="selected" value="">--Selezionare una circolo--</option>
+								<?php }
+									
+									foreach ($res as $x) {
+										echo "<option " . ((intval($x->ID) === intval($obj_socio->circolo)) ? "selected=\"selected\"" : "" ) . " value=\"$x->ID\">$x->nome</option>";
+									}
+								?>
+							</select>
 						</td>
 					</tr>
 				</tbody>
 				<tfoot>
 					<tr>
 						<td>
-							<input data-autocompname="tipologia" type="submit" value="Salva" />
+							<input name="savesocio" data-autocompname="tipologia" type="submit" value="Salva" />
 						</td>
 					</tr>
 				</tfoot>
