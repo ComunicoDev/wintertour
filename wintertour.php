@@ -71,7 +71,7 @@
 	function wintertour_admin_scripts() {
 		wp_register_style('jscrollpane', plugins_url("css/jquery.jscrollpane.css", __FILE__ ));
 		wp_register_style('datetimepicker', plugins_url("css/jquery.datetimepicker.css", __FILE__ ));
-		wp_register_style('wintertour_style', plugins_url("css/wintertour_style.css", __FILE__ ));
+		wp_register_style('wintertour_adminStyle', plugins_url("css/wintertour_adminStyle.css", __FILE__ ));
 		
 		wp_register_script('mousewheel', plugins_url('js/jquery.mousewheel.js', __FILE__), array('jquery'), '3.1.9');
 		wp_register_script('mwheelIntent', plugins_url('js/mwheelIntent.js', __FILE__), array('jquery'), '1.2');
@@ -84,7 +84,7 @@
 		
 		wp_enqueue_style('jscrollpane');
 		wp_enqueue_style('datetimepicker');
-		wp_enqueue_style('wintertour_style');
+		wp_enqueue_style('wintertour_adminStyle');
 		
 		wp_enqueue_script('mousewheel');
 		wp_enqueue_script('mwheelIntent');
@@ -94,6 +94,12 @@
 		
 		wp_enqueue_script('footready');
 		wp_enqueue_script('autocompletion');
+	}
+	
+	function wintertour_scripts() {
+		wp_register_style('wintertour_style', plugins_url("css/wintertour_style.css", __FILE__ ));
+		
+		wp_enqueue_style('wintertour_style');
 	}
 	
 	/**
@@ -135,6 +141,13 @@
 	add_action( 'admin_enqueue_scripts', 'wintertour_admin_scripts' );
 	add_action( 'admin_menu', 'remove_footer_admin' );
 	add_filter( 'admin_footer_text', 'myadmin_text' );
+	add_action( 'wp_enqueue_scripts', 'wintertour_scripts' );
+	
+	//[wintertour_register]
+	function wintertour_registerForm($atts) {
+		include ("wintertour_registerform.php");
+	}
+	add_shortcode( 'wintertour_register', 'wintertour_registerForm' );
 	
 	if (is_admin()) {
 		add_action('wp_ajax_wintertour_autocomplete', 'wintertour_autocomplete');

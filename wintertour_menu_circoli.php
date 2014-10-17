@@ -21,6 +21,10 @@
 	<h1>Gestionale WinterTour</h1>
 	<h2>Gestione Circoli</h2>
 	
+	<noscript>
+		Per avere a disposizione tutte le funzionalità di questo sito è necessario abilitare Javascript. Qui ci sono tutte le <a href="http://www.enable-javascript.com/it/" target="_blank"> istruzioni su come abilitare JavaScript nel tuo browser</a>.
+	</noscript>
+	
 	<form action="" method="post">
 		<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
 		<table cellpadding="2" cellspacing="0" border="0">

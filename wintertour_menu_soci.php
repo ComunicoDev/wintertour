@@ -23,6 +23,9 @@
 	<h1>Gestionale WinterTour</h1>
 	<h2>Gestione Soci</h2>
 	
+	<noscript>
+		Per avere a disposizione tutte le funzionalità di questo sito è necessario abilitare Javascript. Qui ci sono tutte le <a href="http://www.enable-javascript.com/it/" target="_blank"> istruzioni su come abilitare JavaScript nel tuo browser</a>.
+	</noscript>
 	
 	<p>
 		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>">Aggiungi Socio o tipologia socio</a><br />

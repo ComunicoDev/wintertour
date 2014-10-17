@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /**
- * Gestionale WinterTour - Pagina di amministrazione
+ * Gestionale WinterTour - Stili plugin
  *
  * Plugin per gestire i tornei e l'anagrafica e le iscrizioni dei membri
  * @author Comunico S.r.l. <info@comunico.info>
@@ -9,151 +9,15 @@
  * @package wintertour
  */
 
-table {
-	border: 0;
-	border-collapse: collapse;
-	padding: 0;
-}
-
-table td, table th {
-	border: 0;
-	padding: 3px;
-}
-
-#wpbody-content div.wgest_page h1, #wpbody-content div.wgest_page h2 {
-	display: block;
-	width: 100%;
-	padding-top: 18px;
-	margin: 0 auto;
-	text-align: center;
-}
-#wpbody-content div.wgest_page h2 {
-	margin-bottom: 30px;
-}
-
-#wpbody-content div.wgest_page form {
-	display: inline-block;
-	vertical-align: top;
-	margin-right: 50px;
-	margin-bottom: 30px;
-}
-
-#wpbody-content div.wgest_page form table input, #wpbody-content div.wgest_page form table select {
-	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
-	width: 100%;
-}
-
-#wpbody-content div.wgest_page form>table>tbody>tr>td:first-child {
-	padding: 0 4px 0 0;
-}
-
-#wpbody-content div.wgest_page form table tfoot td, #wpbody-content div.wgest_page form table thead th {
-	padding: 0;
-}
-
-#wpbody-content div.wgest_page form input {
-	border: 1px solid #ddd;
-	padding: 3px 5px;
-}
-
-#wpbody-content div.wgest_page form table>tfoot>tr:first-child>td {
-	padding-top: 9px;
-}
-
-#wpbody-content div.wgest_page form table h3 {
-	margin: 0;
-	padding: 0;
-}
-
-#wpbody-content div.wgest_page form table>thead>tr:last-child>th {
-	padding-bottom: 6px;
-}
-
-#wpbody-content div.wgest_page form table input[type=checkbox], #wpbody-content div.wgest_page form table input[type=radio] {
-	width: auto;
-}
-
-#wpbody-content div.wgest_page form table input:focus {
-	border-color: #5B9DD9;
-	-webkit-box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
-	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
-	outline: none;
-}
-
-#wpbody-content div.wgest_page form table input[type=submit], #wpbody-content div.wgest_page form table button {
-	border: 1px solid black;
-	background-color: rgb(237, 237, 237);
-	padding: 6px;
-	
-	cursor: pointer;
-}
-
-#wpbody-content div.wgest_page form td table {
-	width: 100%;
-}
-
-#wpbody-content div.wgest_page form td table td {
-	width: 50%;
-	text-align: left;
-	padding: 0 4px;
-}
-
-#wpbody-content div.wgest_page form table input[type=submit]:hover, #wpbody-content div.wgest_page form table button:hover {
-	background-color: rgb(180, 180, 180);
-}
-
-#wpbody-content div.wgest_page form table input[type=submit]:active, #wpbody-content div.wgest_page form table button:active {
-	background-color: rgb(100, 100, 100);
-}
-
-.output-table td, .output-table th {
-	border: 1px solid black;
-	white-space: nowrap;
-	padding: 4px !important;
-}
-
-.output-table tfoot td {
-	border: 0;
-	padding: 4px !important;
-	white-space: nowrap;
-}
-
-.output-table {
-  border-collapse: collapse;
-}
-.output-table td, .output-table th {
-  border: 1px solid black;
-}
-.scrolling .output-table tr:first-child th {
-  border-top: 0;
-}
-.scrolling .output-table tr td:first-child,
-.scrolling .output-table tr th:first-child {
-  border-left: 0;
-}
-.scrolling .output-table tr td:last-child,
-.scrolling .output-table tr th:last-child {
-  border-right: 0;
-}
-
-.scrolling {
-	width: 100%;
-	overflow-x: scroll;
-	border: 1px solid black;
-}
-
-.scrolling .scrollbar {
-	width: 100%;
-	height: 16px;
-}
-
-div.scrollable-view {
-	width: 98%;
-}
-
-input:invalid {
-	border-color: #F80012;
-	-webkit-box-shadow: 0 0 2px rgba(208, 0, 15, 0.8);
-	box-shadow: 0 0 2px rgba(208, 0, 15, 0.8);
-	outline: none;
+form.wintertour_register input[type="text"],
+form.wintertour_register input[type="password"],
+form.wintertour_register input[type="date"],
+form.wintertour_register input[type="datetime"],
+form.wintertour_register input[type="email"],
+form.wintertour_register input[type="number"],
+form.wintertour_register input[type="search"],
+form.wintertour_register input[type="tel"],
+form.wintertour_register input[type="time"],
+form.wintertour_register input[type="url"], textarea {
+	margin: 0 0 12px 0;
 }
