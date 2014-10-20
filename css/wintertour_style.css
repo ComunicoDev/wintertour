@@ -19,5 +19,87 @@ form.wintertour_register input[type="search"],
 form.wintertour_register input[type="tel"],
 form.wintertour_register input[type="time"],
 form.wintertour_register input[type="url"], textarea {
+	-moz-transition: none !important;
+	-webkit-transition: none !important;
+	-o-transition: color 0 ease-in !important;
+	transition: none !important;
 	margin: 0 0 12px 0;
+}
+
+form.wintertour_register input[type="text"]:-webkit-autofill,
+form.wintertour_register input[type="password"]:-webkit-autofill,
+form.wintertour_register input[type="date"]:-webkit-autofill,
+form.wintertour_register input[type="datetime"]:-webkit-autofill,
+form.wintertour_register input[type="email"]:-webkit-autofill,
+form.wintertour_register input[type="number"]:-webkit-autofill,
+form.wintertour_register input[type="search"]:-webkit-autofill,
+form.wintertour_register input[type="tel"]:-webkit-autofill,
+form.wintertour_register input[type="time"]:-webkit-autofill,
+form.wintertour_register input[type="url"]:-webkit-autofill,
+form.wintertour_register textarea:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
+}
+
+form.wintertour_register input[type="text"],
+form.wintertour_register input[type="password"],
+form.wintertour_register input[type="date"],
+form.wintertour_register input[type="datetime"],
+form.wintertour_register input[type="email"],
+form.wintertour_register input[type="number"],
+form.wintertour_register input[type="search"],
+form.wintertour_register input[type="tel"],
+form.wintertour_register input[type="time"],
+form.wintertour_register input[type="url"] {
+	-webkit-appearance: textfield;
+	height: 34px;
+	padding: 6px 21px 6px 6px;
+}
+form.wintertour_register textarea {
+	-webkit-appearance: textarea;
+	padding: 6px 21px 6px 6px;
+}
+
+form.wintertour_register input[type="text"]:required,
+form.wintertour_register input[type="password"]:required,
+form.wintertour_register input[type="date"]:required,
+form.wintertour_register input[type="datetime"]:required,
+form.wintertour_register input[type="email"]:required,
+form.wintertour_register input[type="number"]:required,
+form.wintertour_register input[type="search"]:required,
+form.wintertour_register input[type="tel"]:required,
+form.wintertour_register input[type="time"]:required,
+form.wintertour_register input[type="url"]:required, textarea:required {
+	background-image: url('../images/warning.gif');
+	background-position: right 3px center;
+	background-repeat: no-repeat;
+}
+
+form.wintertour_register input[type="text"]:focus:invalid ,
+form.wintertour_register input[type="password"]:focus:invalid ,
+form.wintertour_register input[type="date"]:focus:invalid ,
+form.wintertour_register input[type="datetime"]:focus:invalid ,
+form.wintertour_register input[type="email"]:focus:invalid ,
+form.wintertour_register input[type="number"]:focus:invalid ,
+form.wintertour_register input[type="search"]:focus:invalid ,
+form.wintertour_register input[type="tel"]:focus:invalid ,
+form.wintertour_register input[type="time"]:focus:invalid ,
+form.wintertour_register input[type="url"]:focus:invalid , textarea:focus:invalid {
+	background-image: url('../images/cross.gif');
+	background-position: right 3px center;
+	background-repeat: no-repeat;
+}
+
+form.wintertour_register input[type="text"]:valid,
+form.wintertour_register input[type="password"]:valid,
+form.wintertour_register input[type="date"]:valid,
+form.wintertour_register input[type="datetime"]:valid,
+form.wintertour_register input[type="email"]:valid,
+form.wintertour_register input[type="number"]:valid,
+form.wintertour_register input[type="search"]:valid,
+form.wintertour_register input[type="tel"]:valid,
+form.wintertour_register input[type="time"]:valid,
+form.wintertour_register input[type="url"]:valid, textarea:valid {
+	background-image: url('../images/check.gif');
+	background-position: right 3px center;
+	background-repeat: no-repeat;
 }
