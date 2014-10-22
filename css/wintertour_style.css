@@ -23,7 +23,25 @@ form.wintertour_register input[type="url"], textarea {
 	-webkit-transition: none !important;
 	-o-transition: color 0 ease-in !important;
 	transition: none !important;
+}
+
+form.wintertour_register input, form.wintertour_register select, form.wintertour_register label {
+	display: inline;
+}
+
+form.wintertour_register input, form.wintertour_register textarea, form.wintertour_register select {
+	display: inline-block;
 	margin: 0 0 12px 0;
+	width: 100%;
+}
+
+form.wintertour_register table tr>td:first-child {
+	min-width: 140px;
+	width: auto;
+}
+
+form.wintertour_register table tr>td:last-child {
+	width: 100%;
 }
 
 form.wintertour_register input[type="text"]:-webkit-autofill,

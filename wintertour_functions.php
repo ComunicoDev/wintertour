@@ -378,8 +378,8 @@
 	function selectProvincia($attr, $selected) {
 		global $provincie;
 		
-		$sel = "<select name=\"$attr\" id=\"$attr\">";
-		$sel .= "<option disabled=\"disabled\" selected=\"selected\">--Selezionare una provincia--</option>";
+		$sel = "<select required=\"required\" name=\"$attr\" id=\"$attr\">";
+		$sel .= "<option disabled=\"disabled\"" . (empty($selected) ? " selected=\"selected\"" : "") . ">--Selezionare una provincia--</option>";
 		foreach ($provincie as $code => $name) {
 			$sel .= "<option " . ((strtolower($code) == strtolower($selected)) ? 'selected="selected"' : "") . " value=\"$code\">";
 			$sel .= "$name ($code)";

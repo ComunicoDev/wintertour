@@ -5,11 +5,10 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 CREATE SCHEMA IF NOT EXISTS `wintertourtennis` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `wintertourtennis` ;
 
-DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_tipologie_soci`, `wintertourtennis`.`wintertourtennis_circoli`, `wintertourtennis`.`wintertourtennis_soci`, `wintertourtennis`.`wintertourtennis_tornei`, `wintertourtennis`.`wintertourtennis_iscritti_newsletter`, `wintertourtennis`.`wintertourtennis_incontri`, `wintertourtennis`.`wintertourtennis_risultati`, `wintertourtennis`.`wintertourtennis_socio_partecipa_torneo`, `wintertourtennis`.`wintertourtennis_tessere` ;
-
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_tipologie_soci`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_tipologie_soci` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_tipologie_soci` (
   `ID` INT NOT NULL AUTO_INCREMENT,
@@ -22,6 +21,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_circoli`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_circoli` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_circoli` (
   `ID` INT NOT NULL AUTO_INCREMENT,
@@ -44,13 +44,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_soci`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_soci` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_soci` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(35) NOT NULL,
   `cognome` VARCHAR(35) NOT NULL,
   `email` VARCHAR(254) NULL,
-  `tipologia` INT NOT NULL,
+  `tipologia` INT NULL,
   `saldo` DOUBLE NULL,
   `indirizzo` VARCHAR(64) NOT NULL,
   `citta` VARCHAR(64) NOT NULL,
@@ -86,6 +87,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_tornei`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_tornei` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_tornei` (
   `ID` INT NOT NULL AUTO_INCREMENT,
@@ -106,6 +108,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_iscritti_newsletter`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_iscritti_newsletter` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_iscritti_newsletter` (
   `ID` INT NOT NULL AUTO_INCREMENT,
@@ -126,6 +129,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_incontri`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_incontri` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_incontri` (
   `ID` INT NOT NULL AUTO_INCREMENT,
@@ -181,6 +185,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_risultati`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_risultati` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_risultati` (
   `ID` INT NOT NULL AUTO_INCREMENT,
@@ -201,6 +206,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_socio_partecipa_torneo`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_socio_partecipa_torneo` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_socio_partecipa_torneo` (
   `socio` INT NOT NULL,
@@ -224,6 +230,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_tessere`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `wintertourtennis`.`wintertourtennis_tessere` ;
 
 CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_tessere` (
   `numerotessera` VARCHAR(75) NOT NULL,

@@ -1,5 +1,6 @@
 (function($){
 	$(function(){
+		$('#wpfooter').remove();
 		//JScrollPane
 		$('.scrolling').jScrollPane();
 		

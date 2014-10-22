@@ -365,9 +365,9 @@
 							<th>Stato Attivo</th>
 							<th>Data Nascita</th>
 							<th>Città Nascita</th>
+							<th>Data Iscrizione</th>
 							<th>Codice Fiscale</th>
 							<th>Data Immissione</th>
-							<th>Numero Tessera</th>
 							<th>Certificato Medico</th>
 							<th>Domanda Associazione</th>
 							<th>Circolo</th>
