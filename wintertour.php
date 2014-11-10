@@ -18,7 +18,7 @@
 	 *
 	 * This plugin, like WordPress, is licensed under the GPL.
 	 */
-	 
+	
 	include_once('wintertour_functions.php');
 	
 	// Make sure we don't expose any info if called directly
