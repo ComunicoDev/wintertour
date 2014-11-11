@@ -99,8 +99,8 @@
 	function wintertour_scripts() {
 		wp_register_style('wintertour_style', plugins_url("css/wintertour_style.css", __FILE__ ));
 		wp_register_script('wintertourform', plugins_url('js/wintertourform.js', __FILE__), array('jquery'), '1.0.0', true);
-		
-		wp_enqueue_style('wintertour_style');
+        wp_register_style('datetimepicker', plugins_url("css/jquery.datetimepicker.css", __FILE__ ));
+        wp_register_script('datetimepicker', plugins_url('js/jquery.datetimepicker.js', __FILE__), array('jquery'), '2.3.6');
 	}
 	
 	/**

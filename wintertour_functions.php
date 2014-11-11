@@ -123,7 +123,25 @@
 		"VS" => "Medio Campidano",
 		"VT" => "Viterbo",
 		"VV" => "Vibo Valentia"
-	); 
+	);
+	
+	function capital($string = "") {
+	    return ucfirst(strtolower($string));
+	}
+	
+	function capitalize($string = "") {
+	    if(!empty($string)) {
+	        $arr = explode($string, " ");
+	        
+	        foreach($arr as $s) {
+	            $s = ucfirst(strtolower($s));
+	        }
+            
+            $string = implode(" ", $arr);
+	    }
+	    
+        return $string;
+	}
 	
 	function wintertour_addTipologiaSoci() {
 		global $wpdb;
@@ -131,8 +149,8 @@
 		$wpdb->insert(
 			"wintertourtennis_tipologie_soci", 
 			array( 
-				"nome" => $_POST['nometipologia'],
-				"descrizione" => $_POST['descrizionetipologia']
+				"nome" => capital($_POST['nometipologia']),
+				"descrizione" => capital($_POST['descrizionetipologia'])
 			)
 		) or die('Errore: Impossibile effettuare l\'operazione richiesta!<br /> Controllare i dati e riprovare.');
 	}
@@ -150,22 +168,22 @@
 					((intval($_POST['circolo']) > 0) ? ", %d" : "") .
 					");",
 				
-				$_POST['nome'],
-				$_POST['cognome'],
-				$_POST['email'],
-				$_POST['tipologia'],
+				capitalize($_POST['nome']),
+				capitalize($_POST['cognome']),
+				strtolower($_POST['email']),
+				capital($_POST['tipologia']),
 				$_POST['saldo'],
-				$_POST['indirizzo'],
-				$_POST['citta'],
+				capitalize($_POST['indirizzo']),
+				capitalize($_POST['citta']),
 				$_POST['cap'],
-				$_POST['provincia'],
+				capitalize($_POST['provincia']),
 				$_POST['telefono'],
 				$_POST['cellulare'],
 				$_POST['statoattivo'],
 				date('Y-m-d', $_POST['datanascita']),
-				$_POST['cittanascita'],
+				capitalize($_POST['cittanascita']),
 				date('Y-m-d', $_POST['dataiscrizione']),
-				$_POST['codicefiscale'],
+				strtoupper($_POST['codicefiscale']),
 				date('Y-m-d H:i:s', $_POST['dataimmissione']),
 				$_POST['certificatomedico'],
 				$_POST['domandaassociazione'],
