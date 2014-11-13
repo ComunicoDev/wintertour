@@ -48,11 +48,18 @@
 	}
 	
 	/**
-	 * Admin menu_soci handler
+	 * Admin menu_circoli handler
 	 */
 	function wintertour_menu_circoli() {
 		include ('wintertour_menu_circoli.php');
 	}
+    
+    /**
+     * Admin menu_turni handler
+     */
+    function wintertour_menu_turni() {
+        include ('wintertour_menu_turni.php');
+    }
 	
 	/**
 	 * Adds admin_menu handlers
@@ -63,6 +70,7 @@
 		add_submenu_page("wintertour", "Gestionale", "Homepage", 1, "wintertour", "wintertour_menu");
 		add_submenu_page("wintertour", "Gestionale Soci", "Soci", 1, "wintertour_soci", "wintertour_menu_soci");
 		add_submenu_page("wintertour", "Gestionale Circoli", "Circoli", 1, "wintertour_circoli", "wintertour_menu_circoli");
+        add_submenu_page("wintertour", "Gestionale Turni", "Turni", 1, "wintertour_turni", "wintertour_menu_turni");
 	}
 	
 	/**
