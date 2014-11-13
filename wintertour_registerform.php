@@ -73,8 +73,6 @@
 			)
 		)) {
 			echo "Operazione eseguita con successo!" . "\n";
-            echo $datanascita . "\n";
-            echo wintertour_serverdate($datanascita);
 			$headers = "Content-type: text/html" . "\r\n";
 			$headers .= "From: SportHappenings <info@sporthappenings.it>" . "\r\n";
 			$subject = "La tua iscrizione a SportHappenings";
