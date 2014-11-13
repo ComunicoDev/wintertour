@@ -381,7 +381,13 @@
 								</td>
 								<?php foreach($riga as $colonna => $valore) { ?>
 									<td>
-										<?=$valore?>
+									   <?php
+									       if($colonna === "datanascita") {
+                                            echo wintertour_localdate($valore);
+                                           } else {
+                                               echo $valore;
+                                           }
+									   ?>
 									</td>
 								<?php } ?>
 							</tr>

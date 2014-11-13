@@ -180,9 +180,9 @@
 				$_POST['telefono'],
 				$_POST['cellulare'],
 				$_POST['statoattivo'],
-				date('Y-m-d', $_POST['datanascita']),
+				wintertour_serverdate($_POST['datanascita']),
 				capitalize($_POST['cittanascita']),
-				date('Y-m-d', $_POST['dataiscrizione']),
+				wintertour_serverdatetime($_POST['dataiscrizione']),
 				strtoupper($_POST['codicefiscale']),
 				date('Y-m-d H:i:s', $_POST['dataimmissione']),
 				$_POST['certificatomedico'],
@@ -247,11 +247,11 @@
 					'telefono' => $args['telefono'],
 					'cellulare' => $args['cellulare'],
 					'statoattivo' => $args['statoattivo'],
-					'datanascita' => $args['datanascita'],
+					'datanascita' => wintertour_serverdate($args['datanascita']),
 					'cittanascita' => $args['cittanascita'],
-					'dataiscrizione' => $args['dataiscrizione'],
+					'dataiscrizione' => wintertour_serverdatetime($args['dataiscrizione']),
 					'codicefiscale' => $args['codicefiscale'],
-					'dataimmissione' => $args['dataimmissione'],
+					'dataimmissione' => wintertour_serverdatetime($args['dataimmissione']),
 					'certificatomedico' => $args['certificatomedico'],
 					'domandaassociazione' => $args['domandaassociazione'],
 					'circolo' => $args['circolo']
@@ -367,20 +367,101 @@
 		
 		return $wpdb->get_results("SELECT * FROM `wintertourtennis_circoli`;");
 	}
+    
+    function wintertour_serverdate($date) {
+        
+        $gg = "";
+        $mm = "";
+        $aaaa = "";
+        
+        sscanf($date, "%02d/%02d/%04d", $gg, $mm, $aaaa);
+        
+        return sprintf("%04d-%02d-%02d", $aaaa, $mm, $gg);
+        
+        /*
+        
+        $arr = explode('/', $date);
+        
+        $stamp = mktime(0, 0, 0, $arr[1], $arr[0], $arr[2]);
+        
+        return date($stamp, "Y-m-d");
+        
+        */
+    }
+    
+    function wintertour_serverdatetime($datetime) {
+        
+        $gg = "";
+        $mm = "";
+        $aaaa = "";
+        
+        $hh = "";
+        $mm = "";
+        
+        sscanf($date, "%02d/%02d/%04d - %02s:%04s", $gg, $mm, $aaaa, $hh, $mm);
+        
+        return sprintf("%04d-%02d-%02d %02s:%02s:00", $aaaa, $mm, $gg, $hh, $mm);
+        
+        /*
+        
+        $div = explode(' - ', $datetime);
+        
+        $arr1 = explode('/', $div[0]);
+        $arr2 = explode(':', $div[1]);
+        
+        $stamp = mktime($arr2[0], $arr2[1], 0, $arr1[1], $arr1[0], $arr1[2]);
+        
+        return date($stamp, "Y-m-d H:i:s");
+        
+        */
+    }
 	
 	function wintertour_localdate($date) {
-		if($date === '0000-00-00') {
-			return "";
-		}
-		return date("d/m/Y", strtotime($date));
+	    
+        $gg = "";
+        $mm = "";
+        $aaaa = "";
+        
+        sscanf($date, "%04d-%02d-%02d", $aaaa, $mm, $gg);
+        
+        return sprintf("%02d/%02d/%04d", $gg, $mm, $aaaa);
+	    
+        /*
+        
+		$arr = explode('-', $date);
+        
+        $stamp = mktime(0, 0, 0, $date[2], $date[1], $date[0]);
+        
+        return date($stamp, "d/m/Y");
+        
+        */
 	}
 	
 	function wintertour_localdatetime($datetime) {
-		if($datetime === "0000-00-00 00:00:00") {
-			return "";
-		}
-		
-		return date("d/m/Y - H:i", strtotime($datetime));
+        
+        $gg = "";
+        $mm = "";
+        $aaaa = "";
+        
+        $hh = "";
+        $mm = "";
+        
+        sscanf($date, "%04d-%02d-%02d %02s:%02s:00", $aaaa, $mm, $gg, $hh, $mm);
+        
+        return sprintf("%02d/%02d/%04d - %02s:%04s", $gg, $mm, $aaaa, $hh, $mm);
+	    
+        /*
+        
+        $div = explode(' ', $datetime);
+        
+        $arr1 = explode('-', $div[0]);
+        $arr2 = explode(':', $div[1]);
+        
+        $stamp = mktime($arr2[0], $arr2[1], 0, $arr1[2], $arr1[1], $arr1[0]);
+        
+        return date($stamp, "d/m/Y - H:i");
+        
+        */
 	}
 	
 	function countObj($ogg) {
