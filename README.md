@@ -8,4 +8,4 @@ Wintertour Manager
 ==========
 
 WordPress Plugin to manage tournaments, the subscriptions and personal data of the members.
-Commits are in english, although some in some code pieces the identifiers have been used in italian.
+Commits are in english, although in some code pieces the identifiers have been used in italian.
