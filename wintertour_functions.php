@@ -154,6 +154,23 @@
 			)
 		) or die('Errore: Impossibile effettuare l\'operazione richiesta!<br /> Controllare i dati e riprovare.');
 	}
+    
+    function wintertour_addTurno() {
+        global $wpdb;
+        
+        echo $_POST['dataeora'] . " -> " . wintertour_serverdatetime($_POST['dataeora']);
+        
+        $wpdb->insert(
+            "wintertourtennis_turni",
+            array(
+                "dataeora" => wintertour_serverdatetime($_POST['dataeora']),
+                "circolo" => $_POST['circolo']
+            ), array(
+                "%s",
+                "%d"
+            )
+        ) or die();
+    }
 	
 	function wintertour_addSocio() {
 		global $wpdb;
@@ -374,19 +391,9 @@
         $mm = "";
         $aaaa = "";
         
-        sscanf($date, "%02d/%02d/%04d", $gg, $mm, $aaaa);
+        sscanf($date, "%02s/%02s/%04s", $gg, $mm, $aaaa);
         
-        return sprintf("%04d-%02d-%02d", $aaaa, $mm, $gg);
-        
-        /*
-        
-        $arr = explode('/', $date);
-        
-        $stamp = mktime(0, 0, 0, $arr[1], $arr[0], $arr[2]);
-        
-        return date($stamp, "Y-m-d");
-        
-        */
+        return sprintf("%04s-%02s-%02s", $aaaa, $mm, $gg);
     }
     
     function wintertour_serverdatetime($datetime) {
@@ -396,24 +403,12 @@
         $aaaa = "";
         
         $hh = "";
-        $mm = "";
+        $MM = "";
+        $ss = "00";
         
-        sscanf($date, "%02d/%02d/%04d - %02s:%04s", $gg, $mm, $aaaa, $hh, $mm);
+        sscanf($datetime, "%02s/%02s/%04s - %02s:%02s", $gg, $mm, $aaaa, $hh, $MM);
         
-        return sprintf("%04d-%02d-%02d %02s:%02s:00", $aaaa, $mm, $gg, $hh, $mm);
-        
-        /*
-        
-        $div = explode(' - ', $datetime);
-        
-        $arr1 = explode('/', $div[0]);
-        $arr2 = explode(':', $div[1]);
-        
-        $stamp = mktime($arr2[0], $arr2[1], 0, $arr1[1], $arr1[0], $arr1[2]);
-        
-        return date($stamp, "Y-m-d H:i:s");
-        
-        */
+        return sprintf("%04s-%02s-%02s %02s:%02s:%02s", $aaaa, $mm, $gg, $hh, $MM, $ss);
     }
 	
 	function wintertour_localdate($date) {
@@ -422,19 +417,9 @@
         $mm = "";
         $aaaa = "";
         
-        sscanf($date, "%04d-%02d-%02d", $aaaa, $mm, $gg);
+        sscanf($date, "%04s-%02s-%02s", $aaaa, $mm, $gg);
         
-        return sprintf("%02d/%02d/%04d", $gg, $mm, $aaaa);
-	    
-        /*
-        
-		$arr = explode('-', $date);
-        
-        $stamp = mktime(0, 0, 0, $date[2], $date[1], $date[0]);
-        
-        return date($stamp, "d/m/Y");
-        
-        */
+        return sprintf("%02s/%02s/%04s", $gg, $mm, $aaaa);
 	}
 	
 	function wintertour_localdatetime($datetime) {
@@ -444,24 +429,12 @@
         $aaaa = "";
         
         $hh = "";
-        $mm = "";
+        $MM = "";
+        $ss = "";
         
-        sscanf($date, "%04d-%02d-%02d %02s:%02s:00", $aaaa, $mm, $gg, $hh, $mm);
+        sscanf($datetime, "%04s-%02s-%02s %02s:%02s:%02s", $aaaa, $mm, $gg, $hh, $MM, $ss);
         
-        return sprintf("%02d/%02d/%04d - %02s:%04s", $gg, $mm, $aaaa, $hh, $mm);
-	    
-        /*
-        
-        $div = explode(' ', $datetime);
-        
-        $arr1 = explode('-', $div[0]);
-        $arr2 = explode(':', $div[1]);
-        
-        $stamp = mktime($arr2[0], $arr2[1], 0, $arr1[2], $arr1[1], $arr1[0]);
-        
-        return date($stamp, "d/m/Y - H:i");
-        
-        */
+        return sprintf("%02s/%02s/%04s - %02s:%02s", $gg, $mm, $aaaa, $hh, $MM);
 	}
 	
 	function countObj($ogg) {

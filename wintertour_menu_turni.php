@@ -12,6 +12,10 @@
     if ( !function_exists( 'plugins_url' ) ) {
         exit;
     }
+    
+    if(isset($_POST['socioadd'])) {
+        wintertour_addTurno();
+    }
 ?>
 <div class="wgest_page wgest_opt">
     <h1>Gestionale WinterTour</h1>
@@ -28,7 +32,7 @@
     </p>
     
     <?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
-        <form action="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>" method="post">
+        <form action="<?php echo admin_url('admin.php?page=wintertour_turni&action=add'); ?>" method="post">
             <table>
                 <thead>
                     <tr>
@@ -38,6 +42,14 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td>
+                            <label for="dataeora">Data: </label>
+                        </td>
+                        <td>
+                            <input autocomplete="off" name="dataeora" type="text" placeholder="gg/mm/aaaa - hh:mm" class="datetime" pattern="\d\d\/\d\d/\d{4} - \d\d:\d\d" />
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <label for="circolo">Circolo:</label>
@@ -61,15 +73,14 @@
                             </select>
                         </td>
                     </tr>
+                </tbody>
+                <tfoot>
                     <tr>
                         <td>
-                            <label for="dataeora">Data: </label>
-                        </td>
-                        <td>
-                            <input autocomplete="off" name="dataeora" type="text" placeholder="gg/mm/aaaa - hh:mm" class="datetime" pattern="\d\d\/\d\d/\d{4} - \d\d:\d\d" />
+                            <input name="socioadd" type="submit" value="Aggiungi" />
                         </td>
                     </tr>
-                </tbody>
+                </tfoot>
             </table>
         </form>
     <?php } ?>
