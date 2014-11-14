@@ -66,15 +66,7 @@
                             <label for="dataeora">Data: </label>
                         </td>
                         <td>
-                            <input autocomplete="off" name="dataeora" type="text" placeholder="gg/mm/aaaa" class="datetime" pattern="\d\d\/\d\d/\d{4}" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="data">Data: </label>
-                        </td>
-                        <td>
-                            <input name="" type="text" />
+                            <input autocomplete="off" name="dataeora" type="text" placeholder="gg/mm/aaaa - hh:mm" class="datetime" pattern="\d\d\/\d\d/\d{4} - \d\d:\d\d" />
                         </td>
                     </tr>
                 </tbody>

@@ -10,7 +10,7 @@ USE `wintertourtennis` ;
 -- Drop tables
 -- -----------------------------------------------------
 
-DROP TABLE IF EXISTS `wintertourtennis_incontri`, `wintertourtennis_iscritti_newsletter`, `wintertourtennis_risultati`, `wintertourtennis_soci`, `wintertourtennis_socio_partecipa_torneo`, `wintertourtennis_tessere`, `wintertourtennis_tipologie_soci`, `wintertourtennis_tornei`, `wintertourtennis_punteggi`, `wintertourtennis_turni`;
+DROP TABLE IF EXISTS `wintertourtennis_incontri`, `wintertourtennis_circoli`, `wintertourtennis_iscritti_newsletter`, `wintertourtennis_risultati`, `wintertourtennis_soci`, `wintertourtennis_socio_partecipa_torneo`, `wintertourtennis_tessere`, `wintertourtennis_tipologie_soci`, `wintertourtennis_tornei`, `wintertourtennis_punteggi`, `wintertourtennis_turni`;
 
 
 -- -----------------------------------------------------
