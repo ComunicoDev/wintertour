@@ -347,9 +347,7 @@
 				<table class="output-table">
 					<thead>
 						<tr>
-						<th>
-							Azione
-						</th>
+						    <th>Azione</th>
 							<th>ID</th>
 							<th>Nome</th>
 							<th>Cognome</th>

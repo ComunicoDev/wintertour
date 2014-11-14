@@ -5,13 +5,13 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 CREATE SCHEMA IF NOT EXISTS `wintertourtennis` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `wintertourtennis` ;
 
+
 -- -----------------------------------------------------
 -- Drop tables
 -- -----------------------------------------------------
 
-SET foreign_key_checks = 0;
-DROP TABLE IF EXISTS `wintertourtennis_incontri`, `wintertourtennis_iscritti_newsletter`, `wintertourtennis_risultati`, `wintertourtennis_soci`, `wintertourtennis_socio_partecipa_torneo`, `wintertourtennis_tessere`, `wintertourtennis_tipologie_soci`, `wintertourtennis_tornei`;
-SET foreign_key_checks = 1;
+DROP TABLE IF EXISTS `wintertourtennis_incontri`, `wintertourtennis_iscritti_newsletter`, `wintertourtennis_risultati`, `wintertourtennis_soci`, `wintertourtennis_socio_partecipa_torneo`, `wintertourtennis_tessere`, `wintertourtennis_tipologie_soci`, `wintertourtennis_tornei`, `wintertourtennis_punteggi`, `wintertourtennis_turni`;
+
 
 -- -----------------------------------------------------
 -- Table `wintertourtennis`.`wintertourtennis_tipologie_soci`
@@ -54,20 +54,20 @@ CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_soci` (
   `cognome` VARCHAR(35) NOT NULL,
   `email` VARCHAR(254) NULL,
   `tipologia` INT NULL,
-  `saldo` DOUBLE NULL,
+  `saldo` DOUBLE NULL DEFAULT 0,
   `indirizzo` VARCHAR(64) NOT NULL,
   `citta` VARCHAR(64) NOT NULL,
   `cap` CHAR(5) NOT NULL,
   `provincia` CHAR(2) NOT NULL,
   `telefono` VARCHAR(16) NULL,
   `cellulare` VARCHAR(16) NULL,
-  `statoattivo` TINYINT(1) NULL,
+  `statoattivo` TINYINT(1) NULL DEFAULT 0,
   `datanascita` DATE NOT NULL,
   `cittanascita` VARCHAR(64) NULL,
   `dataiscrizione` DATE NULL,
   `codicefiscale` CHAR(16) NULL,
   `dataimmissione` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `certificatomedico` TINYINT(1) NULL,
+  `certificatomedico` TINYINT(1) NULL DEFAULT 0,
   `domandaassociazione` DATE NULL,
   `circolo` INT NULL,
   PRIMARY KEY (`ID`),
@@ -230,6 +230,47 @@ CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_tessere` (
   CONSTRAINT `fk_wintertourtennis_tessere_wintertourtennis_soci1`
     FOREIGN KEY (`socio`)
     REFERENCES `wintertourtennis`.`wintertourtennis_soci` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wintertourtennis`.`wintertourtennis_turni`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_turni` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `dataeora` DATETIME NOT NULL,
+  `circolo` INT NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_wintertour_turni_wintertourtennis_circoli1_idx` (`circolo` ASC),
+  CONSTRAINT `fk_wintertour_turni_wintertourtennis_circoli1`
+    FOREIGN KEY (`circolo`)
+    REFERENCES `wintertourtennis`.`wintertourtennis_circoli` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wintertourtennis`.`wintertourtennis_punteggi`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_punteggi` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `punteggio` INT NOT NULL,
+  `socio` INT NOT NULL,
+  `turno` INT NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_wintertourtennis_punteggi_wintertourtennis_soci1_idx` (`socio` ASC),
+  INDEX `fk_wintertourtennis_punteggi_wintertourtennis_turni1_idx` (`turno` ASC),
+  CONSTRAINT `fk_wintertourtennis_punteggi_wintertourtennis_soci1`
+    FOREIGN KEY (`socio`)
+    REFERENCES `wintertourtennis`.`wintertourtennis_soci` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_wintertourtennis_punteggi_wintertourtennis_turni1`
+    FOREIGN KEY (`turno`)
+    REFERENCES `wintertourtennis`.`wintertourtennis_turni` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
