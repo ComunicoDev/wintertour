@@ -158,8 +158,6 @@
     function wintertour_addTurno() {
         global $wpdb;
         
-        echo $_POST['dataeora'] . " -> " . wintertour_serverdatetime($_POST['dataeora']);
-        
         $wpdb->insert(
             "wintertourtennis_turni",
             array(
