@@ -271,7 +271,7 @@
 				capitalize(trim($_POST['indirizzo'])),
 				capitalize(trim($_POST['citta'])),
 				trim($_POST['cap']),
-				capitalize(trim($_POST['provincia'])),
+				strtoupper(trim($_POST['provincia'])),
 				trim($_POST['telefono']),
 				trim($_POST['cellulare']),
 				trim($_POST['statoattivo']),

@@ -23,18 +23,18 @@
 		!empty($_POST['telefono']) && !empty($_POST['cellulare']) && !empty($_POST['datanascita']) &&
 		!empty($_POST['cittanascita']) && !empty($_POST['codicefiscale'])) {
 		
-		$nome = trim($_POST['nome']);
-		$cognome = trim($_POST['cognome']);
-		$email = trim($_POST['email']);
-		$indirizzo = trim($_POST['indirizzo']);
+		$nome = capitalize(trim($_POST['nome']));
+		$cognome = capitalize(trim($_POST['cognome']));
+		$email = strtolower(trim($_POST['email']));
+		$indirizzo = capitalize(trim($_POST['indirizzo']));
 		$cap = trim($_POST['cap']);
-		$citta = trim($_POST['citta']);
-		$provincia = trim($_POST['provincia']);
+		$citta = capitalize(trim($_POST['citta']));
+		$provincia = strtoupper(trim($_POST['provincia']));
 		$telefono = trim($_POST['telefono']);
 		$cellulare = trim($_POST['cellulare']);
-		$datanascita = trim($_POST['datanascita']);
-		$cittanascita = trim($_POST['cittanascita']);
-		$codicefiscale = trim($_POST['codicefiscale']);
+		$datanascita = wintertour_serverdate(trim($_POST['datanascita']));
+		$cittanascita = capitalize(trim($_POST['cittanascita']));
+		$codicefiscale = strtoupper(trim($_POST['codicefiscale']));
 		
 		global $wpdb;
 		
@@ -52,7 +52,8 @@
 				'telefono' => $telefono,
 				'cellulare' => $cellulare,
 				'statoattivo' => 0,
-				'datanascita' => wintertour_serverdate($datanascita),
+				'datanascita' => $datanascita,
+				'cittanascita' => $cittanascita,
 				'codicefiscale' => $codicefiscale,
 				'certificatomedico' => 0
 			), array(
@@ -67,6 +68,7 @@
 				'%s',
 				'%s',
 				'%d',
+				'%s',
 				'%s',
 				'%s',
 				'%d'
