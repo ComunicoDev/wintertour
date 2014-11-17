@@ -60,6 +60,13 @@
     function wintertour_menu_turni() {
         include ('wintertour_menu_turni.php');
     }
+    
+    /**
+     * Admin menu_punteggi handler
+     */
+    function wintertour_menu_punteggi() {
+        include ('wintertour_menu_punteggi.php');
+    }
 	
 	/**
 	 * Adds admin_menu handlers
@@ -71,6 +78,7 @@
 		add_submenu_page("wintertour", "Gestionale Soci", "Soci", 1, "wintertour_soci", "wintertour_menu_soci");
 		add_submenu_page("wintertour", "Gestionale Circoli", "Circoli", 1, "wintertour_circoli", "wintertour_menu_circoli");
         add_submenu_page("wintertour", "Gestionale Turni", "Turni", 1, "wintertour_turni", "wintertour_menu_turni");
+        add_submenu_page("wintertour", "Gestionale Punteggi", "Punteggi", 1, "wintertour_punteggi", "wintertour_menu_punteggi");
 	}
 	
 	/**

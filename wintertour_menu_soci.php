@@ -29,7 +29,7 @@
 	
 	<p>
 		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>">Aggiungi Socio o tipologia socio</a><br />
-		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=view'); ?>">Consulta tipologie e anagrafica dei soci</a><br />
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=view&pag=1&limit=20'); ?>">Consulta tipologie e anagrafica dei soci</a><br />
 		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=search'); ?>">Ricerca tipologie e anagrafica dei soci</a>
 	</p>
 	
@@ -304,7 +304,10 @@
 		</form>
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'view') {
 		$tipologie = wintertour_elencatipi();
-		$soci = wintertour_elencaSoci();
+        $pag = (isset($_REQUEST['pag'])) ? intval($_REQUEST['pag']) : 1;
+        $limit = (isset($_REQUEST['limit'])) ? intval($_REQUEST['limit']) : 20;
+		$soci = wintertour_showSoci($pag, $limit);
+        $count = wintertour_countSoci();
 	?>
 	<?php if(count($tipologie) > 0) { ?>
 		<div class="editor">
@@ -342,7 +345,31 @@
 	<?php } ?>
 	<?php if(count($soci) > 0) { ?>
 		<div class="scrollable-view">
-			<h3>Elenco soci</h3>
+			<h3>Elenco soci<?=" (" . (($pag - 1) * $limit + 1) . " - " . (($pag * $limit <= $count) ? $pag * $limit : $count) . " di " . $count . ")"?></h3>
+			<?php
+			    $check = false;
+			    if($pag > 1) {
+			        $prev = $pag - 1;
+			        echo "<a href=\"" . admin_url("admin.php?page=wintertour_soci&action=view&pag=$prev&limit=20") . "\" />Precedenti</a>";
+                    
+                    $check = true;
+			    }
+                if(($pag) * $limit < $count) {
+                    $next = $pag + 1;
+                    
+                    if($check) {
+                        echo " | ";
+                    }
+                    
+                    echo "<a href=\"" . admin_url("admin.php?page=wintertour_soci&action=view&pag=$next&limit=20") . "\" />Successivi</a>";
+                    
+                    $check = true;
+                }
+                
+                if($check) {
+                    echo "<br /><br />";
+                }
+			?>
 			<div class="scrolling">
 				<table class="output-table">
 					<thead>

@@ -365,23 +365,57 @@
 	function wintertour_elencaSoci() {
 		global $wpdb;
 		
-		$sql = "SELECT * FROM `wintertourtennis_soci`;";
+		$sql = "SELECT * FROM `wintertourtennis_soci` ORDER BY `nome` ASC;";
 		
 		return $wpdb->get_results($sql);
 	}
 	
+	function wintertour_countSoci() {
+	    global $wpdb;
+        
+        return $wpdb->get_var("SELECT COUNT(*) FROM `wintertourtennis_soci`;");
+	}
+	
+	function wintertour_showSoci($page = 1, $limit = 20) {
+	    global $wpdb;
+        
+        if($page <= 0) {
+            $page = 1;
+        }
+        
+        $start = ($page - 1) * $limit;
+        
+        $sql = "SELECT * FROM `wintertourtennis_soci` ORDER BY `nome` ASC LIMIT $start, $limit;";
+        
+        return $wpdb->get_results($sql);
+	}
+    
+    function wintertour_elencaTurni() {
+        global $wpdb;
+        
+        $sql = "SELECT * FROM `wintertourtennis_turni` ORDER BY `dataeora` ASC;";
+        
+        return $wpdb->get_results($sql);
+    }
+	
 	function wintertour_elencatipi() {
 		global $wpdb;
 		
-		$query = "SELECT * FROM `wintertourtennis_tipologie_soci`;";
+		$query = "SELECT * FROM `wintertourtennis_tipologie_soci` ORDER BY `nome` ASC;";
 		return $wpdb->get_results($query);
 	}
 	
 	function wintertour_elencacircoli() {
 		global $wpdb;
 		
-		return $wpdb->get_results("SELECT * FROM `wintertourtennis_circoli`;");
+		return $wpdb->get_results("SELECT * FROM `wintertourtennis_circoli` ORDER BY `nome` ASC;");
 	}
+    
+    function wintertour_getcircolo($ID) {
+        global $wpdb;
+        
+        return $wpdb->get_row($wpdb->prepare("SELECT * FROM `wintertourtennis_circoli` WHERE ID = %d;", $ID));
+    }
     
     function wintertour_serverdate($date) {
         

@@ -44,7 +44,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <label for="dataeora">Data: </label>
+                            <label for="dataeora">Data e ora: </label>
                         </td>
                         <td>
                             <input autocomplete="off" name="dataeora" type="text" placeholder="gg/mm/aaaa - hh:mm" class="datetime" pattern="\d\d\/\d\d/\d{4} - \d\d:\d\d" />
@@ -82,6 +82,38 @@
                     </tr>
                 </tfoot>
             </table>
+        </form>
+    <?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'view') {
+        $turni = wintertour_elencaturni();
+    ?>
+        <form action="<?php echo admin_url('admin.php?page=wintertour_turni&action=add'); ?>" method="post">
+            <?php if(count($turni) > 0) { ?>
+                <h3>Elenco turni</h3>
+                <table class="output-table">
+                    <thead>
+                        <tr>
+                            <th>Azione</th>
+                            <th>ID turno</th>
+                            <th>Data e ora</th>
+                            <th>Circolo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($turni as $index => $riga) { ?>
+                            <tr>
+                                <td>
+                                    <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&socio=' . $riga->ID); ?>">Modifica</a>
+                                </td>
+                                <td><?=$riga->ID?></td>
+                                <td><?=wintertour_localdatetime($riga->dataeora)?></td>
+                                <td><a href="#<?=$riga->circolo?>"><?=wintertour_getcircolo($riga->circolo)->nome?></a></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            <?php  } else { ?>
+                <h3>Nessun turno</h3>
+            <?php } ?>
         </form>
     <?php } ?>
 </div>

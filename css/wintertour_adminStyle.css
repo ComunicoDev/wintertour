@@ -110,6 +110,7 @@ table td, table th {
 	border: 1px solid black;
 	white-space: nowrap;
 	padding: 4px !important;
+	text-align: center;
 }
 
 .output-table tfoot td {
