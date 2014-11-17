@@ -365,7 +365,7 @@
 	function wintertour_elencaSoci() {
 		global $wpdb;
 		
-		$sql = "SELECT * FROM `wintertourtennis_soci` ORDER BY `nome` ASC;";
+		$sql = "SELECT * FROM `wintertourtennis_soci` ORDER BY `cognome` ASC;";
 		
 		return $wpdb->get_results($sql);
 	}
@@ -385,7 +385,7 @@
         
         $start = ($page - 1) * $limit;
         
-        $sql = "SELECT * FROM `wintertourtennis_soci` ORDER BY `nome` ASC LIMIT $start, $limit;";
+        $sql = "SELECT * FROM `wintertourtennis_soci` ORDER BY `cognome` ASC LIMIT $start, $limit;";
         
         return $wpdb->get_results($sql);
 	}
