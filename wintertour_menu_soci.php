@@ -347,7 +347,9 @@
                     echo "<br /><br />";
                 }
 			?>
+			<!--
 			<div class="scrolling">
+			-->
 				<table class="output-table">
 					<thead>
 						<tr>
@@ -360,6 +362,7 @@
                             <th>Stato Attivo</th>
                             <th>Cellulare</th>
 							<th>Città</th>
+							<!--
                             <th>Indirizzo</th>
 							<th>CAP</th>
 							<th>Provincia</th>
@@ -373,6 +376,7 @@
 							<th>Circolo</th>
                             <th>Tipologia</th>
                             <th>ID</th>
+                            -->
 						</tr>
 					</thead>
 					<tbody>
@@ -405,6 +409,7 @@
                                 <td>
                                     <?=capitalize($riga->citta)?>
                                 </td>
+                                <!--
                                 <td>
                                     <?=capitalize($riga->indirizzo)?>
                                 </td>
@@ -469,12 +474,15 @@
                                 <td>
                                     <?=$riga->ID?>
                                 </td>
+                                -->
 							</tr>
 						<?php } ?>
 					</tbody>
 				</table>
+			<!--
 				<div class="scrollbar"></div>
 			</div>
+            -->
 		</div>
 	<?php } else { ?>
 		<h3>Nessun Socio</h3>
