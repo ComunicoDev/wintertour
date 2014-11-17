@@ -131,18 +131,51 @@
 	
 	function capitalize($string = "") {
 	    $string = trim($string);
+        
 	    if(!empty($string)) {
+	        $string = strtolower($string);
+	        
 	        if(strpos($string, " ") === FALSE) {
-                $string = ucfirst(strtolower($string));
+                $string = ucfirst($string);
 	        } else {
                 $arr = explode(" ", $string);
                 
                 for($i = 0; $i < sizeof($arr); $i++) {
-                    $arr[$i] = ucfirst(strtolower($arr[$i]));
+                    $arr[$i] = ucfirst($arr[$i]);
                 }
                 
                 $string = implode(" ", $arr);
 	        }
+            
+            $pos = strpos($string, "’");
+            
+            if($pos !== FALSE && $pos >= 0) {
+                $string = str_replace("’", "'", $string);
+            }
+	        
+            $pos = strpos($string, "'");
+            
+            if($pos !== FALSE && $pos >= 0) {
+                $arr = explode("'", $string);
+                
+                foreach($arr as &$value) {
+                    $value = ucfirst($value);
+                }
+                
+                $string = implode("'", $arr);
+            }
+            
+            $pos = strpos($string, ".");
+            
+            if($pos !== FALSE && $pos >= 0) {
+                $arr = explode("'", $string);
+                
+                foreach($arr as &$value) {
+                    $value = ucfirst($value);
+                }
+                
+                $string = implode(".", $arr);
+            }
 	    }
 	    
         return $string;
@@ -382,12 +415,28 @@
 		
 		if($_POST['type'] == 'soci') {
 			$sql = "SELECT `ID`, `nome`, `cognome` FROM `wintertourtennis_soci` WHERE `nome` LIKE '" . $_POST['partial'] . "%' OR `cognome` LIKE '" . $_POST['partial'] . "%';";
-			
-			echo json_encode($wpdb->get_results($sql));
+            
+            $res = $wpdb->get_results($sql);
+            
+            foreach ($res as &$row) {
+                foreach($row as &$value) {
+                    $value = stripslashes($value);
+                }
+            }
+            
+            echo json_encode($res);
 		} else if($_POST['type'] == 'tipologie_soci') {
 			$sql = "SELECT `ID`, `nome` FROM `wintertourtennis_tipologie_soci` WHERE `nome` LIKE '" . $_POST['partial'] . "%';";
 			
-			echo json_encode($wpdb->get_results($sql));
+            $res = $wpdb->get_results($sql);
+            
+            foreach ($res as &$row) {
+                foreach($row as &$value) {
+                    $value = stripslashes($value);
+                }
+            }
+            
+            echo json_encode($res);
 		} else {
 			die(0);
 		}

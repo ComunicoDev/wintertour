@@ -386,13 +386,13 @@
 									<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $riga->ID); ?>">Gestisci</a>
 								</td>
                                 <td>
-                                    <?=capitalize($riga->cognome)?>
+                                    <?=capitalize(stripslashes($riga->cognome))?>
                                 </td>
                                 <td>
-                                    <?=capitalize($riga->nome)?>
+                                    <?=capitalize(stripslashes($riga->nome))?>
                                 </td>
                                 <td>
-                                    <?=!empty($riga->email) ? "<a href=\"mailto:" . strtolower($riga->email) . "\">" . strtolower($riga->email) . "</a>" : "Nessun email"?>
+                                    <?=!empty($riga->email) ? "<a href=\"mailto:" . strtolower($riga->email) . "\" target=\"_blank\">" . strtolower($riga->email) . "</a>" : "Nessun email"?>
                                 </td>
                                 <td>
                                     <?=!empty($riga->saldo) ? $riga->saldo . " &euro;" : "0 &euro;"?>
