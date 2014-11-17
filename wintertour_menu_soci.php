@@ -304,53 +304,30 @@
 		</form>
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'view') {
 		$tipologie = wintertour_elencatipi();
-        $pag = (isset($_REQUEST['pag'])) ? intval($_REQUEST['pag']) : 1;
-        $limit = (isset($_REQUEST['limit'])) ? intval($_REQUEST['limit']) : 20;
-		$soci = wintertour_showSoci($pag, $limit);
         $count = wintertour_countSoci();
+        $limit = (isset($_REQUEST['limit'])) ? intval($_REQUEST['limit']) : 20;
+        
+        $pag = (isset($_REQUEST['pag'])) ? intval($_REQUEST['pag']) : 1;
+        
+        if($pag <= 0) {
+            $pag = 1;
+        }
+        
+        if($pag > ceil((double)$count / (double)$limit)) {
+            $pag = ceil((double)$count / (double)$limit);
+        }
+        
+		$soci = wintertour_showSoci($pag, $limit);
 	?>
-	<?php if(count($tipologie) > 0) { ?>
-		<div class="editor">
-			<h3>Elenco tipologie</h3>
-			<table class="output-table">
-				<thead>
-					<tr>
-						<th>
-							Azione
-						</th>
-						<?php foreach($tipologie[0] as $colonna => $valore) {?>
-							<th style="padding:3px"><?=ucfirst($colonna)?></th>
-						<?php } ?>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach($tipologie as $index => $riga) { ?>
-						<tr>
-							<td>
-								<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=tipologiaedit&tipologia=' . $riga->ID); ?>">Modifica</a>
-							</td>
-							<?php foreach($riga as $colonna => $valore) { ?>
-								<td>
-									<?=$valore?>
-								</td>
-							<?php } ?>
-						</tr>
-					<?php } ?>
-				</tbody>
-			</table>
-			</div>
-		</div>
-	<?php } else { ?>
-		<h3>Nessuna Tipologia</h3>
-	<?php } ?>
 	<?php if(count($soci) > 0) { ?>
 		<div class="scrollable-view">
-			<h3>Elenco soci<?=" (" . (($pag - 1) * $limit + 1) . " - " . (($pag * $limit <= $count) ? $pag * $limit : $count) . " di " . $count . ")"?></h3>
+			<h3>Elenco soci</h3>
+			<h4><?="Soci " . (($pag - 1) * $limit + 1) . " - " . (($pag * $limit <= $count) ? $pag * $limit : $count) . " di " . $count . " (pagina $pag di " . ceil((double)$count / (double)$limit) . ")"?></h4>
 			<?php
 			    $check = false;
 			    if($pag > 1) {
 			        $prev = $pag - 1;
-			        echo "<a href=\"" . admin_url("admin.php?page=wintertour_soci&action=view&pag=$prev&limit=20") . "\" />Precedenti</a>";
+			        echo "<a href=\"" . admin_url("admin.php?page=wintertour_soci&action=view&pag=$prev&limit=$limit") . "\" />Precedenti</a>";
                     
                     $check = true;
 			    }
@@ -361,7 +338,7 @@
                         echo " | ";
                     }
                     
-                    echo "<a href=\"" . admin_url("admin.php?page=wintertour_soci&action=view&pag=$next&limit=20") . "\" />Successivi</a>";
+                    echo "<a href=\"" . admin_url("admin.php?page=wintertour_soci&action=view&pag=$next&limit=$limit") . "\" />Successivi</a>";
                     
                     $check = true;
                 }
@@ -375,46 +352,123 @@
 					<thead>
 						<tr>
 						    <th>Azione</th>
-							<th>ID</th>
+                            <th>Cognome</th>
 							<th>Nome</th>
-							<th>Cognome</th>
 							<th>Email</th>
-							<th>Tipologia</th>
 							<th>Saldo</th>
-							<th>Indirizzo</th>
+                            <th>Certificato Medico</th>
+                            <th>Stato Attivo</th>
+                            <th>Cellulare</th>
 							<th>Città</th>
+                            <th>Indirizzo</th>
 							<th>CAP</th>
 							<th>Provincia</th>
 							<th>Telefono</th>
-							<th>Cellulare</th>
-							<th>Stato Attivo</th>
 							<th>Data Nascita</th>
 							<th>Città Nascita</th>
 							<th>Data Iscrizione</th>
 							<th>Codice Fiscale</th>
 							<th>Data Immissione</th>
-							<th>Certificato Medico</th>
 							<th>Domanda Associazione</th>
 							<th>Circolo</th>
+                            <th>Tipologia</th>
+                            <th>ID</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php foreach($soci as $index => $riga) { ?>
 							<tr>
 								<td>
-									<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $riga->ID); ?>">Modifica</a>
+									<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $riga->ID); ?>">Gestisci</a>
 								</td>
-								<?php foreach($riga as $colonna => $valore) { ?>
-									<td>
-									   <?php
-									       if($colonna === "datanascita") {
-                                            echo wintertour_localdate($valore);
-                                           } else {
-                                               echo $valore;
-                                           }
-									   ?>
-									</td>
-								<?php } ?>
+                                <td>
+                                    <?=capitalize($riga->cognome)?>
+                                </td>
+                                <td>
+                                    <?=capitalize($riga->nome)?>
+                                </td>
+                                <td>
+                                    <?=!empty($riga->email) ? "<a href=\"mailto:" . strtolower($riga->email) . "\">" . strtolower($riga->email) . "</a>" : "Nessun email"?>
+                                </td>
+                                <td>
+                                    <?=!empty($riga->saldo) ? $riga->saldo . " &euro;" : "0 &euro;"?>
+                                </td>
+                                <td>
+                                    <?=($riga->certificatomedico === "1") ? "Inviato" : "Non inviato"?>
+                                </td>
+                                <td>
+                                    <?=($riga->statoattivo === "1") ? "Attivo" : "Inattivo"?>
+                                </td>
+                                <td>
+                                    <?=format_phone($riga->cellulare)?>
+                                </td>
+                                <td>
+                                    <?=capitalize($riga->citta)?>
+                                </td>
+                                <td>
+                                    <?=capitalize($riga->indirizzo)?>
+                                </td>
+                                <td>
+                                    <?=$riga->cap?>
+                                </td>
+                                <td>
+                                    <?php
+                                        global $provincie;
+                                        
+                                        if(is_array($provincie) && !empty($provincie[$riga->provincia])) {
+                                            echo $provincie[$riga->provincia];
+                                        } else {
+                                            echo "Dato mancante";
+                                        }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?=format_phone($riga->telefono)?>
+                                </td>
+                                <td>
+                                    <?=format_date($riga->datanascita)?>
+                                </td>
+                                <td>
+                                    <?=(!empty($riga->cittanascita)) ? capitalize($riga->cittanascita) : "Dato mancante"?>
+                                </td>
+                                <td>
+                                    <?=format_date($riga->dataiscrizione)?>
+                                </td>
+                                <td>
+                                    <?=strtoupper(trim($riga->codicefiscale))?>
+                                </td>
+                                <td>
+                                    <?=wintertour_localdatetime($riga->dataimmissione);?>
+                                </td>
+                                <td>
+                                    <?=format_date($riga->domandaassociazione)?>
+                                </td>
+                                <td>
+                                    <?php
+                                        $ID = intval($riga->circolo);
+                                        
+                                        $ret = "Nessun circolo";
+                                        
+                                        if($ID > 0) {
+                                            $circolo = wintertour_getcircolo($ID);
+                                            
+                                            if(isset($circolo)) {
+                                                $nome = capitalize($circolo->nome);
+                                                $url = admin_url("admin.php?page=wintertour_circoli&action=edit&circolo=$ID");
+                                                
+                                                $ret = "<a href=\"\">$nome</a>";
+                                            }
+                                        }
+                                        
+                                        echo $ret;
+                                    ?>
+                                </td>
+                                <td>
+                                    <?=(!empty($riga->tipologia)) ? capital($riga->tipologia) : "Nessun tipo"?>
+                                </td>
+                                <td>
+                                    <?=$riga->ID?>
+                                </td>
 							</tr>
 						<?php } ?>
 					</tbody>
@@ -425,6 +479,40 @@
 	<?php } else { ?>
 		<h3>Nessun Socio</h3>
 	<?php } ?>
+	<?php if(count($tipologie) > 0) { ?>
+        <div class="editor">
+            <h3>Elenco tipologie</h3>
+            <table class="output-table">
+                <thead>
+                    <tr>
+                        <th>
+                            Azione
+                        </th>
+                        <?php foreach($tipologie[0] as $colonna => $valore) {?>
+                            <th style="padding:3px"><?=ucfirst($colonna)?></th>
+                        <?php } ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($tipologie as $index => $riga) { ?>
+                        <tr>
+                            <td>
+                                <a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=tipologiaedit&tipologia=' . $riga->ID); ?>">Modifica</a>
+                            </td>
+                            <?php foreach($riga as $colonna => $valore) { ?>
+                                <td>
+                                    <?=$valore?>
+                                </td>
+                            <?php } ?>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    <?php } else { ?>
+        <h3>Nessuna Tipologia</h3>
+    <?php } ?>
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'search') { ?>
 		<h3>Ricerca Tipologie</h3>
 		<form action="<?php echo admin_url('admin.php'); ?>" method="get">

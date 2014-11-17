@@ -130,14 +130,19 @@
 	}
 	
 	function capitalize($string = "") {
+	    $string = trim($string);
 	    if(!empty($string)) {
-	        $arr = explode($string, " ");
-	        
-	        foreach($arr as $s) {
-	            $s = ucfirst(strtolower($s));
+	        if(strpos($string, " ") === FALSE) {
+                $string = ucfirst(strtolower($string));
+	        } else {
+                $arr = explode(" ", $string);
+                
+                for($i = 0; $i < sizeof($arr); $i++) {
+                    $arr[$i] = ucfirst(strtolower($arr[$i]));
+                }
+                
+                $string = implode(" ", $arr);
 	        }
-            
-            $string = implode(" ", $arr);
 	    }
 	    
         return $string;
@@ -153,6 +158,48 @@
 				"descrizione" => capital($_POST['descrizionetipologia'])
 			)
 		) or die('Errore: Impossibile effettuare l\'operazione richiesta!<br /> Controllare i dati e riprovare.');
+	}
+	
+	function format_date($date = "") {
+	    
+        if(strstr($date, "/") === FALSE) {
+            $date = wintertour_localdate($date);
+        }
+	    
+	    $dd = "";
+        $mm = "";
+        $aaaa = "";
+        
+	    sscanf($date, "%02s/%02s/%04s", $dd, $mm, $aaaa);
+        
+        if($aaaa < 1900) {
+            return "Data invalida";
+        }
+        
+        return $date;
+	}
+	
+	function format_phone($number = "") {
+	    $number = str_replace(' ', "", $number);
+        $number = str_replace('/', "", $number);
+        $number = str_replace('\\', "", $number);
+        $number = str_replace('-', "", $number);
+        $number = str_replace('.', "", $number);
+        $number = str_replace(':', "", $number);
+        $number = str_replace(';', "", $number);
+        $number = str_replace("'", "", $number);
+        
+        if(empty($number) || $number === FALSE || !is_numeric($number) || (is_numeric($number) && $number == 0) || strlen($number) < 6) {
+            $number = "Numero telefonico invalido";
+        }
+        
+        $pos = strpos($number, "+39");
+        
+        if($pos !== FALSE && $pos === 0) {
+            $number = substr($number, 3);
+        }
+        
+        return $number;
 	}
     
     function wintertour_addTurno() {
