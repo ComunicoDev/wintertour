@@ -522,6 +522,34 @@
         <h3>Nessuna Tipologia</h3>
     <?php } ?>
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'search') { ?>
+        <h3>Ricerca Soci</h3>
+        <form action="<?php echo admin_url('admin.php'); ?>" method="get">
+            <?php foreach ($_GET as $key => $value) { ?>
+            <input name="<?=$key?>" type="hidden" value="<?=$value?>" />
+            <?php } ?>
+            <input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input data-autocompname="socio" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
+                        </td>
+                        <td>
+                            <select data-autocomptype="soci" name="socio" class="searchbox autocompletion">
+                                <option disabled="disabled" selected="selected" value="">--Cerca un socio--</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input data-autocompname="socio" class="autocompletion" type="submit" value="Modifica" />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
 		<h3>Ricerca Tipologie</h3>
 		<form action="<?php echo admin_url('admin.php'); ?>" method="get">
 			<?php foreach ($_GET as $key => $value) { ?>
@@ -545,34 +573,6 @@
 					<tr>
 						<td>
 							<input data-autocompname="tipologia" class="autocompletion" type="submit" value="Modifica" />
-						</td>
-					</tr>
-				</tfoot>
-			</table>
-		</form>
-		<h3>Ricerca Soci</h3>
-		<form action="<?php echo admin_url('admin.php'); ?>" method="get">
-			<?php foreach ($_GET as $key => $value) { ?>
-			<input name="<?=$key?>" type="hidden" value="<?=$value?>" />
-			<?php } ?>
-			<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
-			<table>
-				<tbody>
-					<tr>
-						<td>
-							<input data-autocompname="socio" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
-						</td>
-						<td>
-							<select data-autocomptype="soci" name="socio" class="searchbox autocompletion">
-								<option disabled="disabled" selected="selected" value="">--Cerca un socio--</option>
-							</select>
-						</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td>
-							<input data-autocompname="socio" class="autocompletion" type="submit" value="Modifica" />
 						</td>
 					</tr>
 				</tfoot>
@@ -654,7 +654,7 @@
 							<label for="ID">ID</label>
 						</td>
 						<td>
-							<input name="ID" readonly="readonly" type="text" value="<?=$obj_socio->ID?>" />
+							<input autocomplete="off" name="ID" readonly="readonly" type="text" value="<?=$obj_socio->ID?>" />
 						</td>
 					</tr>
 					<tr>
@@ -662,7 +662,7 @@
 							<label for="nome">Nome:</label>
 						</td>
 						<td>
-							<input name="nome" id="nome" type="text" placeholder="Nome" value="<?=$obj_socio->nome?>" />
+							<input autocomplete="off" name="nome" id="nome" type="text" placeholder="Nome" value="<?=capitalize($obj_socio->nome)?>" />
 						</td>
 					</tr>
 					<tr>
@@ -670,7 +670,7 @@
 							<label for="cognome">Cognome:</label>
 						</td>
 						<td>
-							<input name="cognome" id="cognome" type="text" placeholder="Cognome" value="<?=$obj_socio->cognome?>" />
+							<input autocomplete="off" name="cognome" id="cognome" type="text" placeholder="Cognome" value="<?=capitalize($obj_socio->cognome)?>" />
 						</td>
 					</tr>
 					<tr>
@@ -678,7 +678,7 @@
 							<label for="email">Email:</label>
 						</td>
 						<td>
-							<input name="email" id="email" type="email" placeholder="Email" value="<?=$obj_socio->email?>" />
+							<input autocomplete="off" name="email" id="email" type="email" placeholder="Email" value="<?=strtolower($obj_socio->email)?>" />
 						</td>
 					</tr>
 					<tr>
@@ -694,11 +694,13 @@
 								?>
 									<option disabled="disabled" selected="selected" value="">--Non esiste nessuna tipologia--</option>
 								<?php } else { ?>
-									<option disabled="disabled" value="">--Selezionare una tipologia--</option>
+									<option disabled="disabled"<?php if(empty($obj_socio->tipologia) || $obj_socio->tipologia <= 0) echo " selected=\"selected\"" ?> value="">--Selezionare una tipologia--</option>
 								<?php }
 									
 									foreach ($res as $x) {
-										echo "<option " . (($x->ID == $obj_socio->tipologia) ? "selected=\"selected\"" : "" ) . " value=\"$x->ID\">$x->nome</option>";
+									    $ID = $x->ID;
+									    $nome = capital($x->nome);
+										echo "<option " . (($ID == $obj_socio->tipologia) ? "selected=\"selected\"" : "" ) . " value=\"$ID\">$nome</option>";
 									}
 								?>
 							</select>
@@ -709,7 +711,7 @@
 							<label for="saldo">Saldo (&euro;):</label>
 						</td>
 						<td>
-							<input name="saldo" id="saldo" type="text" pattern="([+-]?[0-9]+)?([.,][0-9]+)?" placeholder="Saldo" value="<?=$obj_socio->saldo?>" />
+							<input autocomplete="off" name="saldo" id="saldo" type="text" pattern="([+-]?[0-9]+)?([.,][0-9]+)?" placeholder="Saldo" value="<?=$obj_socio->saldo?>" />
 						</td>
 					</tr>
 					<tr>
@@ -717,7 +719,7 @@
 							<label for="indirizzo">Indirizzo:</label>
 						</td>
 						<td>
-							<input name="indirizzo" id="indirizzo" type="text" placeholder="Indirizzo" value="<?=$obj_socio->indirizzo?>" />
+							<input autocomplete="off" name="indirizzo" id="indirizzo" type="text" placeholder="Indirizzo" value="<?=$obj_socio->indirizzo?>" />
 						</td>
 					</tr>
 					<tr>
@@ -725,7 +727,7 @@
 							<label for="citta">Città:</label>
 						</td>
 						<td>
-							<input name="citta" id="citta" type="text" placeholder="Città" value="<?=$obj_socio->citta?>" />
+							<input autocomplete="off" name="citta" id="citta" type="text" placeholder="Città" value="<?=$obj_socio->citta?>" />
 						</td>
 					</tr>
 					<tr>
@@ -733,7 +735,7 @@
 							<label for="cap">CAP:</label>
 						</td>
 						<td>
-							<input name="cap" id="cap" type="text" pattern="^[0-9]{5}$" placeholder="CAP" value="<?=$obj_socio->cap?>" />
+							<input autocomplete="off" name="cap" id="cap" type="text" pattern="^[0-9]{5}$" placeholder="CAP" value="<?=$obj_socio->cap?>" />
 						</td>
 					</tr>
 					<tr>
@@ -749,7 +751,7 @@
 							<label for="telefono">Telefono:</label>
 						</td>
 						<td>
-							<input name="telefono" id="telefono" type="tel" pattern="^[0-9]{10}$" placeholder="Telefono" value="<?=$obj_socio->telefono?>" />
+							<input autocomplete="off" name="telefono" id="telefono" type="tel" pattern="^[0-9]{10}$" placeholder="Telefono" value="<?=$obj_socio->telefono?>" />
 						</td>
 					</tr>
 					<tr>
@@ -757,7 +759,7 @@
 							<label for="cellulare">Cellulare:</label>
 						</td>
 						<td>
-							<input name="cellulare" id="cellulare" type="tel" pattern="^[0-9]{10}$" placeholder="Cellulare" value="<?=$obj_socio->cellulare?>" />
+							<input autocomplete="off" name="cellulare" id="cellulare" type="tel" pattern="^[0-9]{10}$" placeholder="Cellulare" value="<?=$obj_socio->cellulare?>" />
 						</td>
 					</tr>
 					<tr>
@@ -768,10 +770,10 @@
 							<table>
 								<tr>
 									<td>
-										<input name="attivo" id="attivo1" type="radio" value="1"<?php if($obj_socio->statoattivo) { ?> checked="checked"<?php } ?> />Attivo
+										<input autocomplete="off" name="attivo" id="attivo1" type="radio" value="1"<?php if($obj_socio->statoattivo) { ?> checked="checked"<?php } ?> />Attivo
 									</td>
 									<td>
-										<input name="attivo" id="attivo0" type="radio" value="0"<?php if(!$obj_socio->statoattivo) { ?> checked="checked"<?php } ?> />Inattivo
+										<input autocomplete="off" name="attivo" id="attivo0" type="radio" value="0"<?php if(!$obj_socio->statoattivo) { ?> checked="checked"<?php } ?> />Inattivo
 									</td>
 								</tr>
 							</table>
@@ -782,7 +784,7 @@
 							<label for="datanascita">Data di Nascita:</label>
 						</td>
 						<td>
-							<input name="datanascita" id="datanascita" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=wintertour_localdate($obj_socio->datanascita)?>" />
+							<input autocomplete="off" name="datanascita" id="datanascita" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=wintertour_localdate($obj_socio->datanascita)?>" />
 						</td>
 					</tr>
 					<tr>
@@ -798,7 +800,7 @@
 							<label for="dataiscrizione">Data di Iscrizione:</label>
 						</td>
 						<td>
-							<input name="dataiscrizione" id="dataiscrizione" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=wintertour_localdate($obj_socio->dataiscrizione)?>" />
+							<input name="dataiscrizione" id="dataiscrizione" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=(wintertour_localdate($obj_socio->dataiscrizione) !== "00/00/0000") ? wintertour_localdate($obj_socio->dataiscrizione) : "" ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -847,7 +849,7 @@
 							<label for="domandaassociazione">Domanda di Associazione:</label>
 						</td>
 						<td>
-							<input name="domandaassociazione" id="domandaassociazione" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=wintertour_localdate($obj_socio->domandaassociazione)?>" />
+							<input name="domandaassociazione" id="domandaassociazione" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=(wintertour_localdate($obj_socio->domandaassociazione) !== '00/00/0000') ? wintertour_localdate($obj_socio->domandaassociazione) : ""?>" />
 						</td>
 					</tr>
 					<tr>
@@ -863,7 +865,7 @@
 								?>
 									<option disabled="disabled" selected="selected" value="">--Non esiste nessun circolo--</option>
 								<?php } else { ?>
-									<option disabled="disabled" selected="selected" value="">--Selezionare una circolo--</option>
+									<option disabled="disabled" selected="selected" value="">--Selezionare un circolo--</option>
 								<?php }
 									
 									foreach ($res as $x) {

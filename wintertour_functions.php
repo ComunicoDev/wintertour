@@ -321,6 +321,30 @@
 			return $wpdb->get_row($sql);
 		}
 	}
+    
+    function wintertour_activate_socio($id) {
+        global $wpdb;
+        
+        return $wpdb->update(
+            'wintertourtennis_soci',
+            array('statoattivo' => 1),
+            array('ID' => $id),
+            array('%d'),
+            array('%d')
+        );
+    }
+    
+    function wintertour_activate_certificato($socio_id) {
+        global $wpdb;
+        
+        return $wpdb->update(
+            'wintertourtennis_soci',
+            array('certificatomedico' => 1),
+            array('ID' => $socio_id),
+            array('%d'),
+            array('%d')
+        );
+    }
 	
 	function wintertour_edit_socio($id, $args) {
 		global $wpdb;

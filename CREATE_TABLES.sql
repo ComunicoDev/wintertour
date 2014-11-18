@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `wintertourtennis`.`wintertourtennis_soci` (
   `certificatomedico` TINYINT(1) NULL DEFAULT 0,
   `domandaassociazione` DATE NULL,
   `circolo` INT NULL,
+  `token` CHAR(32) NULL,
   PRIMARY KEY (`ID`),
   INDEX `fk_wintertour_soci_wintertour_tipologie_soci_idx` (`tipologia` ASC),
   INDEX `fk_wintertour_soci_wintertour_circoli1_idx` (`circolo` ASC),
