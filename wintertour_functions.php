@@ -628,10 +628,16 @@
         return $wpdb->get_results($sql);
 	}
     
+    function wintertour_countTappe() {
+        global $wpdb;
+        
+        return $wpdb->get_var("SELECT COUNT(*) FROM `wintertourtennis_circoli` WHERE `ID` IN (SELECT `circolo` FROM `wintertourtennis_turni`);");
+    }
+    
     function wintertour_elencaTappe() {
         global $wpdb;
         
-        $sql = "SELECT * FROM `wintertourtennis_circoli` WHERE `ID` IN (SELECT `circolo` FROM `wintertourtennis_turni`) ORDER BY `nome` ASC;";
+        $sql = "SELECT * FROM `wintertourtennis_circoli` WHERE `ID` IN (SELECT `circolo` FROM `wintertourtennis_turni` WHERE `ID` IN (SELECT `turno` FROM `wintertourtennis_punteggi`)) ORDER BY `nome` ASC;";
         
         return $wpdb->get_results($sql);
     }

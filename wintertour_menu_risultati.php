@@ -27,15 +27,18 @@
         Per avere a disposizione tutte le funzionalità di questo sito è necessario abilitare Javascript. Qui ci sono tutte le <a href="http://www.enable-javascript.com/it/" target="_blank"> istruzioni su come abilitare JavaScript nel tuo browser</a>.
     </noscript>
     
-    <!--<p>
-        <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=add'); ?>">Aggiungi punteggio</a><br />
-        <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=view'); ?>">Consulta e modifica punteggi</a><br />
-        <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=search'); ?>">Ricerca e modifica punteggi</a>
-    </p>-->
     <table class="output-table">
         <thead>
             <tr>
-                <th>Giocatori | Tappe</th>
+                <th style="border: 0 !important;"></th>
+                <th style="border: 0 !important;"></th>
+                <th colspan="<?=wintertour_countTappe()?>" style="text-align: left; padding-left: 8px !important;">
+                    Tappe
+                </th>
+            </tr>
+            <tr>
+                <th>Posizione</th>
+                <th>Giocatori</th>
                 <?php
                     $tappe = wintertour_elencaTappe();
                     
@@ -47,15 +50,17 @@
         </thead>
         <tbody>
             <?php
+                $count = 1;
                 $giocatori = wintertour_elencaGiocatori();
                 
                 foreach($giocatori as $giocatore) {
             ?>
                 <tr>
+                    <th><?=$count++?></th>
                     <th><?=$giocatore->cognome?> <?=$giocatore->nome?></th>
                     <?php
-                        $punti = 0;
                         foreach($tappe as $circolo) {
+                            $punti = 0;
                             $turni = wintertour_elencaTurni_withCircolo($circolo->ID);
                             foreach($turni as $turno) {
                                 $punteggi = wintertour_elencaTurni_withTurnoAndSocio($turno->ID, $giocatore->ID);
