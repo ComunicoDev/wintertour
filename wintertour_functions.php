@@ -229,6 +229,28 @@
         
         return $date;
 	}
+    
+    function format_datetime($datetime = "") {
+        
+        if(strstr($datetime, "/") === FALSE) {
+            $datetime = wintertour_localdatetime($datetime);
+        }
+        
+        $dd = "";
+        $mm = "";
+        $aaaa = "";
+        
+        $hh = "";
+        $MM = "";
+        
+        sscanf($datetime, "%02s/%02s/%04s - %02s:%02s", $dd, $mm, $aaaa, $hh, $MM);
+        
+        if($aaaa < 1900) {
+            return "Data invalida";
+        }
+        
+        return $datetime;
+    }
 	
 	function format_phone($number = "") {
 	    $number = str_replace(' ', "", $number);
@@ -392,6 +414,21 @@
             ),
             array('%d')
         );
+    }
+    
+    function wintertour_edit_turno($ID, $dataeora, $circolo) {
+        global $wpdb;
+        
+        return $wpdb->update(
+            'wintertourtennis_turni',
+            array(
+                'dataeora' => wintertour_serverdatetime($dataeora),
+                'circolo' => $circolo
+            ),
+            array('ID' => $ID),
+            array('%s', '%d'),
+            array('%d')
+        ) or die($wpdb->last_query);
     }
     
     function wintertour_edit_circolo($ID, $nome, $indirizzo, $citta, $cap, $provincia, $referente) {

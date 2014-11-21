@@ -15,6 +15,8 @@
     
     if(isset($_POST['socioadd'])) {
         wintertour_addTurno();
+    } else if(isset($_POST['turnomodifica'])) {
+        wintertour_edit_turno($_POST['ID'], $_POST['dataeora'], $_POST['circolo']);
     }
 ?>
 <div class="wgest_page wgest_opt">
@@ -113,5 +115,67 @@
         <?php  } else { ?>
             <h3>Nessun turno</h3>
         <?php } ?>
+    <?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'turniedit' && isset($_GET['turno'])) {
+        $turno = wintertour_get_turno($_GET['turno']);
+    ?>
+        <form action="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $_GET['turno']); ?>" method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            <h3>Modifica turno</h3>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="ID">ID</label>
+                        </td>
+                        <td>
+                            <input name="ID" readonly="readonly" type="text" value="<?=$turno->ID?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="dataeora">Data e ora: </label>
+                        </td>
+                        <td>    
+                            <input name="dataeora" type="text" class="datetime" placeholder="gg/mm/aaaa - hh:mm" value="<?=format_datetime($turno->dataeora)?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="circolo">Circolo:</label>
+                        </td>
+                        <td>
+                            <select name="circolo" id="circolo">
+                                <?php
+                                    $res = wintertour_elencacircoli();
+                                    
+                                    if(!$res) {
+                                ?>
+                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessun circolo--</option>
+                                <?php } else { ?>
+                                    <option disabled="disabled" selected="selected" value="">--Selezionare un circolo--</option>
+                                <?php }
+                                    
+                                    foreach ($res as $x) {
+                                        echo "<option " . ((intval($x->ID) === intval($turno->circolo)) ? "selected=\"selected\"" : "" ) . " value=\"$x->ID\">$x->nome</option>";
+                                    }
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input data-autocompname="socio" name="turnomodifica" type="submit" value="Modifica" />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
     <?php } ?>
 </div>
