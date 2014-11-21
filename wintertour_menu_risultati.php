@@ -26,53 +26,59 @@
     <noscript>
         Per avere a disposizione tutte le funzionalità di questo sito è necessario abilitare Javascript. Qui ci sono tutte le <a href="http://www.enable-javascript.com/it/" target="_blank"> istruzioni su come abilitare JavaScript nel tuo browser</a>.
     </noscript>
-    
-    <table class="output-table">
-        <thead>
-            <tr>
-                <th style="border: 0 !important;"></th>
-                <th style="border: 0 !important;"></th>
-                <th colspan="<?=wintertour_countTappe()?>" style="text-align: left; padding-left: 8px !important;">
-                    Tappe
-                </th>
-            </tr>
-            <tr>
-                <th>Posizione</th>
-                <th>Giocatori</th>
-                <?php
-                    $tappe = wintertour_elencaTappe();
-                    
-                    foreach($tappe as $tappa) {
-                ?>
-                    <th><?=$tappa->nome?></th>
-                <?php } ?>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-                $count = 1;
-                $giocatori = wintertour_elencaGiocatori();
-                
-                foreach($giocatori as $giocatore) {
-            ?>
+    <?php
+        $count = 1;
+        $giocatori = wintertour_elencaGiocatori();
+        
+        if($giocatori != null && count($giocatori) > 0) {
+    ?>
+        <table class="output-table">
+            <thead>
                 <tr>
-                    <th><?=$count++?></th>
-                    <th><?=$giocatore->cognome?> <?=$giocatore->nome?></th>
+                    <th style="border: 0 !important;"></th>
+                    <th style="border: 0 !important;"></th>
+                    <th style="border: 0 !important;"></th>
+                    <th colspan="<?=wintertour_countTappe()?>" style="text-align: left; padding-left: 8px !important;">
+                        Punti delle Tappe
+                    </th>
+                </tr>
+                <tr>
+                    <th>Posizione</th>
+                    <th>Giocatori</th>
+                    <th>Totale punti</th>
                     <?php
-                        foreach($tappe as $circolo) {
-                            $punti = 0;
-                            $turni = wintertour_elencaTurni_withCircolo($circolo->ID);
-                            foreach($turni as $turno) {
-                                $punteggi = wintertour_elencaTurni_withTurnoAndSocio($turno->ID, $giocatore->ID);
-                                foreach($punteggi as $punteggio) {
-                                    $punti += $punteggio->punteggio;
-                                }
-                            }
+                        $tappe = wintertour_elencaTappe();
+                        
+                        foreach($tappe as $tappa) {
                     ?>
-                        <td><?=$punti?></td>
+                        <th><?=$tappa->nome?></th>
                     <?php } ?>
                 </tr>
-            <?php } ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach($giocatori as $giocatore) {  ?>
+                    <tr>
+                        <th><?=$count++?></th>
+                        <th><?=$giocatore->cognome?> <?=$giocatore->nome?></th>
+                        <td><?=$giocatore->punteggio?></td>
+                        <?php
+                            foreach($tappe as $circolo) {
+                                $punti = 0;
+                                $turni = wintertour_elencaTurni_withCircolo($circolo->ID);
+                                foreach($turni as $turno) {
+                                    $punteggi = wintertour_elencaTurni_withTurnoAndSocio($turno->ID, $giocatore->ID);
+                                    foreach($punteggi as $punteggio) {
+                                        $punti += $punteggio->punteggio;
+                                    }
+                                }
+                        ?>
+                            <td><?=$punti?></td>
+                        <?php } ?>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    <?php } else { ?>
+        <h3>Nessun punteggio</h3>
+    <?php } ?>
 </div>
