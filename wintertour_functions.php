@@ -645,7 +645,7 @@
     function wintertour_elencaGiocatori() {
         global $wpdb;
         
-        $sql = "SELECT * FROM `wintertourtennis_soci` WHERE `ID` IN (SELECT `socio` FROM `wintertourtennis_punteggi`) ORDER BY `cognome` ASC;";
+        $sql = "SELECT `wintertourtennis_soci`.`ID`, `nome`, `cognome`, `punteggi`.`punteggio` FROM `wintertourtennis_soci` LEFT JOIN (SELECT `socio` AS `ID`, SUM(`punteggio`) AS `punteggio` FROM `wintertourtennis_punteggi` GROUP BY `socio`) AS `punteggi` ON `wintertourtennis_soci`.`ID`=`punteggi`.`ID` WHERE `wintertourtennis_soci`.`ID` IN (SELECT `socio` FROM `wintertourtennis_punteggi`) ORDER BY `punteggio` DESC;";
         
         return $wpdb->get_results($sql);
     }
