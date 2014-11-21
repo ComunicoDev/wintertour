@@ -193,6 +193,24 @@
 		) or die('Errore: Impossibile effettuare l\'operazione richiesta!<br /> Controllare i dati e riprovare.');
 	}
 	
+    function wintertour_addPunteggio() {
+        global $wpdb;
+        
+        $wpdb->insert(
+            "wintertourtennis_punteggi",
+            array(
+                "punteggio" => trim($_POST['punteggio']),
+                "socio" => $_POST['socio'],
+                "turno" => $_POST['turno']
+            ),
+            array(
+                "%d",
+                "%d",
+                "%d"
+            )
+        ) or die("Errore: Impossibile effettuare l\'operazione richiesta!<br /> Controllare i dati e riprovare.");
+    }
+    
 	function format_date($date = "") {
 	    
         if(strstr($date, "/") === FALSE) {
@@ -311,6 +329,16 @@
 			return $wpdb->get_row($sql);
 		}
 	}
+    
+    function wintertour_get_turno($id) {
+        global $wpdb;
+        
+        if(is_numeric($id)) {
+            $sql = "SELECT * FROM `wintertourtennis_turni` WHERE `ID` = " . $id . ";";
+            
+            return $wpdb->get_row($sql);
+        }
+    }
 	
 	function wintertour_get_socio($id) {
 		global $wpdb;
@@ -342,6 +370,26 @@
             array('certificatomedico' => 1),
             array('ID' => $socio_id),
             array('%d'),
+            array('%d')
+        );
+    }
+    
+    function wintertour_edit_punteggio($ID, $punteggio, $turno, $socio) {
+        global $wpdb;
+        
+        return $wpdb->update(
+            'wintertourtennis_punteggi',
+            array(
+                'punteggio' => $punteggio,
+                'turno' => $turno,
+                'socio'=> $socio
+            ),
+            array('ID' => $ID),
+            array(
+                '%d',
+                '%d',
+                '%d'
+            ),
             array('%d')
         );
     }
@@ -481,7 +529,26 @@
 			)
 		) or die('Errore: Impossibile effettuare l\'operazione richiesta!<br /> Controllare i dati e riprovare.');
 	}
-	
+    
+    function wintertour_elencaTurni_withCircolo($id) {
+        global $wpdb;
+        
+        return $wpdb->get_results($wpdb->prepare(
+            "SELECT * FROM `wintertourtennis_turni` WHERE `circolo` = %d",
+            $id
+        ));
+    }
+    
+    function wintertour_elencaTurni_withTurnoAndSocio($turnoid, $socioid) {
+        global $wpdb;
+        
+        return $wpdb->get_results($wpdb->prepare(
+            "SELECT * FROM `wintertourtennis_punteggi` WHERE `turno` = %d AND `socio` = %d",
+            $turnoid,
+            $socioid
+        ));
+    }
+    
 	function wintertour_elencaSoci() {
 		global $wpdb;
 		
@@ -490,6 +557,38 @@
 		return $wpdb->get_results($sql);
 	}
 	
+	function wintertour_elencaAttivi($certificatomedico = 0) {
+	    global $wpdb;
+        
+        $sql = "SELECT * FROM `wintertourtennis_soci` WHERE `statoattivo` = 1" . (($certificatomedico) ? " AND `certificatomedico` = 1" : "") . " ORDER BY `cognome` ASC;";
+        
+        return $wpdb->get_results($sql);
+	}
+    
+    function wintertour_elencaTappe() {
+        global $wpdb;
+        
+        $sql = "SELECT * FROM `wintertourtennis_circoli` WHERE `ID` IN (SELECT `circolo` FROM `wintertourtennis_turni`) ORDER BY `nome` ASC;";
+        
+        return $wpdb->get_results($sql);
+    }
+    
+    function wintertour_elencaGiocatori() {
+        global $wpdb;
+        
+        $sql = "SELECT * FROM `wintertourtennis_soci` WHERE `ID` IN (SELECT `socio` FROM `wintertourtennis_punteggi`) ORDER BY `cognome` ASC;";
+        
+        return $wpdb->get_results($sql);
+    }
+	
+	function wintertour_elencapunteggi() {
+	    global $wpdb;
+        
+        $sql = "SELECT * FROM `wintertourtennis_punteggi`;";
+        
+        return $wpdb->get_results($sql);
+	}
+    
 	function wintertour_countSoci() {
 	    global $wpdb;
         
@@ -535,6 +634,12 @@
         global $wpdb;
         
         return $wpdb->get_row($wpdb->prepare("SELECT * FROM `wintertourtennis_circoli` WHERE ID = %d;", $ID));
+    }
+    
+    function wintertour_getpunteggio($ID) {
+        global $wpdb;
+        
+        return $wpdb->get_row($wpdb->prepare("SELECT * FROM `wintertourtennis_punteggi` WHERE ID = %d;", $ID));
     }
     
     function wintertour_serverdate($date) {

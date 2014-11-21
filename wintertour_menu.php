@@ -17,5 +17,8 @@
 	<h1>Gestionale WinterTour</h1>
 	<h2>Homepage</h2>
 	<a href="<?php echo admin_url('admin.php?page=wintertour_soci'); ?>">Soci</a><br />
-	<a href="<?php echo admin_url('admin.php?page=wintertour_circoli'); ?>">Circoli</a>
+	<a href="<?php echo admin_url('admin.php?page=wintertour_circoli'); ?>">Circoli</a><br />
+    <a href="<?php echo admin_url('admin.php?page=wintertour_turni'); ?>">Turni</a><br />
+    <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi'); ?>">Punteggi</a><br />
+    <a href="<?php echo admin_url('admin.php?page=wintertour_risultati'); ?>">Risultati</a>
 </div>

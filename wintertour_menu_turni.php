@@ -86,34 +86,32 @@
     <?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'view') {
         $turni = wintertour_elencaturni();
     ?>
-        <form action="<?php echo admin_url('admin.php?page=wintertour_turni&action=add'); ?>" method="post">
-            <?php if(count($turni) > 0) { ?>
-                <h3>Elenco turni</h3>
-                <table class="output-table">
-                    <thead>
+        <?php if(count($turni) > 0) { ?>
+            <h3>Elenco turni</h3>
+            <table class="output-table">
+                <thead>
+                    <tr>
+                        <th>Azione</th>
+                        <th>ID turno</th>
+                        <th>Data e ora</th>
+                        <th>Circolo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($turni as $index => $riga) { ?>
                         <tr>
-                            <th>Azione</th>
-                            <th>ID turno</th>
-                            <th>Data e ora</th>
-                            <th>Circolo</th>
+                            <td>
+                                <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&socio=' . $riga->ID); ?>">Gestisci</a>
+                            </td>
+                            <td><?=$riga->ID?></td>
+                            <td><?=wintertour_localdatetime($riga->dataeora)?></td>
+                            <td><a href="<?php echo admin_url('admin.php?page=wintertour_circoli&action=circoliedit&circolo=' . $riga->circolo);?>"><?=wintertour_getcircolo($riga->circolo)->nome?></a></td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($turni as $index => $riga) { ?>
-                            <tr>
-                                <td>
-                                    <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&socio=' . $riga->ID); ?>">Modifica</a>
-                                </td>
-                                <td><?=$riga->ID?></td>
-                                <td><?=wintertour_localdatetime($riga->dataeora)?></td>
-                                <td><a href="#<?=$riga->circolo?>"><?=wintertour_getcircolo($riga->circolo)->nome?></a></td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-            <?php  } else { ?>
-                <h3>Nessun turno</h3>
-            <?php } ?>
-        </form>
+                    <?php } ?>
+                </tbody>
+            </table>
+        <?php  } else { ?>
+            <h3>Nessun turno</h3>
+        <?php } ?>
     <?php } ?>
 </div>

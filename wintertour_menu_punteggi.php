@@ -15,6 +15,8 @@
     
     if(isset($_POST['punteggioadd'])) {
         wintertour_addPunteggio();
+    } else if(isset($_POST['punteggiomodifica'])) {
+        wintertour_edit_punteggio($_POST['punteggioid'], $_POST['punteggio'], $_POST['turno'], $_POST['socio']);
     }
 ?>
 <div class="wgest_page wgest_opt">
@@ -33,6 +35,7 @@
     
     <?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
         <form action="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=add'); ?>" method="post">
+            <input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
             <table>
                 <thead>
                     <tr>
@@ -44,17 +47,60 @@
                 <tbody>
                     <tr>
                         <td>
-                            <label for="dataeora">Punteggio: </label>
+                            <label for="punteggio">Punteggio: </label>
+                        </td>
+                        <td>    
+                            <input name="punteggio" type="text" placeholder="Punteggio" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="turno">Turno:</label>
                         </td>
                         <td>
-                            <input name="dataeora" type="text" placeholder="Punteggio" />
+                            <select name="turno" id="turno">
+                                <?php
+                                    $res = wintertour_elencaTurni();
+                                    
+                                    if(!$res) {
+                                ?>
+                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessun turno--</option>
+                                <?php } else { ?>
+                                    <option disabled="disabled" selected="selected" value="">--Selezionare un turno--</option>
+                                <?php }
+                                    
+                                    foreach ($res as $x) {
+                                        $circolo = wintertour_getcircolo($x->circolo);
+                                        echo "<option value=\"$x->ID\">$x->dataeora - $circolo->nome</option>";
+                                    }
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="socio">Socio:</label>
+                        </td>
+                        <td>
+                            <table cellpadding="0" cellspacing="0" border="0" style="min-width: 500px; width: 500px;">
+                                <tr>
+                                    <td width="40%" style="padding: 0; width: 45%;">
+                                        <input data-autocompname="socio" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
+                                    </td>
+                                    <td width="60%" style="padding: 0; width: 55%;">
+                                        <select data-autocomptype="soci" name="socio" class="searchbox autocompletion">
+                                            <option disabled="disabled" selected="selected" value="">--Cercare un socio--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td>
-                            <input name="punteggioadd" type="submit" value="Aggiungi" />
+                            <input data-autocompname="socio" class="autocompletion" name="punteggioadd" type="submit" value="Aggiungi" />
                         </td>
                     </tr>
                 </tfoot>
@@ -63,21 +109,123 @@
     <?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'view') {
         $punteggi = wintertour_elencapunteggi();
     ?>
-        <form action="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=add'); ?>" method="post">
-            <?php if(count($punteggi) > 0) { ?>
-                <h3>Elenco punteggi</h3>
-                <table class="output-table">
-                    <thead>
+        <?php if(count($punteggi) > 0) { ?>
+            <h3>Elenco punteggi</h3>
+            <table class="output-table">
+                <thead>
+                    <tr>
+                        <th>Azione</th>
+                        <th>Socio</th>
+                        <th>Turno</th>
+                        <th>Punteggio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($punteggi as $index => $riga) {
+                        $socio = wintertour_get_socio($riga->socio);
+                        $turno = wintertour_get_turno($riga->turno);
+                        $circolo = wintertour_getcircolo($turno->circolo)
+                    ?>
                         <tr>
-                            <th>Azione</th>
+                            <td>
+                                <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=punteggiedit&punteggio=' . $riga->ID); ?>">Gestisci</a>
+                            </td>
+                            <td><a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $socio->ID); ?>"><?=$socio->cognome?> <?=$socio->nome?></a></td>
+                            <td><a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=$turno->dataeora?> <?=$circolo->nome?></a></td>
+                            <td><?=$riga->punteggio?></td>
                         </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            <?php  } else { ?>
-                <h3>Nessun punteggio</h3>
-            <?php } ?>
+                    <?php } ?>
+                </tbody>
+            </table>
+        <?php } else { ?>
+            <h3>Nessun punteggio</h3>
+        <?php } ?>
+    <?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'punteggiedit' && isset($_GET['punteggio'])) {
+        $punteggio = wintertour_getpunteggio($_GET['punteggio']);
+    ?>
+        <form action="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=punteggiedit&punteggio=' . $_GET['punteggio']); ?>" method="post">
+            <input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            <h3>Modifica punteggio</h3>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="punteggioid">ID</label>
+                        </td>
+                        <td>
+                            <input name="punteggioid" readonly="readonly" type="text" value="<?=$punteggio->ID?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="punteggio">Punteggio: </label>
+                        </td>
+                        <td>    
+                            <input name="punteggio" type="text" placeholder="Punteggio" value="<?=$punteggio->punteggio?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="turno">Turno:</label>
+                        </td>
+                        <td>
+                            <select name="turno" id="turno">
+                                <?php
+                                    $res = wintertour_elencaTurni();
+                                    
+                                    if(!$res) {
+                                ?>
+                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessun turno--</option>
+                                <?php } else { ?>
+                                    <option disabled="disabled" selected="selected" value="">--Selezionare un turno--</option>
+                                <?php }
+                                    
+                                    foreach ($res as $x) {
+                                        $circolo = wintertour_getcircolo($x->circolo);
+                                        echo "<option value=\"$x->ID\"". (($x->ID === $punteggio->turno) ? " selected=\"selected\"" : "") . ">$x->dataeora - $circolo->nome</option>";
+                                    }
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="socio">Socio:</label>
+                        </td>
+                        <td>
+                            <table cellpadding="0" cellspacing="0" border="0" style="min-width: 500px; width: 500px;">
+                                <tr>
+                                    <td width="40%" style="padding: 0; width: 45%;">
+                                        <input data-autocompname="socio" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
+                                    </td>
+                                    <td width="60%" style="padding: 0; width: 55%;">
+                                        <select data-autocomptype="soci" name="socio" class="searchbox autocompletion">
+                                            <?php
+                                                $socio = wintertour_get_socio($punteggio->socio);
+                                            ?>
+                                            <option disabled="disabled" value="">--Selezionare un socio--</option>
+                                            <option selected="selected" value="<?=$socio->ID?>"><?=$socio->cognome?> <?=$socio->nome?></option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input data-autocompname="socio" name="punteggiomodifica" type="submit" value="Modifica" />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </form>
     <?php } ?>
 </div>
