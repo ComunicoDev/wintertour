@@ -393,6 +393,32 @@
             array('%d')
         );
     }
+    
+    function wintertour_edit_circolo($ID, $nome, $indirizzo, $citta, $cap, $provincia, $referente) {
+        global $wpdb;
+        
+        return $wpdb->update(
+            'wintertourtennis_circoli',
+            array(
+                'nome' => $nome,
+                'indirizzo' => $indirizzo,
+                'citta' => $citta,
+                'cap' => $cap,
+                'provincia' => $provincia,
+                'referente' => $referente
+            ),
+            array('ID' => $ID),
+            array(
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+                '%d'
+            ),
+            array('%d')
+        );
+    }
 	
 	function wintertour_edit_socio($id, $args) {
 		global $wpdb;

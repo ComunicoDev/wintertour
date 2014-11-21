@@ -101,7 +101,7 @@
                     <?php foreach($turni as $index => $riga) { ?>
                         <tr>
                             <td>
-                                <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&socio=' . $riga->ID); ?>">Gestisci</a>
+                                <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $riga->ID); ?>">Gestisci</a>
                             </td>
                             <td><?=$riga->ID?></td>
                             <td><?=wintertour_localdatetime($riga->dataeora)?></td>
