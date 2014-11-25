@@ -28,13 +28,13 @@
 	</noscript>
 	
 	<p>
-		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>">Aggiungi Socio o tipologia socio</a><br />
-		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=view&pag=1&limit=20'); ?>">Consulta tipologie e anagrafica dei soci</a><br />
-		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=search'); ?>">Ricerca tipologie e anagrafica dei soci</a>
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>">Aggiungi Socio<!-- o tipologia socio--></a><br />
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=view&pag=1&limit=20'); ?>">Consulta <!--tipologie e--> anagrafica dei soci</a><br />
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=search'); ?>">Ricerca <!--tipologie e anagrafica--> dei soci</a>
 	</p>
 	
 	<?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
-		<form action="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>" method="post">
+		<!--<form action="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>" method="post">
 			<table cellpadding="2" cellspacing="0" border="0">
 				<thead>
 					<tr>
@@ -68,7 +68,7 @@
 				</tfoot>
 			</table>
 		</form>
-		
+		-->
 		<form action="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>" method="post">
 			<table cellpadding="2" cellspacing="0" border="0">
 				<thead>
@@ -81,20 +81,20 @@
 				<tbody>
 					<tr>
 						<td>
-							<label for="nome">Nome:</label>
-						</td>
-						<td>
-							<input name="nome" id="nome" type="text" placeholder="Nome" />
-						</td>
-					</tr>
-					<tr>
-						<td>
 							<label for="cognome">Cognome:</label>
 						</td>
 						<td>
 							<input name="cognome" id="cognome" type="text" placeholder="Cognome" />
 						</td>
 					</tr>
+                    <tr>
+                        <td>
+                            <label for="nome">Nome:</label>
+                        </td>
+                        <td>
+                            <input name="nome" id="nome" type="text" placeholder="Nome" />
+                        </td>
+                    </tr>
 					<tr>
 						<td>
 							<label for="email">Email:</label>
@@ -103,7 +103,7 @@
 							<input name="email" id="email" type="email" placeholder="Email" />
 						</td>
 					</tr>
-					<tr>
+					<!--<tr>
 						<td>
 							<label for="tipologia">Tipologia:</label>
 						</td>
@@ -128,7 +128,7 @@
 								?>
 							</select>
 						</td>
-					</tr>
+					</tr>-->
 					<tr>
 						<td>
 							<label for="saldo">Saldo (&euro;):</label>
@@ -275,7 +275,7 @@
 							<input name="domandaassociazione" id="domandaassociazione" type="text" class="date" placeholder="gg/mm/aaaa" />
 						</td>
 					</tr>
-					<tr>
+					<!--<tr>
 						<td>
 							<label for="circolo">Circolo:</label>
 						</td>
@@ -293,7 +293,7 @@
 								<?php } ?>
 							</select>
 						</td>
-					</tr>
+					</tr>-->
 				</tbody>
 				<tfoot>
 					<td colspan="2" align="center">
@@ -487,6 +487,7 @@
 	<?php } else { ?>
 		<h3>Nessun Socio</h3>
 	<?php } ?>
+	<!--
 	<?php if(count($tipologie) > 0) { ?>
         <div class="editor">
             <h3>Elenco tipologie</h3>
@@ -521,6 +522,7 @@
     <?php } else { ?>
         <h3>Nessuna Tipologia</h3>
     <?php } ?>
+    -->
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'search') { ?>
         <h3>Ricerca Soci</h3>
         <form action="<?php echo admin_url('admin.php'); ?>" method="get">
@@ -632,14 +634,7 @@
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'sociedit' && isset($_REQUEST['socio'])) { ?>
 		<?php
 			if(isset($_POST['savesocio'])) {
-				if(wintertour_edit_socio($_REQUEST['socio'], $_POST)) {
-					echo 'Operazione effettuata correttamente';
-				} else {
-					global $wpdb;
-					
-					echo "Impossibile completare l'operazione richiesta";
-					echo $wpdb->last_query;
-				}
+				wintertour_edit_socio($_REQUEST['socio'], $_POST);
 			}
 			
 			$obj_socio = wintertour_get_socio($_REQUEST['socio']);
@@ -680,7 +675,7 @@
 						<td>
 							<input autocomplete="off" name="email" id="email" type="email" placeholder="Email" value="<?=strtolower($obj_socio->email)?>" />
 						</td>
-					</tr>
+					</tr><!--
 					<tr>
 						<td>
 							<label for="tipologia">Tipologia:</label>
@@ -705,7 +700,7 @@
 								?>
 							</select>
 						</td>
-					</tr>
+					</tr>-->
 					<tr>
 						<td>
 							<label for="saldo">Saldo (&euro;):</label>
@@ -751,7 +746,7 @@
 							<label for="telefono">Telefono:</label>
 						</td>
 						<td>
-							<input autocomplete="off" name="telefono" id="telefono" type="tel" pattern="^[0-9]{10}$" placeholder="Telefono" value="<?=$obj_socio->telefono?>" />
+							<input autocomplete="off" name="telefono" id="telefono" type="tel" placeholder="Telefono" value="<?=$obj_socio->telefono?>" />
 						</td>
 					</tr>
 					<tr>
@@ -759,7 +754,7 @@
 							<label for="cellulare">Cellulare:</label>
 						</td>
 						<td>
-							<input autocomplete="off" name="cellulare" id="cellulare" type="tel" pattern="^[0-9]{10}$" placeholder="Cellulare" value="<?=$obj_socio->cellulare?>" />
+							<input autocomplete="off" name="cellulare" id="cellulare" type="tel" placeholder="Cellulare" value="<?=$obj_socio->cellulare?>" />
 						</td>
 					</tr>
 					<tr>
@@ -852,7 +847,7 @@
 							<input name="domandaassociazione" id="domandaassociazione" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=(wintertour_localdate($obj_socio->domandaassociazione) !== '00/00/0000') ? wintertour_localdate($obj_socio->domandaassociazione) : ""?>" />
 						</td>
 					</tr>
-					<tr>
+					<!--<tr>
 						<td>
 							<label for="circolo">Circolo:</label>
 						</td>
@@ -874,7 +869,7 @@
 								?>
 							</select>
 						</td>
-					</tr>
+					</tr>-->
 				</tbody>
 				<tfoot>
 					<tr>

@@ -297,16 +297,15 @@
 		
 		if (!mysqli_connect_errno()) {
 			$sql = $wpdb->prepare(
-				"INSERT INTO `wintertourtennis_soci`(`nome`, `cognome`, `email`, `tipologia`, `saldo`, `indirizzo`, `citta`, `cap`, `provincia`, `telefono`, `cellulare`, `statoattivo`, `datanascita`, `cittanascita`, `dataiscrizione`, `codicefiscale`, `dataimmissione`, `certificatomedico`, `domandaassociazione`" .
+				"INSERT INTO `wintertourtennis_soci`(`nome`, `cognome`, `email`, `saldo`, `indirizzo`, `citta`, `cap`, `provincia`, `telefono`, `cellulare`, `statoattivo`, `datanascita`, `cittanascita`, `dataiscrizione`, `codicefiscale`, `dataimmissione`, `certificatomedico`, `domandaassociazione`" .
 					((intval($_POST['circolo']) > 0) ? ", `circolo`" : "") .
-					") VALUES (%s, %s, %s, %d, %f, %s, %s, %s, %s, %s, %s, %d, %s, %s, %s, %s, %s, %d, %s" .
+					") VALUES (%s, %s, %s, %f, %s, %s, %s, %s, %s, %s, %d, %s, %s, %s, %s, %s, %d, %s" .
 					((intval($_POST['circolo']) > 0) ? ", %d" : "") .
 					");",
 				
 				capitalize(trim($_POST['nome'])),
 				capitalize(trim($_POST['cognome'])),
 				strtolower(trim($_POST['email'])),
-				capital(trim($_POST['tipologia'])),
 				trim($_POST['saldo']),
 				capitalize(trim($_POST['indirizzo'])),
 				capitalize(trim($_POST['citta'])),
@@ -468,7 +467,7 @@
 					'nome' => $args['nome'],
 					'cognome' => $args['cognome'],
 					'email' => $args['email'],
-					'tipologia' => $args['tipologia'],
+					//'tipologia' => $args['tipologia'],
 					'saldo' => $args['saldo'],
 					'indirizzo' => $args['indirizzo'],
 					'citta' => $args['citta'],
@@ -484,7 +483,7 @@
 					'dataimmissione' => wintertour_serverdatetime($args['dataimmissione']),
 					'certificatomedico' => $args['certificatomedico'],
 					'domandaassociazione' => $args['domandaassociazione'],
-					'circolo' => $args['circolo']
+					//'circolo' => $args['circolo']
 				),
 				array('ID' => $id),
 				array(
@@ -492,7 +491,7 @@
 					'%s',
 					'%s',
 					'%s',
-					'%d',
+					//'%d',
 					'%f',
 					'%s',
 					'%s',
@@ -508,7 +507,7 @@
 					'%s',
 					'%d',
 					'%s',
-					'%d'
+					//'%d'
 				),
 				array('%d')
 			);

@@ -86,7 +86,7 @@
 		add_submenu_page("wintertour", "Gestionale Circoli", "Circoli", 1, "wintertour_circoli", "wintertour_menu_circoli");
         add_submenu_page("wintertour", "Gestionale Turni", "Turni", 1, "wintertour_turni", "wintertour_menu_turni");
         add_submenu_page("wintertour", "Gestionale Punteggi", "Punteggi", 1, "wintertour_punteggi", "wintertour_menu_punteggi");
-        add_submenu_page("wintertour", "Gestionale Risultati", "Risultati", 1, "wintertour_risultati", "wintertour_menu_risultati");
+        add_submenu_page("wintertour", "Gestionale Classifica", "Classifica", 1, "wintertour_risultati", "wintertour_menu_risultati");
 	}
 	
 	/**

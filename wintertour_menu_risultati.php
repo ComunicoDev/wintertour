@@ -21,7 +21,7 @@
 ?>
 <div class="wgest_page wgest_opt">
     <h1>Gestionale WinterTour</h1>
-    <h2>Visualizzazione Risultati</h2>
+    <h2>Visualizzazione Classifica</h2>
     
     <noscript>
         Per avere a disposizione tutte le funzionalità di questo sito è necessario abilitare Javascript. Qui ci sono tutte le <a href="http://www.enable-javascript.com/it/" target="_blank"> istruzioni su come abilitare JavaScript nel tuo browser</a>.
