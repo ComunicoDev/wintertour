@@ -58,7 +58,7 @@
     						<label for="nomecircolo">Nome circolo:</label>
     					</td>
     					<td>
-    						<input name="nomecircolo" id="nomecircolo" type="text" placeholder="Nome circolo" />
+    						<input autocomplete="off" name="nomecircolo" id="nomecircolo" type="text" placeholder="Nome circolo" />
     					</td>
     				</tr>
     				<tr>
@@ -66,7 +66,7 @@
     						<label for="indirizzocircolo">Indirizzo circolo:</label>
     					</td>
     					<td>
-    						<input name="indirizzocircolo" id="indirizzocircolo" type="text" placeholder="Indirizzo circolo" />
+    						<input autocomplete="off" name="indirizzocircolo" id="indirizzocircolo" type="text" placeholder="Indirizzo circolo" />
     					</td>
     				</tr>
     				<tr>
@@ -74,7 +74,7 @@
     						<label for="capcircolo">CAP circolo:</label>
     					</td>
     					<td>
-    						<input name="capcircolo" id="capcircolo" type="text" placeholder="CAP circolo" />
+    						<input autocomplete="off" name="capcircolo" id="capcircolo" type="text" placeholder="CAP circolo" />
     					</td>
     				</tr>
     				<tr>
@@ -82,7 +82,7 @@
     						<label for="cittacircolo">Citt&agrave; circolo:</label>
     					</td>
     					<td>
-    						<input name="cittacircolo" id="cittacircolo" type="text" placeholder="Citt&agrave; circolo" />
+    						<input autocomplete="off" name="cittacircolo" id="cittacircolo" type="text" placeholder="Citt&agrave; circolo" />
     					</td>
     				</tr>
     				<tr>
@@ -101,7 +101,7 @@
     						<table cellpadding="0" cellspacing="0" border="0" style="min-width: 500px; width: 500px;">
     							<tr>
     								<td width="40%" style="padding: 0; width: 45%;">
-    									<input data-autocompname="referentecircolo" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
+    									<input autocomplete="off" data-autocompname="referentecircolo" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
     								</td>
     								<td width="60%" style="padding: 0; width: 55%;">
     									<select data-autocomptype="soci" name="referentecircolo" class="searchbox autocompletion" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
@@ -115,7 +115,7 @@
     			</tbody>
     			<tfoot>
     				<td colspan="2" align="center">
-    					<input data-autocompname="referentecircolo" class="autocompletion" name="submit0" id="submit0" type="submit" value="Aggiungi" />
+    					<input autocomplete="off" data-autocompname="referentecircolo" class="autocompletion" name="submit0" id="submit0" type="submit" value="Aggiungi" />
     				</td>
     			</tfoot>
     		</table>
@@ -177,7 +177,7 @@
                             <label for="ID">ID</label>
                         </td>
                         <td>
-                            <input name="ID" readonly="readonly" type="text" value="<?=$circolo->ID?>" />
+                            <input autocomplete="off" name="ID" readonly="readonly" type="text" value="<?=$circolo->ID?>" />
                         </td>
                     </tr>
                     <tr>
@@ -185,7 +185,7 @@
                             <label for="nome">Nome: </label>
                         </td>
                         <td>    
-                            <input name="nome" type="text" placeholder="Nome" value="<?=$circolo->nome?>" />
+                            <input autocomplete="off" name="nome" type="text" placeholder="Nome" value="<?=$circolo->nome?>" />
                         </td>
                     </tr>
                     <tr>
@@ -193,7 +193,7 @@
                             <label for="indirizzo">Indirizzo: </label>
                         </td>
                         <td>    
-                            <input name="indirizzo" type="text" placeholder="Indirizzo" value="<?=$circolo->indirizzo?>" />
+                            <input autocomplete="off" name="indirizzo" type="text" placeholder="Indirizzo" value="<?=$circolo->indirizzo?>" />
                         </td>
                     </tr>
                     <tr>
@@ -201,7 +201,7 @@
                             <label for="citta">Citt&agrave;: </label>
                         </td>
                         <td>    
-                            <input name="citta" type="text" placeholder="Citt&agrave;" value="<?=$circolo->indirizzo?>" />
+                            <input autocomplete="off" name="citta" type="text" placeholder="Citt&agrave;" value="<?=$circolo->indirizzo?>" />
                         </td>
                     </tr>
                     <tr>
@@ -209,7 +209,7 @@
                             <label for="cap">CAP: </label>
                         </td>
                         <td>    
-                            <input name="cap" type="text" placeholder="CAP" value="<?=$circolo->cap?>" />
+                            <input autocomplete="off" name="cap" type="text" placeholder="CAP" value="<?=$circolo->cap?>" />
                         </td>
                     </tr>
                     <tr>
@@ -228,7 +228,7 @@
                             <table cellpadding="0" cellspacing="0" border="0" style="min-width: 500px; width: 500px;">
                                 <tr>
                                     <td width="40%" style="padding: 0; width: 45%;">
-                                        <input data-autocompname="referente" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
+                                        <input autocomplete="off" data-autocompname="referente" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
                                     </td>
                                     <td width="60%" style="padding: 0; width: 55%;">
                                         <select data-autocomptype="referente" name="referente" class="searchbox autocompletion">

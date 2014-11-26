@@ -16,12 +16,12 @@
     if(isset($_POST['socioadd'])) {
         wintertour_addTurno();
     } else if(isset($_POST['turnomodifica'])) {
-        wintertour_edit_turno($_POST['ID'], $_POST['data'], $_POST['circolo']);
+        wintertour_edit_turno($_POST['ID'], $_POST['data'], $_POST['circolo'], $_POST['categoria']);
     }
 ?>
 <div class="wgest_page wgest_opt">
     <h1>Gestionale WinterTour</h1>
-    <h2>Gestione turni</h2>
+    <h2>Gestione tappe</h2>
     
     <noscript>
         Per avere a disposizione tutte le funzionalità di questo sito è necessario abilitare Javascript. Qui ci sono tutte le <a href="http://www.enable-javascript.com/it/" target="_blank"> istruzioni su come abilitare JavaScript nel tuo browser</a>.
@@ -75,6 +75,14 @@
                             </select>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <label for="categoria">Categoria:</label>
+                        </td>
+                        <td>
+                            <?=wintertour_selectCategorie(array('name' => 'categoria'))?>
+                        </td>
+                    </tr>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -89,13 +97,14 @@
         $turni = wintertour_elencaturni();
     ?>
         <?php if(count($turni) > 0) { ?>
-            <h3>Elenco turni</h3>
+            <h3>Elenco tappe</h3>
             <table class="output-table">
                 <thead>
                     <tr>
                         <th>Azione</th>
-                        <th>ID turno</th>
+                        <th>ID tappa</th>
                         <th>Data e ora</th>
+                        <th>Categoria</th>
                         <th>Circolo</th>
                     </tr>
                 </thead>
@@ -107,13 +116,14 @@
                             </td>
                             <td><?=$riga->ID?></td>
                             <td><?=wintertour_localdate($riga->data)?></td>
+                            <td><?=wintertour_getCategoria($riga->ID)?></td>
                             <td><a href="<?php echo admin_url('admin.php?page=wintertour_circoli&action=circoliedit&circolo=' . $riga->circolo);?>"><?=wintertour_getcircolo($riga->circolo)->nome?></a></td>
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
         <?php  } else { ?>
-            <h3>Nessun turno</h3>
+            <h3>Nessuna tappa</h3>
         <?php } ?>
     <?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'turniedit' && isset($_GET['turno'])) {
         $turno = wintertour_get_turno($_GET['turno']);
@@ -123,7 +133,7 @@
                 <thead>
                     <tr>
                         <th colspan="2">
-                            <h3>Modifica turno</h3>
+                            <h3>Modifica tappa</h3>
                         </th>
                     </tr>
                 </thead>

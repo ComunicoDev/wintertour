@@ -71,7 +71,7 @@
                                     
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
-                                        echo "<option value=\"$x->ID\">$x->dataeora - $circolo->nome</option>";
+                                        echo "<option value=\"$x->ID\">$x->data - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
                                     }
                                 ?>
                             </select>
@@ -117,6 +117,7 @@
                         <th>Azione</th>
                         <th>Socio</th>
                         <th>Turno</th>
+                        <th>Categoria</th>
                         <th>Punteggio</th>
                     </tr>
                 </thead>
@@ -131,7 +132,8 @@
                                 <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=punteggiedit&punteggio=' . $riga->ID); ?>">Gestisci</a>
                             </td>
                             <td><a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $socio->ID); ?>"><?=$socio->cognome?> <?=$socio->nome?></a></td>
-                            <td><a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=$turno->dataeora?> <?=$circolo->nome?></a></td>
+                            <td><a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=$turno->data?> <?=$circolo->nome?></a></td>
+                            <td><?=wintertour_getCategoria($turno->ID)?></td>
                             <td><?=$riga->punteggio?></td>
                         </tr>
                     <?php } ?>
@@ -188,7 +190,7 @@
                                     
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
-                                        echo "<option value=\"$x->ID\"". (($x->ID === $punteggio->turno) ? " selected=\"selected\"" : "") . ">$x->dataeora - $circolo->nome</option>";
+                                        echo "<option value=\"$x->ID\"". (($x->ID === $punteggio->turno) ? " selected=\"selected\"" : "") . ">$x->data - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
                                     }
                                 ?>
                             </select>

@@ -84,7 +84,7 @@
 							<label for="cognome">Cognome:</label>
 						</td>
 						<td>
-							<input name="cognome" id="cognome" type="text" placeholder="Cognome" />
+							<input autocomplete="off" name="cognome" id="cognome" type="text" placeholder="Cognome" />
 						</td>
 					</tr>
                     <tr>
@@ -92,7 +92,7 @@
                             <label for="nome">Nome:</label>
                         </td>
                         <td>
-                            <input name="nome" id="nome" type="text" placeholder="Nome" />
+                            <input autocomplete="off" name="nome" id="nome" type="text" placeholder="Nome" />
                         </td>
                     </tr>
 					<tr>
@@ -100,7 +100,7 @@
 							<label for="email">Email:</label>
 						</td>
 						<td>
-							<input name="email" id="email" type="email" placeholder="Email" />
+							<input autocomplete="off" name="email" id="email" type="email" placeholder="Email" />
 						</td>
 					</tr>
 					<!--<tr>
@@ -134,7 +134,7 @@
 							<label for="saldo">Saldo (&euro;):</label>
 						</td>
 						<td>
-							<input name="saldo" id="saldo" type="text" pattern="([+-]?[0-9]+)?([.,][0-9]+)?" placeholder="Saldo" />
+							<input autocomplete="off" name="saldo" id="saldo" type="text" pattern="([+-]?[0-9]+)?([.,][0-9]+)?" placeholder="Saldo" />
 						</td>
 					</tr>
 					<tr>
@@ -142,7 +142,7 @@
 							<label for="indirizzo">Indirizzo:</label>
 						</td>
 						<td>
-							<input name="indirizzo" id="indirizzo" type="text" placeholder="Indirizzo" />
+							<input autocomplete="off" name="indirizzo" id="indirizzo" type="text" placeholder="Indirizzo" />
 						</td>
 					</tr>
 					<tr>
@@ -150,7 +150,7 @@
 							<label for="citta">Città:</label>
 						</td>
 						<td>
-							<input name="citta" id="citta" type="text" placeholder="Città" />
+							<input autocomplete="off" name="citta" id="citta" type="text" placeholder="Città" />
 						</td>
 					</tr>
 					<tr>
@@ -158,7 +158,7 @@
 							<label for="cap">CAP:</label>
 						</td>
 						<td>
-							<input name="cap" id="cap" type="text" pattern="^[0-9]{5}$" placeholder="CAP" />
+							<input autocomplete="off" name="cap" id="cap" type="text" pattern="^[0-9]{5}$" placeholder="CAP" />
 						</td>
 					</tr>
 					<tr>
@@ -174,7 +174,7 @@
 							<label for="telefono">Telefono:</label>
 						</td>
 						<td>
-							<input name="telefono" id="telefono" type="tel" pattern="^[0-9]{10}$" placeholder="Telefono" />
+							<input autocomplete="off" name="telefono" id="telefono" type="tel" pattern="^[0-9]{10}$" placeholder="Telefono" />
 						</td>
 					</tr>
 					<tr>
@@ -182,7 +182,7 @@
 							<label for="cellulare">Cellulare:</label>
 						</td>
 						<td>
-							<input name="cellulare" id="cellulare" type="tel" pattern="^[0-9]{10}$" placeholder="Cellulare" />
+							<input autocomplete="off" name="cellulare" id="cellulare" type="tel" pattern="^[0-9]{10}$" placeholder="Cellulare" />
 						</td>
 					</tr>
 					<tr>
@@ -193,10 +193,10 @@
 							<table>
 								<tr>
 									<td>
-										<input name="attivo" id="attivo1" type="radio" value="1" checked="checked" />Attivo
+										<input autocomplete="off" name="attivo" id="attivo1" type="radio" value="1" checked="checked" />Attivo
 									</td>
 									<td>
-										<input name="attivo" id="attivo0" type="radio" value="0" />Inattivo
+										<input autocomplete="off" name="attivo" id="attivo0" type="radio" value="0" />Inattivo
 									</td>
 								</tr>
 							</table>
@@ -207,7 +207,7 @@
 							<label for="datanascita">Data di Nascita:</label>
 						</td>
 						<td>
-							<input name="datanascita" id="datanascita" type="text" class="date" placeholder="gg/mm/aaaa" />
+							<input autocomplete="off" name="datanascita" id="datanascita" type="text" class="date" placeholder="gg/mm/aaaa" />
 						</td>
 					</tr>
 					<tr>
@@ -215,7 +215,7 @@
 							<label for="cittanascita">Citt&agrave; di Nascita:</label>
 						</td>
 						<td>
-							<input name="cittanascita" id="cittanascita" type="text" placeholder="Citt&agrave; di Nascita" />
+							<input autocomplete="off" name="cittanascita" id="cittanascita" type="text" placeholder="Citt&agrave; di Nascita" />
 						</td>
 					</tr>
 					<tr>
@@ -223,7 +223,7 @@
 							<label for="dataiscrizione">Data di Iscrizione:</label>
 						</td>
 						<td>
-							<input name="dataiscrizione" id="dataiscrizione" type="text" class="date" placeholder="gg/mm/aaaa" />
+							<input autocomplete="off" name="dataiscrizione" id="dataiscrizione" type="text" class="date" placeholder="gg/mm/aaaa" />
 						</td>
 					</tr>
 					<tr>
@@ -231,7 +231,7 @@
 							<label for="codicefiscale">Codice Fiscale:</label>
 						</td>
 						<td>
-							<input name="codicefiscale" id="codicefiscale" type="text" placeholder="Codice Fiscale" />
+							<input autocomplete="off" name="codicefiscale" id="codicefiscale" type="text" placeholder="Codice Fiscale" />
 						</td>
 					</tr>
 					<tr>
@@ -239,7 +239,7 @@
 							<label for="dataimmissione">Data Immissione:</label>
 						</td>
 						<td>
-							<input name="dataimmissione" id="dataimmissione" type="text" class="datetime" placeholder="gg/mm/aaaa - hh:mm" />
+							<input autocomplete="off" name="dataimmissione" id="dataimmissione" type="text" class="datetime" placeholder="gg/mm/aaaa - hh:mm" />
 						</td>
 					</tr>
 					<tr>
@@ -247,7 +247,7 @@
 							<label for="numerotessera">Numero Tessera:</label>
 						</td>
 						<td>
-							<input name="numerotessera" id="numerotessera" type="text" placeholder="Numero Tessera" />
+							<input autocomplete="off" name="numerotessera" id="numerotessera" type="text" placeholder="Numero Tessera" />
 						</td>
 					</tr>
 					<tr>
@@ -258,10 +258,10 @@
 							<table style="min-width: 246px; width: 246px;">
 								<tr>
 									<td>
-										<input name="certificatomedico" id="certificatomedico1" type="radio" value="1" checked="checked" />Pervenuto
+										<input autocomplete="off" name="certificatomedico" id="certificatomedico1" type="radio" value="1" checked="checked" />Pervenuto
 									</td>
 									<td>
-										<input name="certificatomedico" id="certificatomedico0" type="radio" value="0" />Non Pervenuto
+										<input autocomplete="off" name="certificatomedico" id="certificatomedico0" type="radio" value="0" />Non Pervenuto
 									</td>
 								</tr>
 							</table>
@@ -272,7 +272,7 @@
 							<label for="domandaassociazione">Domanda di Associazione:</label>
 						</td>
 						<td>
-							<input name="domandaassociazione" id="domandaassociazione" type="text" class="date" placeholder="gg/mm/aaaa" />
+							<input autocomplete="off" name="domandaassociazione" id="domandaassociazione" type="text" class="date" placeholder="gg/mm/aaaa" />
 						</td>
 					</tr>
 					<!--<tr>
@@ -551,7 +551,7 @@
                     </tr>
                 </tfoot>
             </table>
-        </form>
+        </form><!--
 		<h3>Ricerca Tipologie</h3>
 		<form action="<?php echo admin_url('admin.php'); ?>" method="get">
 			<?php foreach ($_GET as $key => $value) { ?>
@@ -579,7 +579,7 @@
 					</tr>
 				</tfoot>
 			</table>
-		</form>
+		</form>-->
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'tipologiaedit' && isset($_REQUEST['tipologia'])) { ?>
 		<?php
 			if(isset($_POST['soci_tipo']) && isset($_POST['ID']) && isset($_POST['nome']) && isset($_POST['descrizione'])) {
@@ -592,7 +592,7 @@
 			
 			$obj_tipo = wintertour_get_tipologia_soci($_REQUEST['tipologia']);
 		?>
-		<h3>Modifica Tipologia</h3>
+		<!--<h3>Modifica Tipologia</h3>
 		<form class="editor" action="<?php echo admin_url('admin.php?page=wintertour_soci&action=tipologiaedit&tipologia=' . $_REQUEST['tipologia']); ?>" method="post">
 			<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
 			<table>
@@ -630,7 +630,7 @@
 					</tr>
 				</tfoot>
 			</table>
-		</form>
+		</form>-->
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'sociedit' && isset($_REQUEST['socio'])) { ?>
 		<?php
 			if(isset($_POST['savesocio'])) {

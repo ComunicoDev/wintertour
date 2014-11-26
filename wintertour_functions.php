@@ -342,10 +342,12 @@
         $wpdb->insert(
             "wintertourtennis_turni",
             array(
-                "data" => wintertour_serverdate($_POST['dataeora']),
-                "circolo" => $_POST['circolo']
+                "data" => wintertour_serverdate($_POST['data']),
+                "circolo" => $_POST['circolo'],
+                "categoria" => $_POST['categoria']
             ), array(
                 "%s",
+                "%d",
                 "%d"
             )
         ) or die();
@@ -504,17 +506,18 @@
         );
     }
     
-    function wintertour_edit_turno($ID, $dataeora, $circolo) {
+    function wintertour_edit_turno($ID, $data, $circolo, $categoria) {
         global $wpdb;
         
         return $wpdb->update(
             'wintertourtennis_turni',
             array(
-                'data' => wintertour_serverdate($dataeora),
-                'circolo' => $circolo
+                'data' => wintertour_serverdate($data),
+                'circolo' => $circolo,
+                'categoria' => $categoria
             ),
             array('ID' => $ID),
-            array('%s', '%d'),
+            array('%s', '%d', '%d'),
             array('%d')
         ) or die($wpdb->last_query);
     }
@@ -769,7 +772,7 @@
     function wintertour_elencaTurni() {
         global $wpdb;
         
-        $sql = "SELECT * FROM `wintertourtennis_turni` ORDER BY `dataeora` ASC;";
+        $sql = "SELECT * FROM `wintertourtennis_turni` ORDER BY `data` ASC;";
         
         return $wpdb->get_results($sql);
     }
