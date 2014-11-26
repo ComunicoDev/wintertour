@@ -71,6 +71,13 @@
     /**
      * Admin menu_risultati handler
      */
+    function wintertour_carica_risultati() {
+        include ('wintertour_carica_risultati.php');
+    }
+    
+    /**
+     * Admin menu_risultati handler
+     */
     function wintertour_menu_risultati() {
         include ('wintertour_menu_risultati.php');
     }
@@ -84,8 +91,9 @@
 		add_submenu_page("wintertour", "Gestionale", "Homepage", 1, "wintertour", "wintertour_menu");
 		add_submenu_page("wintertour", "Gestionale Soci", "Soci", 1, "wintertour_soci", "wintertour_menu_soci");
 		add_submenu_page("wintertour", "Gestionale Circoli", "Circoli", 1, "wintertour_circoli", "wintertour_menu_circoli");
-        add_submenu_page("wintertour", "Gestionale Turni", "Turni", 1, "wintertour_turni", "wintertour_menu_turni");
+        add_submenu_page("wintertour", "Gestionale Tappe", "Tappe", 1, "wintertour_turni", "wintertour_menu_turni");
         add_submenu_page("wintertour", "Gestionale Punteggi", "Punteggi", 1, "wintertour_punteggi", "wintertour_menu_punteggi");
+        add_submenu_page("wintertour", "Gestionale Risultati", "Risultati", 1, "wintertour_carica_risultati", "wintertour_carica_risultati");
         add_submenu_page("wintertour", "Gestionale Classifica", "Classifica", 1, "wintertour_risultati", "wintertour_menu_risultati");
 	}
 	

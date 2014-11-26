@@ -16,7 +16,7 @@
     if(isset($_POST['socioadd'])) {
         wintertour_addTurno();
     } else if(isset($_POST['turnomodifica'])) {
-        wintertour_edit_turno($_POST['ID'], $_POST['dataeora'], $_POST['circolo']);
+        wintertour_edit_turno($_POST['ID'], $_POST['data'], $_POST['circolo']);
     }
 ?>
 <div class="wgest_page wgest_opt">
@@ -28,9 +28,9 @@
     </noscript>
     
     <p>
-        <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=add'); ?>">Aggiungi turno</a><br />
-        <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=view'); ?>">Consulta e modifica turni</a><br />
-        <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=search'); ?>">Ricerca e modifica turni</a>
+        <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=add'); ?>">Aggiungi tappa</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=view'); ?>">Consulta e modifica tappe</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=search'); ?>">Ricerca e modifica tappe</a>
     </p>
     
     <?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
@@ -39,17 +39,17 @@
                 <thead>
                     <tr>
                         <th colspan="2">
-                            <h3>Aggiungi nuovo turno</h3>
+                            <h3>Aggiungi nuova tappa</h3>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>
-                            <label for="dataeora">Data e ora: </label>
+                            <label for="data">Data: </label>
                         </td>
                         <td>
-                            <input autocomplete="off" name="dataeora" type="text" placeholder="gg/mm/aaaa - hh:mm" class="datetime" pattern="\d\d\/\d\d/\d{4} - \d\d:\d\d" />
+                            <input autocomplete="off" name="data" type="text" placeholder="gg/mm/aaaa" class="date" pattern="\d\d\/\d\d/\d{4}" />
                         </td>
                     </tr>
                     <tr>
@@ -106,7 +106,7 @@
                                 <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $riga->ID); ?>">Gestisci</a>
                             </td>
                             <td><?=$riga->ID?></td>
-                            <td><?=wintertour_localdatetime($riga->dataeora)?></td>
+                            <td><?=wintertour_localdate($riga->data)?></td>
                             <td><a href="<?php echo admin_url('admin.php?page=wintertour_circoli&action=circoliedit&circolo=' . $riga->circolo);?>"><?=wintertour_getcircolo($riga->circolo)->nome?></a></td>
                         </tr>
                     <?php } ?>
@@ -138,10 +138,10 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="dataeora">Data e ora: </label>
+                            <label for="data">Data: </label>
                         </td>
                         <td>    
-                            <input name="dataeora" type="text" class="datetime" placeholder="gg/mm/aaaa - hh:mm" value="<?=format_datetime($turno->dataeora)?>" />
+                            <input name="data" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=format_date($turno->data)?>" />
                         </td>
                     </tr>
                     <tr>

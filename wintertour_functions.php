@@ -125,6 +125,67 @@
 		"VV" => "Vibo Valentia"
 	);
 	
+	global $categorie;
+	
+	$categorie = array(
+        0 => "Singolare Maschile A",
+        1 =>"Singolare Femminile A",
+        2 => "Singolare Maschile B",
+        3 => "Singolare Femminile B",
+        4 => "Singolare Maschile C",
+        5 => "Staffetta Maschile A",
+        6 => "Staffetta Femminile A",
+        7 => "Staffetta Maschile B",
+        8 => "Staffetta Femminile B",
+        9 => "Staffetta Mista B",
+        10 => "Staffetta Mista B",
+        11 => "Staffetta Junior A",
+        12 =>"Staffetta Junior B"
+	);
+    
+    function wintertour_getCategoria($turnoid) {
+        global $wpdb;
+        global $categorie;
+        
+        return $categorie[$wpdb->get_var($wpdb->prepare(
+            "SELECT `categoria` FROM `wintertourtennis_turni` WHERE ID = %d",
+            $turnoid
+        ))];
+    }
+    
+    function wintertour_selectCategorie($args = array(), $selected = -1) {
+        global $categorie;
+        $select = "<select";
+        
+        if(!empty($args)) {
+            foreach($args as $key => $value) {
+                if(!is_numeric($key) && !empty($value)) {
+                    $select .= " $key=\"$value\"";
+                }
+            }
+        }
+        
+        $select .= ">";
+        
+        $select .= "<option disabled=\"disabled\" selected=\"selected\" value=\"\">--Seleziona categoria--</option>";
+        
+        foreach($categorie as $index => $value) {
+            if(is_numeric($index) && !empty($value)) {
+                $select .= "<option value=\"$index\"";
+                
+                if(is_numeric($selected) && intval($selected, 10) === intval($index, 10)) {
+                    $select .= " selected=\"selected\"";
+                }
+                
+                $select .= ">" . $value;
+                
+                $select .= "</option>";
+            }
+        }
+        
+        return $select . "</select>";
+    }
+    
 	function capital($string = "") {
 	    return ucfirst(strtolower($string));
 	}
@@ -281,13 +342,41 @@
         $wpdb->insert(
             "wintertourtennis_turni",
             array(
-                "dataeora" => wintertour_serverdatetime($_POST['dataeora']),
+                "data" => wintertour_serverdate($_POST['dataeora']),
                 "circolo" => $_POST['circolo']
             ), array(
                 "%s",
                 "%d"
             )
         ) or die();
+    }
+    
+    function wintertour_addRisultato($values = array()) {
+        global $wpdb;
+        
+        $sql = "INSERT INTO `wintertourtennis_risultati`(`giocatore1`, `giocatore2`" .
+            ((isset($values['giocatore3']) && isset($values['giocatore4'])) ? ", `giocatore3`, `giocatore4`" : "") .
+            ", `puntigiocatori1e3`, `puntigiocatori2e4`, `turno`) VALUES (" .
+            $values['giocatore1'] ."," .
+            $values['giocatore2'] . "," .
+            ((isset($values['giocatore3']) && isset($values['giocatore4'])) ? $values['giocatore3'] . "," . $values['giocatore4'] . "," : "") .
+            $values['puntigiocatori1e3'] . "," .
+            $values['puntigiocatori2e4'] . "," .
+            $values['turno'] . ");";
+        
+        $wpdb->query($sql);
+    }
+    
+    function wintertour_elencaRisultatiSingolo() {
+        global $wpdb;
+        
+        return $wpdb->get_results("SELECT * FROM `wintertourtennis_risultati` WHERE `giocatore3` IS NULL OR `giocatore4` IS NULL;");
+    }
+    
+    function wintertour_elencaRisultatiDoppio() {
+        global $wpdb;
+        
+        return $wpdb->get_results("SELECT * FROM `wintertourtennis_risultati` WHERE `giocatore3` IS NOT NULL AND `giocatore4` IS NOT NULL;");
     }
 	
 	function wintertour_addSocio() {
@@ -421,7 +510,7 @@
         return $wpdb->update(
             'wintertourtennis_turni',
             array(
-                'dataeora' => wintertour_serverdatetime($dataeora),
+                'data' => wintertour_serverdate($dataeora),
                 'circolo' => $circolo
             ),
             array('ID' => $ID),
