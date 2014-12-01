@@ -15,6 +15,7 @@
 ?>
 <div class="wgest_page wgest_opt">
     <a href="<?php echo admin_url('admin.php?page=wintertour'); ?>"><h1>Gestionale WinterTour</h1></a>
+    <?=winterMenu()?>
 	<h2>Homepage</h2>
 	
     <a href="<?php echo admin_url('admin.php?page=wintertour'); ?>">Homepage</a><br />

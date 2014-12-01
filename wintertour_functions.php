@@ -903,6 +903,20 @@
 		
 		return $i;
 	}
+    
+    function winterMenu() { ?>
+            <ul class="wintermenu">
+                <li><a href="<?php echo admin_url('admin.php?page=wintertour'); ?>">Homepage</a></li>
+                <li><a href="<?php echo admin_url('admin.php?page=wintertour_soci'); ?>">Soci</a></li>
+                <li><a href="<?php echo admin_url('admin.php?page=wintertour_circoli'); ?>">Circoli</a></li>
+                <li><a href="<?php echo admin_url('admin.php?page=wintertour_turni'); ?>">Turni</a></li>
+                <li><a href="<?php echo admin_url('admin.php?page=wintertour_punteggi'); ?>">Punteggi</a></li>
+                <li><a href="<?php echo admin_url('admin.php?page=wintertour_risultati'); ?>">Classifica</a></li>
+                <li><a href="<?php echo admin_url('admin.php?page=wintertour_carica_risultati'); ?>">Risultati</a></li>
+                <li><a href="<?php echo admin_url('admin.php?page=wintertour_tabella_incontri'); ?>">Tabella Incontri</a></li>
+            </ul>
+    <?php }
+    
 	
 	function selectProvincia($attr, $selected) {
 		global $provincie;
