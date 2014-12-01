@@ -425,14 +425,15 @@
 		
 		if (!mysqli_connect_errno()) {
 			$sql = $wpdb->prepare(
-				"INSERT INTO `wintertourtennis_soci`(`nome`, `cognome`, `email`, `saldo`, `indirizzo`, `citta`, `cap`, `provincia`, `telefono`, `cellulare`, `statoattivo`, `datanascita`, `cittanascita`, `dataiscrizione`, `codicefiscale`, `dataimmissione`, `certificatomedico`, `domandaassociazione`" .
+				"INSERT INTO `wintertourtennis_soci`(`nome`, `cognome`, `sesso`, `email`, `saldo`, `indirizzo`, `citta`, `cap`, `provincia`, `telefono`, `cellulare`, `statoattivo`, `datanascita`, `cittanascita`, `dataiscrizione`, `codicefiscale`, `dataimmissione`, `certificatomedico`, `domandaassociazione`" .
 					((intval($_POST['circolo']) > 0) ? ", `circolo`" : "") .
-					") VALUES (%s, %s, %s, %f, %s, %s, %s, %s, %s, %s, %d, %s, %s, %s, %s, %s, %d, %s" .
+					") VALUES (%s, %s, %s, %s, %f, %s, %s, %s, %s, %s, %s, %d, %s, %s, %s, %s, %s, %d, %s" .
 					((intval($_POST['circolo']) > 0) ? ", %d" : "") .
 					");",
 				
 				capitalize(trim($_POST['nome'])),
 				capitalize(trim($_POST['cognome'])),
+                strtoupper(trim($_POST['sesso'])),
 				strtolower(trim($_POST['email'])),
 				trim($_POST['saldo']),
 				capitalize(trim($_POST['indirizzo'])),
@@ -451,13 +452,6 @@
 				wintertour_serverdate(trim($_POST['domandaassociazione'])),
 				trim($_POST['circolo'])
 			);
-			
-			/*
-			$sql .= $wpdb->prepare(
-				"\nINSERT IGNORE INTO `wintertourtennis_tessere`(`numerotessera`, `socio`) VALUES (%s, LAST_INSERT_ID());",
-				$_POST['numerotessera']
-			);
-            */
 			
 			$check = mysqli_multi_query($con, $sql);
 			

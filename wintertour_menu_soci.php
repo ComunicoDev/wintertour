@@ -28,47 +28,12 @@
 	</noscript>
 	
 	<p>
-		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>">Aggiungi Socio<!-- o tipologia socio--></a><br />
-		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=view&pag=1&limit=20'); ?>">Consulta <!--tipologie e--> anagrafica dei soci</a><br />
-		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=search'); ?>">Ricerca <!--tipologie e anagrafica--> dei soci</a>
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>">Aggiungi Socio</a><br />
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=view&pag=1&limit=20'); ?>">Consulta anagrafica dei soci</a><br />
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=search'); ?>">Ricerca dei soci</a>
 	</p>
 	
 	<?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
-		<!--<form action="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>" method="post">
-			<table cellpadding="2" cellspacing="0" border="0">
-				<thead>
-					<tr>
-						<th colspan="2">
-							<h3>Aggiungi nuova tipologia</h3>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							<label for="nometipologia">Nome tipologia:</label>
-						</td>
-						<td>
-							<input name="nometipologia" id="nometipologia" type="text" placeholder="Nome tipologia" />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="descrizionetipologia">Descrizione tipologia:</label>
-						</td>
-						<td>
-							<input name="descrizionetipologia" id="descrizionetipologia" type="text" placeholder="Descrizione tipologia" />
-						</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<td colspan="2" align="center">
-						<input name="submit0" id="submit0" type="submit" value="Aggiungi" />
-					</td>
-				</tfoot>
-			</table>
-		</form>
-		-->
 		<form action="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>" method="post">
 			<table cellpadding="2" cellspacing="0" border="0">
 				<thead>
@@ -95,6 +60,18 @@
                             <input autocomplete="off" name="nome" id="nome" type="text" placeholder="Nome" />
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <label for="sesso">Sesso: </label>
+                        </td>
+                        <td>
+                            <select autocomplete="off" required="required" name="sesso">
+                                <option disabled="disabled" selected="selected" value="">--Selezionare il sesso--</option>
+                                <option value="M">Uomo</option>
+                                <option value="F">Donna</option>
+                            </select>
+                        </td>
+                    </tr>
 					<tr>
 						<td>
 							<label for="email">Email:</label>
@@ -103,32 +80,6 @@
 							<input autocomplete="off" name="email" id="email" type="email" placeholder="Email" />
 						</td>
 					</tr>
-					<!--<tr>
-						<td>
-							<label for="tipologia">Tipologia:</label>
-						</td>
-						<td>
-							<select name="tipologia" id="tipologia">
-								<?php
-									$res = wintertour_elencatipi();
-									
-									if(!$res) {
-								?>
-									<option disabled="disabled" selected="selected" value="">--Non esiste nessuna tipologia--</option>
-								<?php
-									} else {
-								?>
-									<option disabled="disabled" selected="selected" value="">--Selezionare una tipologia--</option>
-								<?php
-									}
-									
-									foreach ($res as $x) {
-										echo "<option value=\"$x->ID\">$x->nome</option>";
-									}
-								?>
-							</select>
-						</td>
-					</tr>-->
 					<tr>
 						<td>
 							<label for="saldo">Saldo (&euro;):</label>
@@ -242,14 +193,6 @@
 							<input autocomplete="off" name="dataimmissione" id="dataimmissione" type="text" class="datetime" placeholder="gg/mm/aaaa - hh:mm" />
 						</td>
 					</tr>
-					<!--<tr>
-						<td>
-							<label for="numerotessera">Numero Tessera:</label>
-						</td>
-						<td>
-							<input autocomplete="off" name="numerotessera" id="numerotessera" type="text" placeholder="Numero Tessera" />
-						</td>
-					</tr>-->
 					<tr>
 						<td>
 							<label for="certificatomedico">Certificato Medico:</label>
@@ -275,25 +218,6 @@
 							<input autocomplete="off" name="domandaassociazione" id="domandaassociazione" type="text" class="date" placeholder="gg/mm/aaaa" />
 						</td>
 					</tr>
-					<!--<tr>
-						<td>
-							<label for="circolo">Circolo:</label>
-						</td>
-						<td>
-							<select name="circolo" id="circolo">
-								<?php
-								$res = wintertour_elencacircoli();
-								
-								if(count($res) <= 0) { ?>
-									<option value="" disabled="disabled" selected="selected">--Non esistono circoli--</option>
-								<?php } else { ?>
-									<option value="" disabled="disabled" selected="selected">--Selezionare un circolo--</option>
-								<?php } foreach(wintertour_elencacircoli() as $row) { ?>
-									<option value="<?=$row->ID?>"><?=$row->nome?></option>
-								<?php } ?>
-							</select>
-						</td>
-					</tr>-->
 				</tbody>
 				<tfoot>
 					<td colspan="2" align="center">
@@ -356,27 +280,13 @@
 						    <th>Azione</th>
                             <th>Cognome</th>
 							<th>Nome</th>
+                            <th>Sesso</th>
 							<th>Email</th>
 							<th>Saldo</th>
                             <th>Certificato Medico</th>
                             <th>Stato Attivo</th>
                             <th>Cellulare</th>
 							<th>Città</th>
-							<!--
-                            <th>Indirizzo</th>
-							<th>CAP</th>
-							<th>Provincia</th>
-							<th>Telefono</th>
-							<th>Data Nascita</th>
-							<th>Città Nascita</th>
-							<th>Data Iscrizione</th>
-							<th>Codice Fiscale</th>
-							<th>Data Immissione</th>
-							<th>Domanda Associazione</th>
-							<th>Circolo</th>
-                            <th>Tipologia</th>
-                            <th>ID</th>
-                            -->
 						</tr>
 					</thead>
 					<tbody>
@@ -390,6 +300,9 @@
                                 </td>
                                 <td>
                                     <?=capitalize(stripslashes($riga->nome))?>
+                                </td>
+                                <td>
+                                    <?=($riga->sesso === 'M') ? "Maschile" : (($riga->sesso === 'F') ? "Femminile" : "Non specificato")?>
                                 </td>
                                 <td>
                                     <?=!empty($riga->email) ? "<a href=\"mailto:" . strtolower($riga->email) . "\" target=\"_blank\">" . strtolower($riga->email) . "</a>" : "Nessun email"?>
@@ -409,72 +322,6 @@
                                 <td>
                                     <?=capitalize($riga->citta)?>
                                 </td>
-                                <!--
-                                <td>
-                                    <?=capitalize($riga->indirizzo)?>
-                                </td>
-                                <td>
-                                    <?=$riga->cap?>
-                                </td>
-                                <td>
-                                    <?php
-                                        global $provincie;
-                                        
-                                        if(is_array($provincie) && !empty($provincie[$riga->provincia])) {
-                                            echo $provincie[$riga->provincia];
-                                        } else {
-                                            echo "Dato mancante";
-                                        }
-                                    ?>
-                                </td>
-                                <td>
-                                    <?=format_phone($riga->telefono)?>
-                                </td>
-                                <td>
-                                    <?=format_date($riga->datanascita)?>
-                                </td>
-                                <td>
-                                    <?=(!empty($riga->cittanascita)) ? capitalize($riga->cittanascita) : "Dato mancante"?>
-                                </td>
-                                <td>
-                                    <?=format_date($riga->dataiscrizione)?>
-                                </td>
-                                <td>
-                                    <?=strtoupper(trim($riga->codicefiscale))?>
-                                </td>
-                                <td>
-                                    <?=wintertour_localdatetime($riga->dataimmissione);?>
-                                </td>
-                                <td>
-                                    <?=format_date($riga->domandaassociazione)?>
-                                </td>
-                                <td>
-                                    <?php
-                                        $ID = intval($riga->circolo);
-                                        
-                                        $ret = "Nessun circolo";
-                                        
-                                        if($ID > 0) {
-                                            $circolo = wintertour_getcircolo($ID);
-                                            
-                                            if(isset($circolo)) {
-                                                $nome = capitalize($circolo->nome);
-                                                $url = admin_url("admin.php?page=wintertour_circoli&action=edit&circolo=$ID");
-                                                
-                                                $ret = "<a href=\"\">$nome</a>";
-                                            }
-                                        }
-                                        
-                                        echo $ret;
-                                    ?>
-                                </td>
-                                <td>
-                                    <?=(!empty($riga->tipologia)) ? capital($riga->tipologia) : "Nessun tipo"?>
-                                </td>
-                                <td>
-                                    <?=$riga->ID?>
-                                </td>
-                                -->
 							</tr>
 						<?php } ?>
 					</tbody>
@@ -487,42 +334,6 @@
 	<?php } else { ?>
 		<h3>Nessun Socio</h3>
 	<?php } ?>
-	<!--
-	<?php if(count($tipologie) > 0) { ?>
-        <div class="editor">
-            <h3>Elenco tipologie</h3>
-            <table class="output-table">
-                <thead>
-                    <tr>
-                        <th>
-                            Azione
-                        </th>
-                        <?php foreach($tipologie[0] as $colonna => $valore) {?>
-                            <th style="padding:3px"><?=ucfirst($colonna)?></th>
-                        <?php } ?>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach($tipologie as $index => $riga) { ?>
-                        <tr>
-                            <td>
-                                <a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=tipologiaedit&tipologia=' . $riga->ID); ?>">Modifica</a>
-                            </td>
-                            <?php foreach($riga as $colonna => $valore) { ?>
-                                <td>
-                                    <?=$valore?>
-                                </td>
-                            <?php } ?>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-            </div>
-        </div>
-    <?php } else { ?>
-        <h3>Nessuna Tipologia</h3>
-    <?php } ?>
-    -->
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'search') { ?>
         <h3>Ricerca Soci</h3>
         <form action="<?php echo admin_url('admin.php'); ?>" method="get">
@@ -551,35 +362,7 @@
                     </tr>
                 </tfoot>
             </table>
-        </form><!--
-		<h3>Ricerca Tipologie</h3>
-		<form action="<?php echo admin_url('admin.php'); ?>" method="get">
-			<?php foreach ($_GET as $key => $value) { ?>
-			<input name="<?=$key?>" type="hidden" value="<?=$value?>" />
-			<?php } ?>
-			<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
-			<table>
-				<tbody>
-					<tr>
-						<td>
-							<input data-autocompname="tipologia" type="text" placeholder="Cerca una tipologia" class="searchbox autocompletion" />
-						</td>
-						<td>
-							<select data-autocomptype="tipologie_soci" name="tipologia" class="searchbox autocompletion">
-								<option disabled="disabled" selected="selected" value="">--Cerca una tipologia--</option>
-							</select>
-						</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td>
-							<input data-autocompname="tipologia" class="autocompletion" type="submit" value="Modifica" />
-						</td>
-					</tr>
-				</tfoot>
-			</table>
-		</form>-->
+        </form>
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'tipologiaedit' && isset($_REQUEST['tipologia'])) { ?>
 		<?php
 			if(isset($_POST['soci_tipo']) && isset($_POST['ID']) && isset($_POST['nome']) && isset($_POST['descrizione'])) {
@@ -592,45 +375,6 @@
 			
 			$obj_tipo = wintertour_get_tipologia_soci($_REQUEST['tipologia']);
 		?>
-		<!--<h3>Modifica Tipologia</h3>
-		<form class="editor" action="<?php echo admin_url('admin.php?page=wintertour_soci&action=tipologiaedit&tipologia=' . $_REQUEST['tipologia']); ?>" method="post">
-			<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
-			<table>
-				<tbody>
-					<tr>
-						<td>
-							<label for="ID">ID</label>
-						</td>
-						<td>
-							<input name="ID" readonly="readonly" type="text" value="<?=$obj_tipo->ID?>" />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="nome">Nome</label>
-						</td>
-						<td>
-							<input name="nome" type="text" value="<?=$obj_tipo->nome?>" />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="descrizione">Descrizione</label>
-						</td>
-						<td>
-							<input name="descrizione" type="text" value="<?=$obj_tipo->descrizione?>" />
-						</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td>
-							<input data-autocompname="tipologia" name="soci_tipo" type="submit" value="Salva" />
-						</td>
-					</tr>
-				</tfoot>
-			</table>
-		</form>-->
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'sociedit' && isset($_REQUEST['socio'])) { ?>
 		<?php
 			if(isset($_POST['savesocio'])) {
@@ -660,6 +404,18 @@
 							<input autocomplete="off" name="nome" id="nome" type="text" placeholder="Nome" value="<?=capitalize($obj_socio->nome)?>" />
 						</td>
 					</tr>
+                    <tr>
+                        <td>
+                            <label for="sesso">Sesso: </label>
+                        </td>
+                        <td>
+                            <select autocomplete="off" required="required" name="sesso">
+                                <option disabled="disabled" selected="selected" value="">--Selezionare il sesso--</option>
+                                <option value="M"<?php if($obj_socio->sesso === 'M') { ?> selected="selected"<?php } ?>>Uomo</option>
+                                <option value="F"<?php if($obj_socio->sesso === 'F') { ?> selected="selected"<?php } ?>>Donna</option>
+                            </select>
+                        </td>
+                    </tr>
 					<tr>
 						<td>
 							<label for="cognome">Cognome:</label>
