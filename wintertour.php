@@ -81,6 +81,13 @@
     function wintertour_menu_risultati() {
         include ('wintertour_menu_risultati.php');
     }
+    
+    /**
+     * Admin menu_incontri handler
+     */
+    function wintertour_menu_incontri() {
+        include ('wintertour_menu_incontri.php');
+    }
 	
 	/**
 	 * Adds admin_menu handlers
@@ -95,6 +102,7 @@
         add_submenu_page("wintertour", "Gestionale Punteggi", "Punteggi", 1, "wintertour_punteggi", "wintertour_menu_punteggi");
         add_submenu_page("wintertour", "Gestionale Risultati", "Risultati", 1, "wintertour_carica_risultati", "wintertour_carica_risultati");
         add_submenu_page("wintertour", "Gestionale Classifica", "Classifica", 1, "wintertour_risultati", "wintertour_menu_risultati");
+        add_submenu_page("wintertour", "Gestionale Tabella Incontri", "Tabella Incontri", 1, "wintertour_tabella_incontri", "wintertour_menu_incontri");
 	}
 	
 	/**

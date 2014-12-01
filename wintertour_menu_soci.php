@@ -231,7 +231,7 @@
 							<label for="codicefiscale">Codice Fiscale:</label>
 						</td>
 						<td>
-							<input autocomplete="off" name="codicefiscale" id="codicefiscale" type="text" placeholder="Codice Fiscale" />
+							<input autocomplete="off" name="codicefiscale" id="codicefiscale" type="text" placeholder="Codice Fiscale" pattern="[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]" />
 						</td>
 					</tr>
 					<tr>
@@ -242,14 +242,14 @@
 							<input autocomplete="off" name="dataimmissione" id="dataimmissione" type="text" class="datetime" placeholder="gg/mm/aaaa - hh:mm" />
 						</td>
 					</tr>
-					<tr>
+					<!--<tr>
 						<td>
 							<label for="numerotessera">Numero Tessera:</label>
 						</td>
 						<td>
 							<input autocomplete="off" name="numerotessera" id="numerotessera" type="text" placeholder="Numero Tessera" />
 						</td>
-					</tr>
+					</tr>-->
 					<tr>
 						<td>
 							<label for="certificatomedico">Certificato Medico:</label>
@@ -803,7 +803,7 @@
 							<label for="codicefiscale">Codice Fiscale:</label>
 						</td>
 						<td>
-							<input name="codicefiscale" id="codicefiscale" type="text" placeholder="Codice Fiscale" value="<?=$obj_socio->codicefiscale?>" />
+							<input name="codicefiscale" id="codicefiscale" type="text" placeholder="Codice Fiscale" value="<?=$obj_socio->codicefiscale?>" pattern="[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]" />
 						</td>
 					</tr>
 					<tr>
@@ -814,14 +814,14 @@
 							<input name="dataimmissione" id="dataimmissione" type="text" readonly="readonly" placeholder="gg/mm/aaaa - hh:mm" value="<?=wintertour_localdatetime($obj_socio->dataimmissione)?>" />
 						</td>
 					</tr>
-					<tr>
+					<!--<tr>
 						<td>
 							<label for="numerotessera">Numero Tessera:</label>
 						</td>
 						<td>
 							<input name="numerotessera" id="numerotessera" type="text" placeholder="Numero Tessera" value="<?=$obj_socio->numerotessera?>" />
 						</td>
-					</tr>
+					</tr>-->
 					<tr>
 						<td>
 							<label for="certificatomedico">Certificato Medico:</label>

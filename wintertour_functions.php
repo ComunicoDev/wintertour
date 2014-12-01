@@ -143,6 +143,43 @@
         12 =>"Staffetta Junior B"
 	);
     
+    function findNumero($partecipanti, $id) {
+        foreach($partecipanti as $partecipante) {
+            if($id == $partecipante->ID) {
+                return $partecipante->n;
+            }
+        }
+    }
+    
+    function wintertour_giocatoContro($partecipanti, $indice, $tappa) {
+        global $wpdb;
+        
+        $risultato = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM `wintertourtennis_risultati` WHERE %d IN (`giocatore1`, `giocatore2`, `giocatore3`, `giocatore4`) AND `turno` = %d",
+            $partecipanti[$indice]->ID, $tappa
+        ));
+        
+        if($partecipanti[$indice]->ID == $risultato->giocatore1 || $partecipanti[$indice]->ID == $risultato->giocatore3) { // Primo team
+            return findNumero($partecipanti, $risultato->giocatore2) . ((!empty($risultato->giocatore4)) ? "-" . findNumero($partecipanti, $risultato->giocatore4) : "");
+        } else if($partecipanti[$indice]->ID == $risultato->giocatore2 || $partecipanti[$indice]->ID == $risultato->giocatore4) { // Secondo team
+            return findNumero($partecipanti, $risultato->giocatore1) . ((!empty($risultato->giocatore3)) ? "-" . findNumero($partecipanti, $risultato->giocatore3) : "");
+        }
+        
+        return "-";
+    }
+    
+    function wintertour_tappeIncontri() {
+        global $wpdb;
+        
+        return $wpdb->get_results("SELECT * FROM `wintertourtennis_turni` WHERE `ID` IN (SELECT `turno` FROM `wintertourtennis_risultati`);");
+    }
+    
+    function wintertour_elencaPartecipanti() {
+        global $wpdb;
+        
+        return $wpdb->get_results("SELECT `ID`, `cognome`, `nome`, @row := @row + 1 AS n FROM (SELECT `ID`, `nome`, `cognome` FROM `wintertourtennis_soci` WHERE `ID` IN (SELECT `giocatore1` FROM `wintertourtennis_risultati`) OR `ID` IN (SELECT `giocatore2` FROM `wintertourtennis_risultati`) OR `ID` IN (SELECT `giocatore3` FROM `wintertourtennis_risultati`) OR `ID` IN (SELECT `giocatore4` FROM `wintertourtennis_risultati`) ORDER BY `cognome`) AS t CROSS JOIN (SELECT @row := 0) AS row;");
+    }
+    
     function wintertour_getCategoria($turnoid) {
         global $wpdb;
         global $categorie;
@@ -404,21 +441,23 @@
 				strtoupper(trim($_POST['provincia'])),
 				trim($_POST['telefono']),
 				trim($_POST['cellulare']),
-				trim($_POST['statoattivo']),
+				$_POST['statoattivo'],
 				wintertour_serverdate(trim($_POST['datanascita'])),
 				capitalize(trim($_POST['cittanascita'])),
 				wintertour_serverdatetime(trim($_POST['dataiscrizione'])),
 				strtoupper(trim($_POST['codicefiscale'])),
 				wintertour_serverdatetime(trim($_POST['dataimmissione'])),
 				trim($_POST['certificatomedico']),
-				trim($_POST['domandaassociazione']),
+				wintertour_serverdate(trim($_POST['domandaassociazione'])),
 				trim($_POST['circolo'])
 			);
 			
+			/*
 			$sql .= $wpdb->prepare(
 				"\nINSERT IGNORE INTO `wintertourtennis_tessere`(`numerotessera`, `socio`) VALUES (%s, LAST_INSERT_ID());",
 				$_POST['numerotessera']
 			);
+            */
 			
 			$check = mysqli_multi_query($con, $sql);
 			
