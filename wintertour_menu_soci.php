@@ -62,14 +62,19 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="sesso">Sesso: </label>
+                            <label for="sesso">Sesso:</label>
                         </td>
                         <td>
-                            <select autocomplete="off" required="required" name="sesso">
-                                <option disabled="disabled" selected="selected" value="">--Selezionare il sesso--</option>
-                                <option value="M">Uomo</option>
-                                <option value="F">Donna</option>
-                            </select>
+                            <table style="min-width: 246px; width: 246px;">
+                                <tr>
+                                    <td>
+                                        <input autocomplete="off" name="sesso" id="sessoM" type="radio" value="M" />Maschile
+                                    </td>
+                                    <td>
+                                        <input autocomplete="off" name="sesso" id="sessoF" type="radio" value="F" />Femminile
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
 					<tr>
@@ -138,16 +143,16 @@
 					</tr>
 					<tr>
 						<td>
-							<label for="attivo">Stato Attivo:</label>
+							<label for="statoattivo">Stato Attivo:</label>
 						</td>
 						<td>
 							<table>
 								<tr>
 									<td>
-										<input autocomplete="off" name="attivo" id="attivo1" type="radio" value="1" checked="checked" />Attivo
+										<input autocomplete="off" name="statoattivo" id="statoattivo1" type="radio" value="1" />Attivo
 									</td>
 									<td>
-										<input autocomplete="off" name="attivo" id="attivo0" type="radio" value="0" />Inattivo
+										<input autocomplete="off" name="statoattivo" id="statoattivo0" type="radio" value="0" />Inattivo
 									</td>
 								</tr>
 							</table>
@@ -201,7 +206,7 @@
 							<table style="min-width: 246px; width: 246px;">
 								<tr>
 									<td>
-										<input autocomplete="off" name="certificatomedico" id="certificatomedico1" type="radio" value="1" checked="checked" />Pervenuto
+										<input autocomplete="off" name="certificatomedico" id="certificatomedico1" type="radio" value="1" />Pervenuto
 									</td>
 									<td>
 										<input autocomplete="off" name="certificatomedico" id="certificatomedico0" type="radio" value="0" />Non Pervenuto
@@ -210,6 +215,23 @@
 							</table>
 						</td>
 					</tr>
+                    <tr>
+                        <td>
+                            <label for="tessera">Tessera:</label>
+                        </td>
+                        <td>
+                            <table style="min-width: 246px; width: 246px;">
+                                <tr>
+                                    <td>
+                                        <input autocomplete="off" name="tessera" id="tessera1" type="radio" value="1" />Rilasciata
+                                    </td>
+                                    <td>
+                                        <input autocomplete="off" name="tessera" id="tessera0" type="radio" value="0" />Non rilasciata
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 					<tr>
 						<td>
 							<label for="domandaassociazione">Domanda di Associazione:</label>
@@ -271,65 +293,62 @@
                     echo "<br /><br />";
                 }
 			?>
-			<!--
-			<div class="scrolling">
-			-->
-				<table class="output-table">
-					<thead>
+			<table class="output-table">
+				<thead>
+					<tr>
+					    <th>Azione</th>
+                        <th>Cognome</th>
+						<th>Nome</th>
+                        <th>Sesso</th>
+						<th>Email</th>
+						<th>Saldo</th>
+                        <th>Certificato Medico</th>
+                        <th>Tessera</th>
+                        <th>Cellulare</th>
+						<th>Città</th>
+                        <th>Stato Attivo</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($soci as $index => $riga) { ?>
 						<tr>
-						    <th>Azione</th>
-                            <th>Cognome</th>
-							<th>Nome</th>
-                            <th>Sesso</th>
-							<th>Email</th>
-							<th>Saldo</th>
-                            <th>Certificato Medico</th>
-                            <th>Stato Attivo</th>
-                            <th>Cellulare</th>
-							<th>Città</th>
+							<td>
+								<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $riga->ID); ?>">Gestisci</a>
+							</td>
+                            <td>
+                                <?=capitalize(stripslashes($riga->cognome))?>
+                            </td>
+                            <td>
+                                <?=capitalize(stripslashes($riga->nome))?>
+                            </td>
+                            <td>
+                                <?=($riga->sesso === 'M') ? "Maschile" : (($riga->sesso === 'F') ? "Femminile" : "Non specificato")?>
+                            </td>
+                            <td>
+                                <?=!empty($riga->email) ? "<a href=\"mailto:" . strtolower($riga->email) . "\" target=\"_blank\">" . strtolower($riga->email) . "</a>" : "Nessun email"?>
+                            </td>
+                            <td>
+                                <?=!empty($riga->saldo) ? $riga->saldo . " &euro;" : "0 &euro;"?>
+                            </td>
+                            <td>
+                                <?=($riga->certificatomedico === "1") ? "Inviato" : "Non inviato"?>
+                            </td>
+                            <td>
+                                <?=($riga->tessera == 1) ? "Rilasciata" : "Non rilasciata"?>
+                            </td>
+                            <td>
+                                <?=format_phone($riga->cellulare)?>
+                            </td>
+                            <td>
+                                <?=capitalize($riga->citta)?>
+                            </td>
+                            <td>
+                                <?=($riga->statoattivo === "1") ? "Attivo" : "Inattivo"?>
+                            </td>
 						</tr>
-					</thead>
-					<tbody>
-						<?php foreach($soci as $index => $riga) { ?>
-							<tr>
-								<td>
-									<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $riga->ID); ?>">Gestisci</a>
-								</td>
-                                <td>
-                                    <?=capitalize(stripslashes($riga->cognome))?>
-                                </td>
-                                <td>
-                                    <?=capitalize(stripslashes($riga->nome))?>
-                                </td>
-                                <td>
-                                    <?=($riga->sesso === 'M') ? "Maschile" : (($riga->sesso === 'F') ? "Femminile" : "Non specificato")?>
-                                </td>
-                                <td>
-                                    <?=!empty($riga->email) ? "<a href=\"mailto:" . strtolower($riga->email) . "\" target=\"_blank\">" . strtolower($riga->email) . "</a>" : "Nessun email"?>
-                                </td>
-                                <td>
-                                    <?=!empty($riga->saldo) ? $riga->saldo . " &euro;" : "0 &euro;"?>
-                                </td>
-                                <td>
-                                    <?=($riga->certificatomedico === "1") ? "Inviato" : "Non inviato"?>
-                                </td>
-                                <td>
-                                    <?=($riga->statoattivo === "1") ? "Attivo" : "Inattivo"?>
-                                </td>
-                                <td>
-                                    <?=format_phone($riga->cellulare)?>
-                                </td>
-                                <td>
-                                    <?=capitalize($riga->citta)?>
-                                </td>
-							</tr>
-						<?php } ?>
-					</tbody>
-				</table>
-			<!--
-				<div class="scrollbar"></div>
-			</div>
-            -->
+					<?php } ?>
+				</tbody>
+			</table>
 		</div>
 	<?php } else { ?>
 		<h3>Nessun Socio</h3>
@@ -338,7 +357,7 @@
         <h3>Ricerca Soci</h3>
         <form action="<?php echo admin_url('admin.php'); ?>" method="get">
             <?php foreach ($_GET as $key => $value) { ?>
-            <input name="<?=$key?>" type="hidden" value="<?=$value?>" />
+                <input name="<?=$key?>" type="hidden" value="<?=$value?>" />
             <?php } ?>
             <input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
             <table>
@@ -406,14 +425,19 @@
 					</tr>
                     <tr>
                         <td>
-                            <label for="sesso">Sesso: </label>
+                            <label for="sesso">Sesso:</label>
                         </td>
                         <td>
-                            <select autocomplete="off" required="required" name="sesso">
-                                <option disabled="disabled" selected="selected" value="">--Selezionare il sesso--</option>
-                                <option value="M"<?php if($obj_socio->sesso === 'M') { ?> selected="selected"<?php } ?>>Uomo</option>
-                                <option value="F"<?php if($obj_socio->sesso === 'F') { ?> selected="selected"<?php } ?>>Donna</option>
-                            </select>
+                            <table style="min-width: 246px; width: 246px;">
+                                <tr>
+                                    <td>
+                                        <input autocomplete="off" name="sesso" id="sessoM" type="radio" value="M" <?php if($obj_socio->sesso == 'M') { ?>checked="checked" <?php } ?>/>Maschile
+                                    </td>
+                                    <td>
+                                        <input autocomplete="off" name="sesso" id="sessoF" type="radio" value="F" <?php if($obj_socio->sesso == 'F') { ?>checked="checked" <?php } ?>/>Femminile
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
 					<tr>
@@ -431,32 +455,7 @@
 						<td>
 							<input autocomplete="off" name="email" id="email" type="email" placeholder="Email" value="<?=strtolower($obj_socio->email)?>" />
 						</td>
-					</tr><!--
-					<tr>
-						<td>
-							<label for="tipologia">Tipologia:</label>
-						</td>
-						<td>
-							<select name="tipologia" id="tipologia">
-								<?php
-									$res = wintertour_elencatipi();
-									
-									if(!$res) {
-								?>
-									<option disabled="disabled" selected="selected" value="">--Non esiste nessuna tipologia--</option>
-								<?php } else { ?>
-									<option disabled="disabled"<?php if(empty($obj_socio->tipologia) || $obj_socio->tipologia <= 0) echo " selected=\"selected\"" ?> value="">--Selezionare una tipologia--</option>
-								<?php }
-									
-									foreach ($res as $x) {
-									    $ID = $x->ID;
-									    $nome = capital($x->nome);
-										echo "<option " . (($ID == $obj_socio->tipologia) ? "selected=\"selected\"" : "" ) . " value=\"$ID\">$nome</option>";
-									}
-								?>
-							</select>
-						</td>
-					</tr>-->
+					</tr>
 					<tr>
 						<td>
 							<label for="saldo">Saldo (&euro;):</label>
@@ -515,16 +514,16 @@
 					</tr>
 					<tr>
 						<td>
-							<label for="attivo">Stato Attivo:</label>
+							<label for="statoattivo">Stato Attivo:</label>
 						</td>
 						<td>
 							<table>
 								<tr>
 									<td>
-										<input autocomplete="off" name="attivo" id="attivo1" type="radio" value="1"<?php if($obj_socio->statoattivo) { ?> checked="checked"<?php } ?> />Attivo
+										<input autocomplete="off" name="statoattivo" id="statoattivo1" type="radio" value="1"<?php if($obj_socio->statoattivo) { ?> checked="checked"<?php } ?> />Attivo
 									</td>
 									<td>
-										<input autocomplete="off" name="attivo" id="attivo0" type="radio" value="0"<?php if(!$obj_socio->statoattivo) { ?> checked="checked"<?php } ?> />Inattivo
+										<input autocomplete="off" name="statoattivo" id="statoattivo0" type="radio" value="0"<?php if(!$obj_socio->statoattivo) { ?> checked="checked"<?php } ?> />Inattivo
 									</td>
 								</tr>
 							</table>
@@ -570,14 +569,6 @@
 							<input name="dataimmissione" id="dataimmissione" type="text" readonly="readonly" placeholder="gg/mm/aaaa - hh:mm" value="<?=wintertour_localdatetime($obj_socio->dataimmissione)?>" />
 						</td>
 					</tr>
-					<!--<tr>
-						<td>
-							<label for="numerotessera">Numero Tessera:</label>
-						</td>
-						<td>
-							<input name="numerotessera" id="numerotessera" type="text" placeholder="Numero Tessera" value="<?=$obj_socio->numerotessera?>" />
-						</td>
-					</tr>-->
 					<tr>
 						<td>
 							<label for="certificatomedico">Certificato Medico:</label>
@@ -595,6 +586,23 @@
 							</table>
 						</td>
 					</tr>
+                    <tr>
+                        <td>
+                            <label for="tessera">Tessera:</label>
+                        </td>
+                        <td>
+                            <table style="min-width: 246px; width: 246px;">
+                                <tr>
+                                    <td>
+                                        <input autocomplete="off" name="tessera" id="tessera1" type="radio" value="1"<?php if($obj_socio->tessera) { ?> checked="checked"<?php } ?> />Rilasciata
+                                    </td>
+                                    <td>
+                                        <input autocomplete="off" name="tessera" id="tessera0" type="radio" value="0"<?php if(!$obj_socio->tessera) { ?> checked="checked"<?php } ?> />Non rilasciata
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 					<tr>
 						<td>
 							<label for="domandaassociazione">Domanda di Associazione:</label>
@@ -603,29 +611,6 @@
 							<input name="domandaassociazione" id="domandaassociazione" type="text" class="date" placeholder="gg/mm/aaaa" value="<?=(wintertour_localdate($obj_socio->domandaassociazione) !== '00/00/0000') ? wintertour_localdate($obj_socio->domandaassociazione) : ""?>" />
 						</td>
 					</tr>
-					<!--<tr>
-						<td>
-							<label for="circolo">Circolo:</label>
-						</td>
-						<td>
-							<select name="circolo" id="circolo">
-								<?php
-									$res = wintertour_elencacircoli();
-									
-									if(!$res) {
-								?>
-									<option disabled="disabled" selected="selected" value="">--Non esiste nessun circolo--</option>
-								<?php } else { ?>
-									<option disabled="disabled" selected="selected" value="">--Selezionare un circolo--</option>
-								<?php }
-									
-									foreach ($res as $x) {
-										echo "<option " . ((intval($x->ID) === intval($obj_socio->circolo)) ? "selected=\"selected\"" : "" ) . " value=\"$x->ID\">$x->nome</option>";
-									}
-								?>
-							</select>
-						</td>
-					</tr>-->
 				</tbody>
 				<tfoot>
 					<tr>

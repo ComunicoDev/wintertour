@@ -16,15 +16,7 @@
 	if(isset($_POST['submit0'])) {
 		wintertour_addCircolo();
 	} else if($_POST['circolomodifica']) {
-	    wintertour_edit_circolo(
-	       $_POST['ID'],
-	       $_POST['nome'],
-	       $_POST['indirizzo'],
-	       $_POST['citta'],
-	       $_POST['cap'],
-	       $_POST['provincia'],
-	       $_POST['referente']
-        );
+	    wintertour_edit_circolo();
 	}
 ?>
 <div class="wgest_page wgest_soci">
@@ -93,25 +85,51 @@
     						<?=selectProvincia('provinciacircolo')?>
     					</td>
     				</tr>
-    				<tr>
-    					<td>
-    						<label for="referentecircolo">Referente circolo:</label>
-    					</td>
-    					<td>
-    						<table cellpadding="0" cellspacing="0" border="0" style="min-width: 500px; width: 500px;">
-    							<tr>
-    								<td width="40%" style="padding: 0; width: 45%;">
-    									<input autocomplete="off" data-autocompname="referentecircolo" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
-    								</td>
-    								<td width="60%" style="padding: 0; width: 55%;">
-    									<select data-autocomptype="soci" name="referentecircolo" class="searchbox autocompletion" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-    										<option disabled="disabled" selected="selected" value="">--Cercare un socio--</option>
-    									</select>
-    								</td>
-    							</tr>
-    						</table>
-    					</td>
-    				</tr>
+                    <tr>
+                        <td colspan="2">
+                            <h3><center style="width:100%;text-align:center;">Referente di circolo</center></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="cognomereferente">Cognome referente: </label>
+                        </td>
+                        <td>
+                            <input name="cognomereferente" autocomplete="off" type="text" placeholder="Cognome referente" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="nomereferente">Nome referente: </label>
+                        </td>
+                        <td>
+                            <input name="nomereferente" autocomplete="off" type="text" placeholder="Nome referente" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="telefono">Telefono referente: </label>
+                        </td>
+                        <td>
+                            <input name="telefono" autocomplete="off" type="text" placeholder="Telefono referente" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="cellulare">Cellulare referente: </label>
+                        </td>
+                        <td>
+                            <input name="cellulare" autocomplete="off" type="text" placeholder="Cellulare referente" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="email">Email referente: </label>
+                        </td>
+                        <td>
+                            <input name="email" autocomplete="off" type="text" placeholder="Email referente" />
+                        </td>
+                    </tr>
     			</tbody>
     			<tfoot>
     				<td colspan="2" align="center">
@@ -133,24 +151,26 @@
                         <th>Indirizzo</th>
                         <th>Citt&agrave;</th>
                         <th>Provincia</th>
-                        <th>Referente</th>
+                        <th>Cognome Referente</th>
+                        <th>Nome Referente</th>
+                        <th>Telefono</th>
+                        <th>Cellulare</th>
+                        <th>Email</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($circoli as $index => $riga) {
-                        $referente = wintertour_get_socio($riga->referente);
-                    ?>
+                    <?php foreach($circoli as $index => $riga) { ?>
                         <tr>
                             <td><a href="<?=admin_url('admin.php?page=wintertour_circoli&action=circoliedit&circolo=') . $riga->ID?>">Gestisci</a></td>
                             <td><?=$riga->nome?></td>
                             <td><?=$riga->indirizzo?></td>
                             <td><?=$riga->citta?></td>
                             <td><?=$riga->provincia?></td>
-                            <?php if($referente !== null) { ?>
-                                <td><a href="<?=admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=') . $referente->ID?>"><?=$referente->cognome?> <?=$referente->nome?></a></td>
-                            <?php } else { ?>
-                                <td>Nessun Referente</td>
-                            <?php } ?>
+                            <td><?=$riga->cognomereferente?></td>
+                            <td><?=$riga->nomereferente?></td>
+                            <td><?=$riga->telefono?></td>
+                            <td><?=$riga->cellulare?></td>
+                            <td><?=$riga->email?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -222,25 +242,42 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="socio">Referente:</label>
+                            <label for="cognomereferente">Cognome referente: </label>
                         </td>
                         <td>
-                            <table cellpadding="0" cellspacing="0" border="0" style="min-width: 500px; width: 500px;">
-                                <tr>
-                                    <td width="40%" style="padding: 0; width: 45%;">
-                                        <input autocomplete="off" data-autocompname="referente" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
-                                    </td>
-                                    <td width="60%" style="padding: 0; width: 55%;">
-                                        <select data-autocomptype="referente" name="referente" class="searchbox autocompletion">
-                                            <?php
-                                                $socio = wintertour_get_socio($circolo->referente);
-                                            ?>
-                                            <option disabled="disabled" value="">--Selezionare un socio--</option>
-                                            <option selected="selected" value="<?=$socio->ID?>"><?=$socio->cognome?> <?=$socio->nome?></option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </table>
+                            <input name="cognomereferente" autocomplete="off" type="text" placeholder="Cognome referente" value="<?=$circolo->cognomereferente?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="nomereferente">Nome referente: </label>
+                        </td>
+                        <td>
+                            <input name="nomereferente" autocomplete="off" type="text" placeholder="Nome referente" value="<?=$circolo->nomereferente?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="telefono">Telefono referente: </label>
+                        </td>
+                        <td>
+                            <input name="telefono" autocomplete="off" type="text" placeholder="Telefono referente" value="<?=$circolo->telefono?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="cellulare">Cellulare referente: </label>
+                        </td>
+                        <td>
+                            <input name="cellulare" autocomplete="off" type="text" placeholder="Cellulare referente" value="<?=$circolo->cellulare?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="email">Email referente: </label>
+                        </td>
+                        <td>
+                            <input name="email" autocomplete="off" type="text" placeholder="Email referente" value="<?=$circolo->email?>" />
                         </td>
                     </tr>
                 </tbody>

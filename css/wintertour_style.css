@@ -121,3 +121,14 @@ form.wintertour_register input[type="url"]:valid, textarea:valid {
 	background-position: right 3px center;
 	background-repeat: no-repeat;
 }
+
+form .myradio {
+	width: auto !important;
+	margin: 0 3px 0 0 !important;
+}
+
+form .choice {
+	width: auto !important;
+	padding-right: 60px !important;
+}
+

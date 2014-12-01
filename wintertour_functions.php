@@ -424,34 +424,31 @@
 		$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		
 		if (!mysqli_connect_errno()) {
-			$sql = $wpdb->prepare(
-				"INSERT INTO `wintertourtennis_soci`(`nome`, `cognome`, `sesso`, `email`, `saldo`, `indirizzo`, `citta`, `cap`, `provincia`, `telefono`, `cellulare`, `statoattivo`, `datanascita`, `cittanascita`, `dataiscrizione`, `codicefiscale`, `dataimmissione`, `certificatomedico`, `domandaassociazione`" .
-					((intval($_POST['circolo']) > 0) ? ", `circolo`" : "") .
-					") VALUES (%s, %s, %s, %s, %f, %s, %s, %s, %s, %s, %s, %d, %s, %s, %s, %s, %s, %d, %s" .
-					((intval($_POST['circolo']) > 0) ? ", %d" : "") .
-					");",
-				
-				capitalize(trim($_POST['nome'])),
-				capitalize(trim($_POST['cognome'])),
+    		$sql = $wpdb->prepare(
+    			"INSERT INTO `wintertourtennis_soci`(`nome`, `cognome`, `sesso`, `email`, `saldo`, `indirizzo`, `citta`, `cap`, `provincia`, `telefono`, `cellulare`, `statoattivo`, `datanascita`, `cittanascita`, `dataiscrizione`, `codicefiscale`, `dataimmissione`, `certificatomedico`, `domandaassociazione`, `tessera`) VALUES (%s, %s, %s, %s, %f, %s, %s, %s, %s, %s, %s, %d, %s, %s, %s, %s, %s, %d, %s, %d);",
+                
+    			capitalize(trim($_POST['nome'])),
+    			capitalize(trim($_POST['cognome'])),
                 strtoupper(trim($_POST['sesso'])),
-				strtolower(trim($_POST['email'])),
-				trim($_POST['saldo']),
-				capitalize(trim($_POST['indirizzo'])),
-				capitalize(trim($_POST['citta'])),
-				trim($_POST['cap']),
-				strtoupper(trim($_POST['provincia'])),
-				trim($_POST['telefono']),
-				trim($_POST['cellulare']),
-				$_POST['statoattivo'],
-				wintertour_serverdate(trim($_POST['datanascita'])),
-				capitalize(trim($_POST['cittanascita'])),
-				wintertour_serverdatetime(trim($_POST['dataiscrizione'])),
-				strtoupper(trim($_POST['codicefiscale'])),
-				wintertour_serverdatetime(trim($_POST['dataimmissione'])),
-				trim($_POST['certificatomedico']),
-				wintertour_serverdate(trim($_POST['domandaassociazione'])),
-				trim($_POST['circolo'])
-			);
+    			strtolower(trim($_POST['email'])),
+    			trim($_POST['saldo']),
+    			capitalize(trim($_POST['indirizzo'])),
+    			capitalize(trim($_POST['citta'])),
+    			trim($_POST['cap']),
+    			strtoupper(trim($_POST['provincia'])),
+    			trim($_POST['telefono']),
+    			trim($_POST['cellulare']),
+    			$_POST['statoattivo'],
+    			wintertour_serverdate(trim($_POST['datanascita'])),
+    			capitalize(trim($_POST['cittanascita'])),
+    			wintertour_serverdatetime(trim($_POST['dataiscrizione'])),
+    			strtoupper(trim($_POST['codicefiscale'])),
+    			wintertour_serverdatetime(trim($_POST['dataimmissione'])),
+    			trim($_POST['certificatomedico']),
+    			wintertour_serverdate(trim($_POST['domandaassociazione'])),
+    			$_POST['tessera'],
+    			trim($_POST['circolo'])
+    		);
 			
 			$check = mysqli_multi_query($con, $sql);
 			
@@ -555,27 +552,35 @@
         ) or die($wpdb->last_query);
     }
     
-    function wintertour_edit_circolo($ID, $nome, $indirizzo, $citta, $cap, $provincia, $referente) {
+    function wintertour_edit_circolo() {
         global $wpdb;
         
         return $wpdb->update(
             'wintertourtennis_circoli',
             array(
-                'nome' => $nome,
-                'indirizzo' => $indirizzo,
-                'citta' => $citta,
-                'cap' => $cap,
-                'provincia' => $provincia,
-                'referente' => $referente
+                "nome" => $_POST['nome'],
+                "indirizzo" => $_POST['indirizzo'],
+                "citta" => $_POST['citta'],
+                "cap" => $_POST['cap'],
+                "provincia" => $_POST['provincia'],
+                "nomereferente" => $_POST['nomereferente'],
+                "cognomereferente" => $_POST['cognomereferente'],
+                "telefono" => $_POST['telefono'],
+                "cellulare" => $_POST['cellulare'],
+                "email" => $_POST['email']
             ),
-            array('ID' => $ID),
+            array('ID' => $_POST['ID']),
             array(
                 '%s',
                 '%s',
                 '%s',
                 '%s',
                 '%s',
-                '%d'
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+                '%s'
             ),
             array('%d')
         );
@@ -592,7 +597,6 @@
 					'nome' => $args['nome'],
 					'cognome' => $args['cognome'],
 					'email' => $args['email'],
-					//'tipologia' => $args['tipologia'],
 					'saldo' => $args['saldo'],
 					'indirizzo' => $args['indirizzo'],
 					'citta' => $args['citta'],
@@ -607,8 +611,7 @@
 					'codicefiscale' => $args['codicefiscale'],
 					'dataimmissione' => wintertour_serverdatetime($args['dataimmissione']),
 					'certificatomedico' => $args['certificatomedico'],
-					'domandaassociazione' => $args['domandaassociazione'],
-					//'circolo' => $args['circolo']
+					'domandaassociazione' => $args['domandaassociazione']
 				),
 				array('ID' => $id),
 				array(
@@ -712,7 +715,11 @@
 				"citta" => $_POST['cittacircolo'],
 				"cap" => $_POST['capcircolo'],
 				"provincia" => $_POST['provinciacircolo'],
-				"referente" => $_POST['referentecircolo']
+				"nomereferente" => $_POST['nomereferente'],
+                "cognomereferente" => $_POST['cognomereferente'],
+                "telefono" => $_POST['telefono'],
+                "cellulare" => $_POST['cellulare'],
+                "email" => $_POST['email']
 			)
 		) or die('Errore: Impossibile effettuare l\'operazione richiesta!<br /> Controllare i dati e riprovare.');
 	}

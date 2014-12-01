@@ -302,13 +302,14 @@
 			<tbody>
 				<tr><td><label for="nome">Nome: </label></td><td><input autocomplete="off" required="required" name="nome" type="text" placeholder="Nome" pattern="\s*(\s*[^\s]\s*){2}[\w\s]{0,33}\s*" /></td></tr>
 				<tr><td><label for="cognome">Cognome: </label></td><td><input autocomplete="off" required="required" name="cognome" type="text" placeholder="Cognome" pattern="\s*(\s*[^\s]\s*){2}[\w\s]{0,33}\s*" /></td></tr>
-				<tr><td><label for="sesso">Sesso: </label></td><td>
-    				<select autocomplete="off" required="required" name="sesso">
-    				    <option disabled="disabled" selected="selected" value="">--Selezionare il sesso--</option>
-    				    <option value="M">Uomo</option>
-                        <option value="F">Donna</option>
-                    </select>
-                </td></tr>
+                <tr>
+                    <td>
+                        <label for="sesso">Sesso:</label>
+                    </td>
+                    <td>
+                        <span class="choice"><input autocomplete="off" name="sesso" id="sessoM" type="radio" value="M" class="myradio" />Maschile</span><span class="choice"><input autocomplete="off" name="sesso" id="sessoF" type="radio" value="F" class="myradio" />Femminile</span>
+                    </td>
+                </tr>
 				<tr><td><label for="email">Email: </label></td><td><input autocomplete="off" required="required" name="email" type="email" placeholder="Email" pattern="([a-z0-9!#$%&'*+/=?^_`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|&quot;([\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*&quot;)@(([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?|\[((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:([\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])" /></td></tr>
 				<tr><td><label for="indirizzo">Indirizzo: </label></td><td><input autocomplete="off" required="required" name="indirizzo" type="text" placeholder="Indirizzo e numero civico" pattern="\s*(?=.*\d).{8,63}\s*" /></td></tr>
 				<tr><td><label for="cap">CAP: </label></td><td><input autocomplete="off" required="required" name="cap" type="text" placeholder="CAP" pattern="\d{5}" /></td></tr>
