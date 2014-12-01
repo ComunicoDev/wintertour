@@ -14,8 +14,10 @@
 	}
 ?>
 <div class="wgest_page wgest_opt">
-	<h1>Gestionale WinterTour</h1>
+    <a href="<?php echo admin_url('admin.php?page=wintertour'); ?>"><h1>Gestionale WinterTour</h1></a>
 	<h2>Homepage</h2>
+	
+    <a href="<?php echo admin_url('admin.php?page=wintertour'); ?>">Homepage</a><br />
 	<a href="<?php echo admin_url('admin.php?page=wintertour_soci'); ?>">Soci</a><br />
 	<a href="<?php echo admin_url('admin.php?page=wintertour_circoli'); ?>">Circoli</a><br />
     <a href="<?php echo admin_url('admin.php?page=wintertour_turni'); ?>">Turni</a><br />

@@ -20,12 +20,23 @@
     }
 ?>
 <div class="wgest_page wgest_opt">
-    <h1>Gestionale WinterTour</h1>
+    <a href="<?php echo admin_url('admin.php?page=wintertour'); ?>"><h1>Gestionale WinterTour</h1></a>
     <h2>Visualizzazione Classifica</h2>
     
     <noscript>
         Per avere a disposizione tutte le funzionalità di questo sito è necessario abilitare Javascript. Qui ci sono tutte le <a href="http://www.enable-javascript.com/it/" target="_blank"> istruzioni su come abilitare JavaScript nel tuo browser</a>.
     </noscript>
+    
+    <p>
+        <a href="<?php echo admin_url('admin.php?page=wintertour'); ?>">Homepage</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_soci'); ?>">Soci</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_circoli'); ?>">Circoli</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_turni'); ?>">Turni</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi'); ?>">Punteggi</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_risultati'); ?>">Classifica</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_carica_risultati'); ?>">Risultati</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_tabella_incontri'); ?>">Tabella Incontri</a>
+    </p>
     <?php
         $count = 1;
         $giocatori = wintertour_elencaGiocatori();
