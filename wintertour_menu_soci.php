@@ -416,6 +416,14 @@
 							<input autocomplete="off" name="ID" readonly="readonly" type="text" value="<?=$obj_socio->ID?>" />
 						</td>
 					</tr>
+                    <tr>
+                        <td>
+                            <label for="cognome">Cognome:</label>
+                        </td>
+                        <td>
+                            <input autocomplete="off" name="cognome" id="cognome" type="text" placeholder="Cognome" value="<?=capitalize($obj_socio->cognome)?>" />
+                        </td>
+                    </tr>
 					<tr>
 						<td>
 							<label for="nome">Nome:</label>
@@ -441,14 +449,6 @@
                             </table>
                         </td>
                     </tr>
-					<tr>
-						<td>
-							<label for="cognome">Cognome:</label>
-						</td>
-						<td>
-							<input autocomplete="off" name="cognome" id="cognome" type="text" placeholder="Cognome" value="<?=capitalize($obj_socio->cognome)?>" />
-						</td>
-					</tr>
 					<tr>
 						<td>
 							<label for="email">Email:</label>

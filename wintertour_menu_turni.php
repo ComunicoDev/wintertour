@@ -178,6 +178,14 @@
                             </select>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <label for="categoria">Categoria:</label>
+                        </td>
+                        <td>
+                            <?=wintertour_selectCategorie(array('name' => 'categoria'), $turno->categoria)?>
+                        </td>
+                    </tr>
                 </tbody>
                 <tfoot>
                     <tr>

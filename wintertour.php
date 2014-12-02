@@ -188,7 +188,7 @@
 	function wintertour_registerForm($atts) {
 		include ("wintertour_registerform.php");
 	}
-    //[wintertour_playercard]
+    //[wintertour_playercard
     function wintertour_playercard($atts) {
         include ("wintertour_playercard.php");
     }
