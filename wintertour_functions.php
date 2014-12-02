@@ -155,6 +155,45 @@
         return $tmpstr;
     }
     
+    function pagingURL($pag = 1, $count = 0, $limit = 20) {
+        $tmpstr = "";
+        
+        if(!empty($_GET["page"])) {
+            $tmpstr .= "admin.php?page=$_GET[page]";
+            
+            foreach($_GET as $key => $value) {
+                if($key != "page" && $key != "pag") {
+                    $tmpstr .= "&$key=$value";
+                }
+            }
+            
+            $tmpstr = admin_url($tmpstr);
+        }
+        
+        $check = false;
+        if($pag > 1) {
+            $prev = $pag - 1;
+            echo "<a href=\"$tmpstr&pag=$prev\" />Precedenti</a>";
+            
+            $check = true;
+        }
+        if(($pag) * $limit < $count) {
+            $next = $pag + 1;
+            
+            if($check) {
+                echo " | ";
+            }
+            
+            echo "<a href=\"$tmpstr&pag=$next\" />Successivi</a>";
+            
+            $check = true;
+        }
+        
+        if($check) {
+            echo "<br /><br />";
+        }
+    }
+    
     function toggleUpDown() {
         $tmpstr = strtolower(trim($_GET["sort"]));
         
@@ -690,6 +729,7 @@
 					'ID' => $args['ID'],
 					'nome' => $args['nome'],
 					'cognome' => $args['cognome'],
+					'sesso' => $args['sesso'],
 					'email' => $args['email'],
 					'saldo' => $args['saldo'],
 					'indirizzo' => $args['indirizzo'],
@@ -705,15 +745,16 @@
 					'codicefiscale' => $args['codicefiscale'],
 					'dataimmissione' => wintertour_serverdatetime($args['dataimmissione']),
 					'certificatomedico' => $args['certificatomedico'],
+					'tessera' => $args['tessera'],
 					'domandaassociazione' => $args['domandaassociazione']
 				),
 				array('ID' => $id),
 				array(
 					'%d',
 					'%s',
+                    '%s',
 					'%s',
 					'%s',
-					//'%d',
 					'%f',
 					'%s',
 					'%s',
@@ -728,8 +769,8 @@
 					'%s',
 					'%s',
 					'%d',
+                    '%d',
 					'%s',
-					//'%d'
 				),
 				array('%d')
 			);

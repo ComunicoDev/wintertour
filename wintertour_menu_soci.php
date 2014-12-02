@@ -13,11 +13,11 @@
 		exit;
 	}
 	
-	if(isset($_POST['submit0'])) {
-		wintertour_addTipologiaSoci();
-	} else if(isset($_POST['submit1'])) {
+	if(isset($_POST['submit1'])) {
 		wintertour_addSocio();
-	}
+	} else if(isset($_POST['savesocio'])) {
+        wintertour_edit_socio($_REQUEST['socio'], $_POST);
+    }
 ?>
 <div class="wgest_page wgest_soci">
     <a href="<?php echo admin_url('admin.php?page=wintertour'); ?>"><h1>Gestionale WinterTour</h1></a>
@@ -267,7 +267,7 @@
 		$soci = wintertour_showSoci($pag, $limit);
 	?>
     <form id="selectsex">
-        <label for="sesso">Sesso:</label> <input name="sesso" type="radio" value="M"<?php if($_GET['sex'] === 'M') { ?> checked="checked"<?php } ?> />Maschile <input name="sesso" type="radio" value="F"<?php if($_GET['sex'] === 'F') { ?> checked="checked"<?php } ?> />Femminile <input name="sesso" type="radio" value="all"<?php if($_GET['sex'] === 'all') { ?> checked="checked"<?php } ?> />Tutti <br />
+        <label for="sesso"><strong>Seleziona sesso</strong>:</label> <input name="sesso" type="radio" value="M"<?php if($_GET['sex'] === 'M') { ?> checked="checked"<?php } ?> />Maschile <input name="sesso" type="radio" value="F"<?php if($_GET['sex'] === 'F') { ?> checked="checked"<?php } ?> />Femminile <input name="sesso" type="radio" value="all"<?php if($_GET['sex'] === 'all') { ?> checked="checked"<?php } ?> />Tutti <br />
     </form>
     <script type="text/javascript">
         if(jQuery()) {
@@ -321,30 +321,7 @@
     	<div class="scrollable-view">
     		<h3>Elenco soci</h3>
     		<h4><?="Soci " . (($pag - 1) * $limit + 1) . " - " . (($pag * $limit <= $count) ? $pag * $limit : $count) . " di " . $count . " (pagina $pag di " . ceil((double)$count / (double)$limit) . ")"?></h4>
-    		<?php
-    		    $check = false;
-    		    if($pag > 1) {
-    		        $prev = $pag - 1;
-    		        echo "<a href=\"" . admin_url("admin.php?page=wintertour_soci&action=view&pag=$prev&limit=$limit") . "\" />Precedenti</a>";
-                    
-                    $check = true;
-    		    }
-                if(($pag) * $limit < $count) {
-                    $next = $pag + 1;
-                    
-                    if($check) {
-                        echo " | ";
-                    }
-                    
-                    echo "<a href=\"" . admin_url("admin.php?page=wintertour_soci&action=view&pag=$next&limit=$limit") . "\" />Successivi</a>";
-                    
-                    $check = true;
-                }
-                
-                if($check) {
-                    echo "<br /><br />";
-                }
-    		?>
+    		<?php pagingURL($pag, $count, $limit) ?>
     		<table class="output-table sortable">
     			<thead>
     				<tr>
@@ -438,24 +415,8 @@
                 </tfoot>
             </table>
         </form>
-	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'tipologiaedit' && isset($_REQUEST['tipologia'])) { ?>
-		<?php
-			if(isset($_POST['soci_tipo']) && isset($_POST['ID']) && isset($_POST['nome']) && isset($_POST['descrizione'])) {
-				if(wintertour_edit_tipologia_soci($_REQUEST['tipologia'], $_POST['ID'], $_POST['nome'], $_POST['descrizione'])) {
-					echo 'Operazione effettuata correttamente';
-				} else {
-					echo "Impossibile completare l'operazione richiesta";
-				}
-			}
-			
-			$obj_tipo = wintertour_get_tipologia_soci($_REQUEST['tipologia']);
-		?>
 	<?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'sociedit' && isset($_REQUEST['socio'])) { ?>
 		<?php
-			if(isset($_POST['savesocio'])) {
-				wintertour_edit_socio($_REQUEST['socio'], $_POST);
-			}
-			
 			$obj_socio = wintertour_get_socio($_REQUEST['socio']);
 		?>
 		<h3>Modifica Socio</h3>
@@ -671,7 +632,7 @@
 				<tfoot>
 					<tr>
 						<td>
-							<input name="savesocio" data-autocompname="tipologia" type="submit" value="Salva" />
+							<input name="savesocio" type="submit" value="Salva" />
 						</td>
 					</tr>
 				</tfoot>
