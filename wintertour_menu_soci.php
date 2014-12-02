@@ -30,7 +30,7 @@
     
 	<p>
 		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>">Aggiungi Socio</a><br />
-		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&order=cognome&sort=asc&action=view&pag=1&limit=20'); ?>">Consulta anagrafica dei soci</a><br />
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&order=cognome&sort=asc&action=view&pag=1&limit=20&sex=all'); ?>">Consulta anagrafica dei soci</a><br />
 		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=search'); ?>">Ricerca dei soci</a>
 	</p>
 	
@@ -266,18 +266,69 @@
         
 		$soci = wintertour_showSoci($pag, $limit);
 	?>
+    <form id="selectsex">
+        <label for="sesso">Sesso:</label> <input name="sesso" type="radio" value="M"<?php if($_GET['sex'] === 'M') { ?> checked="checked"<?php } ?> />Maschile <input name="sesso" type="radio" value="F"<?php if($_GET['sex'] === 'F') { ?> checked="checked"<?php } ?> />Femminile <input name="sesso" type="radio" value="all"<?php if($_GET['sex'] === 'all') { ?> checked="checked"<?php } ?> />Tutti <br />
+    </form>
+    <script type="text/javascript">
+        if(jQuery()) {
+            (function($) {
+                var newURL = function(checked) {
+                    var tmp = "";
+                    var checked = checked || "";
+                    
+                    if(checked === "M" || checked === "F" || checked === "all") {
+                        if(location.href.indexOf('?') >= 0) {
+                            var arr = location.href.split('?');
+                            
+                            if(arr.length === 2 && arr[1].length > 0) {
+                                var dict = {};
+                                
+                                var arr2 = arr[1].split('&');
+                                for(v in arr2) {
+                                    var tmp2 = arr2[v].split('=');
+                                    if(tmp2[0] !== 'sex') {
+                                        dict[tmp2[0]] = tmp2[1];
+                                    }
+                                }
+                                dict['sex'] = checked;
+                                
+                                tmp += arr[0];
+                                
+                                if(dict['page']) {
+                                    tmp += '?page=' + dict['page'];
+                                    delete dict['page'];
+                                }
+                                
+                                for(key in dict) {
+                                    tmp += '&' + key + '=' + dict[key];
+                                }
+                            }
+                        }
+                    }
+                    
+                    return tmp;
+                }
+                
+                $('form#selectsex input[name=sesso]:radio').change(function(){
+                    if($(this).prop('checked')) {
+                        document.location.href = newURL($(this).val());
+                    }
+                });
+            }(jQuery));
+        }
+    </script>
 	<?php if(count($soci) > 0) { ?>
-		<div class="scrollable-view">
-			<h3>Elenco soci</h3>
-			<h4><?="Soci " . (($pag - 1) * $limit + 1) . " - " . (($pag * $limit <= $count) ? $pag * $limit : $count) . " di " . $count . " (pagina $pag di " . ceil((double)$count / (double)$limit) . ")"?></h4>
-			<?php
-			    $check = false;
-			    if($pag > 1) {
-			        $prev = $pag - 1;
-			        echo "<a href=\"" . admin_url("admin.php?page=wintertour_soci&action=view&pag=$prev&limit=$limit") . "\" />Precedenti</a>";
+    	<div class="scrollable-view">
+    		<h3>Elenco soci</h3>
+    		<h4><?="Soci " . (($pag - 1) * $limit + 1) . " - " . (($pag * $limit <= $count) ? $pag * $limit : $count) . " di " . $count . " (pagina $pag di " . ceil((double)$count / (double)$limit) . ")"?></h4>
+    		<?php
+    		    $check = false;
+    		    if($pag > 1) {
+    		        $prev = $pag - 1;
+    		        echo "<a href=\"" . admin_url("admin.php?page=wintertour_soci&action=view&pag=$prev&limit=$limit") . "\" />Precedenti</a>";
                     
                     $check = true;
-			    }
+    		    }
                 if(($pag) * $limit < $count) {
                     $next = $pag + 1;
                     
@@ -293,30 +344,30 @@
                 if($check) {
                     echo "<br /><br />";
                 }
-			?>
-			<table class="output-table sortable">
-				<thead>
-					<tr>
-					    <th>Azione</th>
+    		?>
+    		<table class="output-table sortable">
+    			<thead>
+    				<tr>
+    				    <th>Azione</th>
                         <?=sortArrow('Cognome', 'cognome')?>
                         <?=sortArrow('Nome', 'nome')?>
                         <th>Sesso</th>
                         <th>Email</th>
                         <?=sortArrow('Data di Nascita', 'datanascita')?>
-						<th>Saldo</th>
+    					<th>Saldo</th>
                         <th>Certificato Medico</th>
                         <th>Tessera</th>
                         <th>Cellulare</th>
-						<th>Città</th>
+    					<th>Città</th>
                         <th>Stato Attivo</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach($soci as $index => $riga) { ?>
-						<tr>
-							<td>
-								<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $riga->ID); ?>">Gestisci</a>
-							</td>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				<?php foreach($soci as $index => $riga) { ?>
+    					<tr>
+    						<td>
+    							<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $riga->ID); ?>">Gestisci</a>
+    						</td>
                             <td>
                                 <?=capitalize(stripslashes($riga->cognome))?>
                             </td>
@@ -350,11 +401,11 @@
                             <td>
                                 <?=($riga->statoattivo === "1") ? "Attivo" : "Inattivo"?>
                             </td>
-						</tr>
-					<?php } ?>
-				</tbody>
-			</table>
-		</div>
+    					</tr>
+    				<?php } ?>
+    			</tbody>
+    		</table>
+    	</div>
 	<?php } else { ?>
 		<h3>Nessun Socio</h3>
 	<?php } ?>
