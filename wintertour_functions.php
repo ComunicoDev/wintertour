@@ -200,8 +200,41 @@
         return $tmpstr;
     }
     
+    function sortURL($type = "") {
+        $type = strtolower(trim($type));
+        $tmpstr = "";
+        
+        if(!empty($_GET["page"])) {
+            $tmpstr .= "admin.php?page=$_GET[page]";
+            
+            if(!empty($type) && empty($_GET["order"])) {
+                $tmpstr .= "&order=$type";
+            }
+            
+            if(empty($_GET["sort"])) {
+                $tmpstr .= "&sort=asc";
+            }
+            
+            foreach($_GET as $key => $value) {
+                if($key != "page" && $key != "sort" && $key != 'order') {
+                    $tmpstr .= "&$key=$value";
+                } else if($key == "sort") {
+                    $tmpstr .= "&sort=asc";
+                } else if($key == "order") {
+                    $tmp = ($value === $type) ? $value : $type;
+                    
+                    $tmpstr .= "&order=$tmp";
+                }
+            }
+            
+            return admin_url($tmpstr);
+        }
+        
+        return $tmpstr;
+    }
+    
     function sortArrow($heading = "", $type = "") { ?>
-        <th><a href="<?=toggleSortURL($type)?>"><?=$heading?></a> <?php if($type === $_GET['order']) { ?><a class="sortarrow" href="<?=toggleSortURL($type)?>"><img src="<?=plugins_url('images/arrow_' . toggleUpDown() .'.gif', __FILE__ )?>" /></a><?php } ?></th>
+        <th><a href="<?=sortURL($type)?>"><?=$heading?></a> <?php if($type === $_GET['order']) { ?><a class="sortarrow" href="<?=toggleSortURL($type)?>"><img src="<?=plugins_url('images/arrow_' . toggleUpDown() .'.gif', __FILE__ )?>" /></a><?php } ?></th>
     <?php }
     
     function findNumero($partecipanti, $id) {

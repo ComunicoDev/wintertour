@@ -30,7 +30,7 @@
     
 	<p>
 		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=add'); ?>">Aggiungi Socio</a><br />
-		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=view&pag=1&limit=20'); ?>">Consulta anagrafica dei soci</a><br />
+		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&order=cognome&sort=asc&action=view&pag=1&limit=20'); ?>">Consulta anagrafica dei soci</a><br />
 		<a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=search'); ?>">Ricerca dei soci</a>
 	</p>
 	
