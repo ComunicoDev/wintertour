@@ -170,3 +170,11 @@ ul.wintermenu li {
 ul.wintermenu li + li::before {
     content: " | ";
 }
+
+a.sortarrow, a.sortarrow img {
+	outline: none !important;
+	border: 0 !important;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
+}

@@ -294,14 +294,15 @@
                     echo "<br /><br />";
                 }
 			?>
-			<table class="output-table">
+			<table class="output-table sortable">
 				<thead>
 					<tr>
 					    <th>Azione</th>
-                        <th>Cognome</th>
-						<th>Nome</th>
+                        <?=sortArrow('Cognome', 'cognome')?>
+                        <?=sortArrow('Nome', 'nome')?>
                         <th>Sesso</th>
-						<th>Email</th>
+                        <th>Email</th>
+                        <?=sortArrow('Data di Nascita', 'datanascita')?>
 						<th>Saldo</th>
                         <th>Certificato Medico</th>
                         <th>Tessera</th>
@@ -326,7 +327,10 @@
                                 <?=($riga->sesso === 'M') ? "Maschile" : (($riga->sesso === 'F') ? "Femminile" : "Non specificato")?>
                             </td>
                             <td>
-                                <?=!empty($riga->email) ? "<a href=\"mailto:" . strtolower($riga->email) . "\" target=\"_blank\">" . strtolower($riga->email) . "</a>" : "Nessun email"?>
+                                <?=!empty($riga->email) ? "<a href=\"mailto:" . strtolower($riga->email) . "\">" . strtolower($riga->email) . "</a>" : "Nessun email"?>
+                            </td>
+                            <td>
+                                <?=wintertour_localdate($riga->datanascita)?>
                             </td>
                             <td>
                                 <?=!empty($riga->saldo) ? $riga->saldo . " &euro;" : "0 &euro;"?>

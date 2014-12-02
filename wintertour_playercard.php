@@ -17,4 +17,9 @@
 ?>
 <div class="wintertour_plugin wintertour_shortcode">
 	<h3>Schede Giocatori</h3>
+	<pre>
+	   <?php
+	       print_r($_SERVER);
+	   ?>
+	</pre>
 </div>

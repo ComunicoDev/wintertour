@@ -143,6 +143,67 @@
         12 =>"Staffetta Junior B"
 	);
     
+    function toggleSort() {
+        $tmpstr = strtolower(trim($_GET["sort"]));
+        
+        if(empty($tmpstr) || $tmpstr == "asc") {
+            $tmpstr = "desc";
+        } else {
+            $tmpstr = "asc";
+        }
+        
+        return $tmpstr;
+    }
+    
+    function toggleUpDown() {
+        $tmpstr = strtolower(trim($_GET["sort"]));
+        
+        if(empty($tmpstr) || $tmpstr == "asc") {
+            $tmpstr = "up";
+        } else {
+            $tmpstr = "down";
+        }
+        
+        return $tmpstr;
+    }
+    
+    function toggleSortURL($type = "") {
+        $type = strtolower(trim($type));
+        $tmpstr = "";
+        
+        if(!empty($_GET["page"])) {
+            $tmpstr .= "admin.php?page=$_GET[page]";
+            
+            if(!empty($type) && empty($_GET["order"])) {
+                $tmpstr .= "&order=$type";
+            }
+            
+            if(empty($_GET["sort"])) {
+                $tmpstr .= "&sort=asc";
+            }
+            
+            foreach($_GET as $key => $value) {
+                if($key != "page" && $key != "sort" && $key != 'order') {
+                    $tmpstr .= "&$key=$value";
+                } else if($key == "sort") {
+                    $tmpstr .= "&sort=" . toggleSort();
+                } else if($key == "order") {
+                    $tmp = ($value === $type) ? $value : $type;
+                    
+                    $tmpstr .= "&order=$tmp";
+                }
+            }
+            
+            return admin_url($tmpstr);
+        }
+        
+        return $tmpstr;
+    }
+    
+    function sortArrow($heading = "", $type = "") { ?>
+        <th><a href="<?=toggleSortURL($type)?>"><?=$heading?></a> <?php if($type === $_GET['order']) { ?><a class="sortarrow" href="<?=toggleSortURL($type)?>"><img src="<?=plugins_url('images/arrow_' . toggleUpDown() .'.gif', __FILE__ )?>" /></a><?php } ?></th>
+    <?php }
+    
     function findNumero($partecipanti, $id) {
         foreach($partecipanti as $partecipante) {
             if($id == $partecipante->ID) {
@@ -746,7 +807,7 @@
 	function wintertour_elencaSoci() {
 		global $wpdb;
 		
-		$sql = "SELECT * FROM `wintertourtennis_soci` ORDER BY `cognome` ASC;";
+		$sql = "SELECT * FROM `wintertourtennis_soci` ORDER BY `cognome` DESC;";
 		
 		return $wpdb->get_results($sql);
 	}
@@ -798,13 +859,24 @@
 	function wintertour_showSoci($page = 1, $limit = 20) {
 	    global $wpdb;
         
+        $by = strtolower(trim($_GET["order"]));
+        $order = strtoupper(trim($_GET["sort"]));
+        
+        if($by !== "nome" && $by !== "cognome" && $by !== "datanascita") {
+            $by = "cognome";
+        }
+        
+        if($order !== "ASC" && $order !== "DESC") {
+            $order = "ASC";
+        }
+        
         if($page <= 0) {
             $page = 1;
         }
         
         $start = ($page - 1) * $limit;
         
-        $sql = "SELECT * FROM `wintertourtennis_soci` ORDER BY `cognome` ASC LIMIT $start, $limit;";
+        $sql = "SELECT * FROM `wintertourtennis_soci`" . (($_GET["sex"] === "M" || $_GET["sex"] === "F") ? " WHERE `sesso` = \"$_GET[sex]\"" : "") . " ORDER BY `$by` $order LIMIT $start, $limit;";
         
         return $wpdb->get_results($sql);
 	}
