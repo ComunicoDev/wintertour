@@ -188,7 +188,12 @@
 	function wintertour_registerForm($atts) {
 		include ("wintertour_registerform.php");
 	}
+    //[wintertour_playercard]
+    function wintertour_playercard($atts) {
+        include ("wintertour_playercard.php");
+    }
 	add_shortcode( 'wintertour_register', 'wintertour_registerForm' );
+    add_shortcode( 'wintertour_playercard', 'wintertour_playercard' );
 	
 	if (is_admin()) {
 		add_action('wp_ajax_wintertour_autocomplete', 'wintertour_autocomplete');
