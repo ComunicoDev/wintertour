@@ -25,8 +25,85 @@
         $giocatore = wintertour_get_socio($_POST['giocatore']);
         
         if($giocatore != null) {
+            $risultati = wintertour_risultatiSocioSingolo($giocatore->ID);
 ?>
         <h2>Scheda Giocatore: <?=$giocatore->nome?> <?=$giocatore->cognome?></h2>
+        <?php if(count($risultati) > 0) { ?>
+            <h3>Risultati singolo</h3>
+            <table class="output-table">
+                <thead>
+                    <th>Categoria</th>
+                    <th>Incontro</th>
+                    <th>Avversario</th>
+                    <th>Risultato</th>
+                </thead>
+                <tbody>
+                    <?php
+                        foreach($risultati as $risultato) { ?>
+                            <tr>
+                                <?php
+                                    $turno = wintertour_get_turno($risultato->turno);
+                                    $circolo = wintertour_getcircolo($turno->circolo);
+                                    $data = $turno->data;
+                                    $categoria = wintertour_getCategoria($turno->ID);
+                                    $avversario = wintertour_getAvversario($giocatore->ID, $risultato);
+                                ?>
+                                <td><?=$categoria?></td>
+                                <td>
+                                    <?=$circolo->nome?> - <?=wintertour_localdate($data)?>
+                                </td>
+                                <td>
+                                    <?=$avversario->nome?> <?=$avversario->cognome?>
+                                </td>
+                                <td><?=wintertourtennis_getRisultatoOrd($giocatore->ID, $risultato)?></td>
+                            </tr>
+                        <?php }
+                    ?>
+                </tbody>
+            </table>
+        <?php } else { ?>
+            <h3>Nessun risultato singolo</h3>
+        <?php } ?>
+        <?php
+            $risultati = wintertour_risultatiSocioDoppio($giocatore->ID);
+            
+            if(count($risultati) > 0) {
+        ?>
+            <h3>Risultati doppio</h3>
+            <table class="output-table">
+                <thead>
+                    <th>Categoria</th>
+                    <th>Incontro</th>
+                    <th>Compagno</th>
+                    <th>Avversari</th>
+                    <th>Risultato</th>
+                </thead>
+                <tbody>
+                    <?php
+                        foreach($risultati as $risultato) { ?>
+                            <tr>
+                                <?php
+                                    $turno = wintertour_get_turno($risultato->turno);
+                                    $circolo = wintertour_getcircolo($turno->circolo);
+                                    $data = $turno->data;
+                                    $categoria = wintertour_getCategoria($turno->ID);
+                                    $compagno = wintertour_getCompagno($giocatore->ID, $risultato);
+                                ?>
+                                <td><?=$categoria?></td>
+                                <td>
+                                    <?=$circolo->nome?> - <?=wintertour_localdate($data)?>
+                                </td>
+                                <td><?=$compagno->nome?> <?=$compagno->cognome?></td>
+                                <td><?=wintertour_getAvversari($giocatore->ID, $risultato)?></td>
+                                <td><?=wintertourtennis_getRisultatoOrd($giocatore->ID, $risultato)?></td>
+                            </tr>
+                        <?php }
+                    ?>
+                </tbody>
+            </table>
+        <?php } else { ?>
+            <h3>Nessun risultato doppio</h3>
+        <?php } ?>
     <?php } else { ?>
         <h2>Giocatore non trovato</h2>
     <?php } ?>

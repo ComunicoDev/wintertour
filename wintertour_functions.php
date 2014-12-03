@@ -284,6 +284,64 @@
         }
     }
     
+    function wintertour_risultatiSocioSingolo($id) {
+        global $wpdb;
+        
+        return $wpdb->get_results($wpdb->prepare(
+            "SELECT * FROM `wintertourtennis_risultati` WHERE (`giocatore1` = %d OR `giocatore2` = %d) AND (`giocatore3` IS NULL AND `giocatore4` IS NULL);",
+            $id, $id, $id, $id
+        ));
+    }
+    
+    function wintertour_risultatiSocioDoppio($id) {
+        global $wpdb;
+        
+        $sql = $wpdb->prepare(
+            "SELECT * FROM `wintertourtennis_risultati` WHERE (`giocatore1` = %d OR `giocatore2` = %d OR `giocatore3` = %d OR `giocatore4` = %d) AND `giocatore3` IS NOT NULL AND `giocatore4` IS NOT NULL;",
+            $id, $id, $id, $id
+        );
+        
+        return $wpdb->get_results($sql);
+    }
+    
+    function wintertour_getCompagno($giocatore = 0, $risultato = array()) {
+        if($risultato->giocatore1 == $giocatore) {
+            return wintertour_get_socio($risultato->giocatore3);
+        } else {
+            return wintertour_get_socio($risultato->giocatore4);
+        }
+    }
+    
+    function wintertour_getAvversario($giocatore = 0, $risultato = array()) {
+        if($risultato->giocatore1 == $giocatore) {
+            return wintertour_get_socio($risultato->giocatore2);
+        } else {
+            return wintertour_get_socio($risultato->giocatore1);
+        }
+    }
+    
+    function wintertour_getAvversari($giocatore = 0, $risultato = array()) {
+        if($risultato->giocatore1 == $giocatore || $risultato->giocatore3 == $giocatore) {
+            $avversario1 = wintertour_get_socio($risultato->giocatore2);
+            $avversario2 = wintertour_get_socio($risultato->giocatore4);
+            
+            return $avversario1->nome . " " . $avversario1->cognome . " - " . $avversario2->nome . " " . $avversario2->cognome;
+        } else {
+            $avversario1 = wintertour_get_socio($risultato->giocatore1);
+            $avversario2 = wintertour_get_socio($risultato->giocatore3);
+            
+            return $avversario1->nome . " " . $avversario1->cognome . " - " . $avversario2->nome . " " . $avversario2->cognome;
+        }
+    }
+    
+    function wintertourtennis_getRisultatoOrd($giocatore = 0, $risultato = array()) {
+        if($risultato->giocatore1 == $giocatore || $risultato->giocatore3 == $giocatore) {
+            return $risultato->puntigiocatori1e3 . " - " . $risultato->puntigiocatori2e4;
+        } else {
+            return $risultato->puntigiocatori2e4 . " - " . $risultato->puntigiocatori1e3;
+        }
+    }
+    
     function wintertour_giocatoContro($partecipanti, $indice, $tappa) {
         global $wpdb;
         
@@ -1165,9 +1223,7 @@
         
         return $wpdb->get_results($sql);
     }
-    
-    // $sql = "SELECT `wintertourtennis_risultati`.*, `wintertourtennis_turni`.`data` FROM `wintertourtennis_risultati` LEFT JOIN `wintertourtennis_turni` ON `wintertourtennis_risultati`.`turno` = `wintertourtennis_turni`.`ID` ORDER BY `data`;";
-    
+        
     function wintertour_elencaRisultatiSingolo() {
         global $wpdb;
         
