@@ -669,6 +669,58 @@
         );
     }
     
+    function wintertour_edit_risultatoSingolo() {
+        global $wpdb;
+        
+        return $wpdb->update(
+            'wintertourtennis_risultati',
+            array(
+                'giocatore1' => $_POST['socio21'],
+                'giocatore2' => $_POST['socio22'],
+                'puntigiocatori1e3' => $_POST['punteggio1'],
+                'puntigiocatori2e4' => $_POST['punteggio2'],
+                'turno' => $_POST['tappa']
+            ),
+            array('ID' => $_POST['ID']),
+            array(
+                '%d',
+                '%d',
+                '%d',
+                '%d',
+                '%d'
+            ),
+            array('%d')
+        );
+    }
+    
+    function wintertour_edit_risultatoDoppio() {
+        global $wpdb;
+        
+        return $wpdb->update(
+            'wintertourtennis_risultati',
+            array(
+                'giocatore1' => $_POST['socio21'],
+                'giocatore2' => $_POST['socio22'],
+                'giocatore3' => $_POST['socio23'],
+                'giocatore4' => $_POST['socio24'],
+                'puntigiocatori1e3' => $_POST['punteggio1'],
+                'puntigiocatori2e4' => $_POST['punteggio2'],
+                'turno' => $_POST['tappa']
+            ),
+            array('ID' => $_POST['ID']),
+            array(
+                '%d',
+                '%d',
+                '%d',
+                '%d',
+                '%d',
+                '%d',
+                '%d'
+            ),
+            array('%d')
+        );
+    }
+    
     function wintertour_edit_turno($ID, $data, $circolo, $categoria) {
         global $wpdb;
         
@@ -800,6 +852,28 @@
 			}
 		}
 	}
+    
+    function wintertour_get_autogiocatore() {
+        global $wpdb;
+        
+        wp_verify_nonce($_POST['wt_nonce'], 'wt_nonce') or die(0);
+        
+        if(empty($_POST['partial'])) {
+            die(0);
+        }
+        
+        $sql = "SELECT `ID`, `nome`, `cognome` FROM `wintertourtennis_soci` WHERE (`nome` LIKE '$_POST[partial]%' OR `cognome` LIKE '$_POST[partial]%') AND (`ID` IN (SELECT `giocatore1` FROM `wintertourtennis_risultati`) OR `ID` IN (SELECT `giocatore2` FROM `wintertourtennis_risultati`) OR `ID` IN (SELECT `giocatore3` FROM `wintertourtennis_risultati`) OR `ID` IN (SELECT `giocatore4` FROM `wintertourtennis_risultati`));";
+        
+        $res = $wpdb->get_results($sql);
+        
+        foreach ($res as &$row) {
+            foreach($row as &$value) {
+                $value = stripslashes($value);
+            }
+        }
+        
+        echo json_encode($res);
+    }
 	
 	function wintertour_get_autocomplete() {
 		global $wpdb;
@@ -986,6 +1060,12 @@
         global $wpdb;
         
         return $wpdb->get_row($wpdb->prepare("SELECT * FROM `wintertourtennis_punteggi` WHERE ID = %d;", $ID));
+    }
+    
+    function wintertour_getrisultato($ID) {
+        global $wpdb;
+        
+        return $wpdb->get_row($wpdb->prepare("SELECT * FROM `wintertourtennis_risultati` WHERE ID = %d;", $ID));
     }
     
     function wintertour_serverdate($date) {

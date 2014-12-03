@@ -35,6 +35,12 @@
             'puntigiocatori2e4' => $_POST['punteggio2'],
             'turno' => $_POST['tappa']
         ));
+    } else if(isset($_POST['edit'])) {
+        if(isset($_POST['socio23']) && isset($_POST['socio24'])) {
+            wintertour_edit_risultatoDoppio();
+        } else {
+            wintertour_edit_risultatoSingolo();
+        }
     }
 ?>
 <div class="wgest_page wgest_opt">
@@ -266,7 +272,7 @@
                     ?>
                         <tr>
                             <td>
-                                <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=edit&punteggio=' . $riga->ID); ?>">Gestisci</a>
+                                <a href="<?php echo admin_url('admin.php?page=wintertour_carica_risultati&action=edit&risultato=' . $riga->ID); ?>">Gestisci</a>
                             </td>
                             <td>
                                 <a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $giocatore1->ID); ?>"><?=$giocatore1->cognome?> <?=$giocatore1->nome?></a>
@@ -313,7 +319,7 @@
                     ?>
                         <tr>
                             <td>
-                                <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=edit&punteggio=' . $riga->ID); ?>">Gestisci</a>
+                                <a href="<?php echo admin_url('admin.php?page=wintertour_carica_risultati&action=edit&risultato=' . $riga->ID); ?>">Gestisci</a>
                             </td>
                             <td>
                                 <a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $giocatore1->ID); ?>"><?=$giocatore1->cognome?> <?=$giocatore1->nome?></a>
@@ -340,7 +346,126 @@
         <?php } else { ?>
             <div id="doppio" style="display:none;"><h3>Nessun risultato doppio</h3></div>
         <?php } ?>
-    <?php } else if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'edit') { ?>
-    <?php } if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
+    <?php } else if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'edit') {
+            $risultato = wintertour_getrisultato($_REQUEST['risultato']);
+    ?>
+        <form method="post">
+            <input name="ID" type="hidden" value="<?=$_REQUEST['risultato']?>" />
+            <input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
+            <table>
+                <thead>
+                    <tr>
+                        <th>Modifica risultato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="tappa">Seleziona tappa</label>
+                        </td>
+                        <td>
+                            <select name="tappa">
+                                <?php
+                                    $res = wintertour_elencaTurni();
+                                    
+                                    if(!$res) {
+                                ?>
+                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessuna tappa--</option>
+                                <?php } else { ?>
+                                    <option disabled="disabled" selected="selected" value="">--Selezionare una tappa--</option>
+                                <?php }
+                                    
+                                    foreach ($res as $x) {
+                                        $circolo = wintertour_getcircolo($x->circolo);
+                                    ?>
+                                        <option value="<?=$x->ID?>"<?php if($x->ID === $risultato->turno) { ?> selected="selected"<?php } ?>><?=$x->data?> - <?=$circolo->nome?> - <?=wintertour_getCategoria($x->ID)?></option>
+                                    <?php } ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="40%" style="padding: 0; width: 45%;">
+                            <input data-autocompname="socio21" type="text" placeholder="Cerca giocatore 1" class="searchbox autocompletion" />
+                        </td>
+                        <td width="60%" style="padding: 0; width: 55%;">
+                            <select data-autocomptype="soci" name="socio21" class="searchbox autocompletion">
+                                <?php
+                                    $giocatore1 = wintertour_get_socio($risultato->giocatore1);
+                                ?>
+                                <option disabled="disabled" selected="selected" value="">--Selezionare giocatore 1--</option>
+                                <option selected="selected" value="<?=$giocatore1->ID?>"><?=$giocatore1->cognome?> <?=$giocatore1->nome?></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="40%" style="padding: 0; width: 45%;">
+                            <input data-autocompname="socio22" type="text" placeholder="Cerca giocatore 2" class="searchbox autocompletion" />
+                        </td>
+                        <td width="60%" style="padding: 0; width: 55%;">
+                            <select data-autocomptype="soci" name="socio22" class="searchbox autocompletion">
+                                <?php
+                                    $giocatore2 = wintertour_get_socio($risultato->giocatore2);
+                                ?>
+                                <option disabled="disabled" selected="selected" value="">--Selezionare giocatore 2--</option>
+                                <option selected="selected" value="<?=$giocatore2->ID?>"><?=$giocatore2->cognome?> <?=$giocatore2->nome?></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <?php if($risultato->giocatore3 != NULL && $risultato->giocatore4 != NULL) { ?>
+                    <tr>
+                        <td width="40%" style="padding: 0; width: 45%;">
+                            <input data-autocompname="socio23" type="text" placeholder="Cerca giocatore 3" class="searchbox autocompletion" />
+                        </td>
+                        <td width="60%" style="padding: 0; width: 55%;">
+                            <select data-autocomptype="soci" name="socio23" class="searchbox autocompletion">
+                                <?php
+                                    $giocatore3 = wintertour_get_socio($risultato->giocatore3);
+                                ?>
+                                <option disabled="disabled" selected="selected" value="">--Selezionare giocatore 3--</option>
+                                <option selected="selected" value="<?=$giocatore3->ID?>"><?=$giocatore3->cognome?> <?=$giocatore3->nome?></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="40%" style="padding: 0; width: 45%;">
+                            <input data-autocompname="socio24" type="text" placeholder="Cerca giocatore 4" class="searchbox autocompletion" />
+                        </td>
+                        <td width="60%" style="padding: 0; width: 55%;">
+                            <select data-autocomptype="soci" name="socio24" class="searchbox autocompletion">
+                                <?php
+                                    $giocatore4 = wintertour_get_socio($risultato->giocatore4);
+                                ?>
+                                <option disabled="disabled" selected="selected" value="">--Selezionare giocatore 4--</option>
+                                <option selected="selected" value="<?=$giocatore4->ID?>"><?=$giocatore4->cognome?> <?=$giocatore4->nome?></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    <tr>
+                        <td>
+                            <label for="punteggio1">Punteggio squadra 1</label>
+                        </td>
+                        <td>
+                            <input name="punteggio1" type="text" placeholder="Punteggio squadra 1" value="<?=$risultato->puntigiocatori1e3?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="punteggio2">Punteggio squadra 2</label>
+                        </td>
+                        <td>
+                            <input name="punteggio2" type="text" placeholder="Punteggio squadra 2" value="<?=$risultato->puntigiocatori2e4?>" />
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input type="submit" name="edit" value="Modifica" />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
     <?php } ?>
 </div>

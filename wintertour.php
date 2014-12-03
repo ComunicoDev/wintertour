@@ -119,8 +119,8 @@
 		wp_register_script('datetimepicker', plugins_url('js/jquery.datetimepicker.js', __FILE__), array('jquery'), '2.3.6');
 		wp_register_script('typewatch', plugins_url('js/jquery.typewatch.js', __FILE__), array('jquery'), '2.2.1');
 		
-		wp_register_script('footready', plugins_url('js/footready.js', __FILE__), array('jquery'), '1.0.0', true);
-		wp_register_script('autocompletion', plugins_url('js/jquery.autocompletion.js', __FILE__), array('jquery'), '1.0.0', true);
+		wp_register_script('autocompletion', plugins_url('js/jquery.autocompletion.js', __FILE__), array('jquery', 'typewatch'), '1.0.0', true);
+        wp_register_script('footready', plugins_url('js/footready.js', __FILE__), array('jquery', 'autocompletion'), '1.0.0', true);
 		
 		wp_enqueue_style('jscrollpane');
 		wp_enqueue_style('datetimepicker');
@@ -137,10 +137,16 @@
 	}
 	
 	function wintertour_scripts() {
-		wp_register_style('wintertour_style', plugins_url("css/wintertour_style.css", __FILE__ ));
-		wp_register_script('wintertourform', plugins_url('js/wintertourform.js', __FILE__), array('jquery'), '1.0.0', true);
         wp_register_style('datetimepicker', plugins_url("css/jquery.datetimepicker.css", __FILE__ ));
+        
         wp_register_script('datetimepicker', plugins_url('js/jquery.datetimepicker.js', __FILE__), array('jquery'), '2.3.6');
+        wp_register_script('typewatch', plugins_url('js/jquery.typewatch.js', __FILE__), array('jquery'), '2.2.1');
+        
+		wp_register_style('wintertour_style', plugins_url("css/wintertour_style.css", __FILE__ ));
+        
+        wp_register_script('wintertourform', plugins_url('js/wintertourform.js', __FILE__), array('jquery'), '1.0.0', true);
+        wp_register_script('autogiocatore', plugins_url('js/jquery.autogiocatore.js', __FILE__), array('jquery', 'typewatch'), '1.0.0', true);
+        wp_register_script('wintertourschedagiocatore', plugins_url('js/wintertourschedagiocatore.js', __FILE__), array('jquery', 'autogiocatore'), '1.0.0', true);
 	}
 	
 	/**
@@ -169,6 +175,12 @@
 		
 		die();
 	}
+    
+    function wintertour_autogiocatore() {
+        wintertour_get_autogiocatore();
+        
+        die();
+    }
 	
 	function remove_footer_admin() {
 		remove_filter( 'update_footer', 'core_update_footer' );
@@ -197,6 +209,7 @@
 	
 	if (is_admin()) {
 		add_action('wp_ajax_wintertour_autocomplete', 'wintertour_autocomplete');
+        add_action('wp_ajax_wintertour_autogiocatore', 'wintertour_autogiocatore');
 	}
 	register_activation_hook( __FILE__, 'wintertour_install' );
 ?>
