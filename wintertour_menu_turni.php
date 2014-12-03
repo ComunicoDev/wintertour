@@ -12,7 +12,7 @@
     if ( !function_exists( 'plugins_url' ) ) {
         exit;
     }
-    
+    wintertour_searchTurni();
     if(isset($_POST['socioadd'])) {
         wintertour_addTurno();
     } else if(isset($_POST['turnomodifica'])) {
@@ -34,7 +34,67 @@
         <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=search'); ?>">Ricerca e modifica tappe</a>
     </p>
     
-    <?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
+    <?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'search') { ?>
+        <form action="<?php echo admin_url('admin.php?page=wintertour_turni&action=view'); ?>" method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            <h3>Cerca tappa</h3>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="data">Data: </label>
+                        </td>
+                        <td>
+                            <input autocomplete="off" name="data" type="text" placeholder="gg/mm/aaaa" class="date" pattern="\d\d\/\d\d/\d{4}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="circolo">Circolo:</label>
+                        </td>
+                        <td>
+                            <select name="circolo" id="circolo">
+                                <?php
+                                    $res = wintertour_elencacircoli();
+                                    
+                                    if(!$res) {
+                                ?>
+                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessun circolo--</option>
+                                <?php } else { ?>
+                                    <option disabled="disabled" selected="selected" value="">--Selezionare un circolo--</option>
+                                <?php }
+                                    
+                                    foreach ($res as $x) {
+                                        echo "<option value=\"$x->ID\">$x->nome</option>";
+                                    }
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="categoria">Categoria:</label>
+                        </td>
+                        <td>
+                            <?=wintertour_selectCategorie(array('name' => 'categoria'))?>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input name="ricerca" type="submit" value="Cerca" />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    <?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
         <form action="<?php echo admin_url('admin.php?page=wintertour_turni&action=add'); ?>" method="post">
             <table>
                 <thead>
@@ -95,7 +155,11 @@
             </table>
         </form>
     <?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'view') {
-        $turni = wintertour_elencaturni();
+        if(isset($_POST['ricerca'])) {
+            $turni = wintertour_searchTurni();
+        } else {
+            $turni = wintertour_elencaturni();
+        }
     ?>
         <?php if(count($turni) > 0) { ?>
             <h3>Elenco tappe</h3>
@@ -104,7 +168,7 @@
                     <tr>
                         <th>Azione</th>
                         <th>ID tappa</th>
-                        <th>Data e ora</th>
+                        <th>Data</th>
                         <th>Categoria</th>
                         <th>Circolo</th>
                     </tr>

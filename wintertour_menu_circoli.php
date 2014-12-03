@@ -31,7 +31,7 @@
     <p>
         <a href="<?php echo admin_url('admin.php?page=wintertour_circoli&action=add'); ?>">Aggiungi circolo</a><br />
         <a href="<?php echo admin_url('admin.php?page=wintertour_circoli&action=view'); ?>">Consulta e modifica circoli</a><br />
-        <a href="<?php echo admin_url('admin.php?page=wintertour_circoli&action=search'); ?>">Ricerca e modifica circoli</a>
+        <!--<a href="<?php echo admin_url('admin.php?page=wintertour_circoli&action=search'); ?>">Ricerca e modifica circoli</a>-->
     </p>
 	
 	<?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
