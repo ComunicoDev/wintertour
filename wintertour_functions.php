@@ -538,18 +538,6 @@
         
         $wpdb->query($sql);
     }
-    
-    function wintertour_elencaRisultatiSingolo() {
-        global $wpdb;
-        
-        return $wpdb->get_results("SELECT * FROM `wintertourtennis_risultati` WHERE `giocatore3` IS NULL OR `giocatore4` IS NULL;");
-    }
-    
-    function wintertour_elencaRisultatiDoppio() {
-        global $wpdb;
-        
-        return $wpdb->get_results("SELECT * FROM `wintertourtennis_risultati` WHERE `giocatore3` IS NOT NULL AND `giocatore4` IS NOT NULL;");
-    }
 	
 	function wintertour_addSocio() {
 		global $wpdb;
@@ -1104,7 +1092,93 @@
         $sql .= " ORDER BY `data`;";
         
         return $wpdb->get_results($sql);
-    } 
+    }
+    
+    function wintertour_cercaRisultatiSingolo() {
+        global $wpdb;
+        
+        $sql = "SELECT `wintertourtennis_risultati`.*, `wintertourtennis_turni`.`data` FROM `wintertourtennis_risultati` LEFT JOIN `wintertourtennis_turni` ON `wintertourtennis_risultati`.`turno` = `wintertourtennis_turni`.`ID`";
+        $check = false;
+        
+        if(!empty($_POST['tappa'])) {
+            if(!$check) {
+                $sql .= " WHERE ";
+                $check = true;
+            } else {
+                $sql .= " AND ";
+            }
+            
+            $sql .= " `turno` = $_POST[tappa]";
+        }
+        
+        if(!empty($_POST['socio23']) && !empty($_POST['socio24'])) {
+            return null;
+        }
+        
+        if(!empty($_POST['socio11']) && !empty($_POST['socio12'])) {
+            if(!$check) {
+                $sql .= " WHERE ";
+                $check = true;
+            } else {
+                $sql .= " AND ";
+            }
+            
+            $sql .= "  `giocatore1` = $_POST[socio11] AND `giocatore2` = $_POST[socio12]";
+        }
+        
+        $sql .= " AND `giocatore3` IS NULL && `giocatore4` IS NULL ORDER BY `data`;";
+        
+        return $wpdb->get_results($sql);
+    }
+    
+    function wintertour_cercaRisultatiDoppio() {
+        global $wpdb;
+        
+        $sql = "SELECT `wintertourtennis_risultati`.*, `wintertourtennis_turni`.`data` FROM `wintertourtennis_risultati` LEFT JOIN `wintertourtennis_turni` ON `wintertourtennis_risultati`.`turno` = `wintertourtennis_turni`.`ID`";
+        $check = false;
+        
+        if(!empty($_POST['tappa'])) {
+            if(!$check) {
+                $sql .= " WHERE ";
+                $check = true;
+            } else {
+                $sql .= " AND ";
+            }
+            
+            $sql .= " `turno` = $_POST[tappa]";
+        }
+        
+        if(!empty($_POST['socio21']) && !empty($_POST['socio22']) && !empty($_POST['socio23']) && !empty($_POST['socio24'])) {
+            if(!$check) {
+                $sql .= " WHERE ";
+                $check = true;
+            } else {
+                $sql .= " AND ";
+            }
+            
+            $sql .= " `giocatore1` = $_POST[socio21] AND  `giocatore2` = $_POST[socio22] AND `giocatore3` = $_POST[socio23] AND `giocatore4` = $_POST[socio24]";
+        } else {
+            return null;
+        }
+        
+        $sql .= " ORDER BY `data`;";
+        
+        return $wpdb->get_results($sql);
+    }
+    
+    // $sql = "SELECT `wintertourtennis_risultati`.*, `wintertourtennis_turni`.`data` FROM `wintertourtennis_risultati` LEFT JOIN `wintertourtennis_turni` ON `wintertourtennis_risultati`.`turno` = `wintertourtennis_turni`.`ID` ORDER BY `data`;";
+    
+    function wintertour_elencaRisultatiSingolo() {
+        global $wpdb;
+        
+        return $wpdb->get_results("SELECT `wintertourtennis_risultati`.*, `wintertourtennis_turni`.`data` FROM `wintertourtennis_risultati` LEFT JOIN `wintertourtennis_turni` ON `wintertourtennis_risultati`.`turno` = `wintertourtennis_turni`.`ID` WHERE `giocatore3` IS NULL OR `giocatore4` IS NULL ORDER BY `data`;");
+    }
+    
+    function wintertour_elencaRisultatiDoppio() {
+        global $wpdb;
+        
+        return $wpdb->get_results("SELECT `wintertourtennis_risultati`.*, `wintertourtennis_turni`.`data` FROM `wintertourtennis_risultati` LEFT JOIN `wintertourtennis_turni` ON `wintertourtennis_risultati`.`turno` = `wintertourtennis_turni`.`ID` WHERE `giocatore3` IS NOT NULL AND `giocatore4` IS NOT NULL ORDER BY `data`;");
+    }
 	
 	function wintertour_elencatipi() {
 		global $wpdb;
