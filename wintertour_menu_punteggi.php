@@ -34,7 +34,72 @@
         <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=search'); ?>">Ricerca e modifica punteggi</a>
     </p>
     
-    <?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
+    <?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'search') { ?>
+        <form action="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=view'); ?>" method="post">
+            <input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            <h3>Ricerca punteggio</h3>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="turno">Turno:</label>
+                        </td>
+                        <td>
+                            <select name="turno" id="turno">
+                                <?php
+                                    $res = wintertour_elencaTurni();
+                                    
+                                    if(!$res) {
+                                ?>
+                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessun turno--</option>
+                                <?php } else { ?>
+                                    <option disabled="disabled" selected="selected" value="">--Selezionare un turno--</option>
+                                <?php }
+                                    
+                                    foreach ($res as $x) {
+                                        $circolo = wintertour_getcircolo($x->circolo);
+                                        echo "<option value=\"$x->ID\">$x->data - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
+                                    }
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="socio">Socio:</label>
+                        </td>
+                        <td>
+                            <table cellpadding="0" cellspacing="0" border="0" style="min-width: 500px; width: 500px;">
+                                <tr>
+                                    <td width="40%" style="padding: 0; width: 45%;">
+                                        <input data-autocompname="socio" type="text" placeholder="Cerca un socio" class="searchbox autocompletion" />
+                                    </td>
+                                    <td width="60%" style="padding: 0; width: 55%;">
+                                        <select data-autocomptype="soci" name="socio" class="searchbox autocompletion">
+                                            <option disabled="disabled" selected="selected" value="">--Cercare un socio--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input name="ricerca" type="submit" value="Cerca" />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    <?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'add') { ?>
         <form action="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=add'); ?>" method="post">
             <input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
             <table>
@@ -108,10 +173,14 @@
             </table>
         </form>
     <?php } else if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'view') {
-        $punteggi = wintertour_elencapunteggi();
+        if(isset($_POST['ricerca'])) {
+            $punteggi = wintertour_searchPunteggi();
+        } else {
+            $punteggi = wintertour_elencapunteggi();
+        }
     ?>
         <?php if(count($punteggi) > 0) { ?>
-            <h3>Elenco punteggi</h3>
+            <h3><?=(isset($_POST['ricerca'])) ? "Risultati della ricerca" : "Elenco punteggi"?></h3>
             <table class="output-table">
                 <thead>
                     <tr>
@@ -133,7 +202,7 @@
                                 <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=punteggiedit&punteggio=' . $riga->ID); ?>">Gestisci</a>
                             </td>
                             <td><a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $socio->ID); ?>"><?=$socio->cognome?> <?=$socio->nome?></a></td>
-                            <td><a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=$turno->data?> <?=$circolo->nome?></a></td>
+                            <td><a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=$circolo->nome?> <?=wintertour_localdate($turno->data)?></a></td>
                             <td><?=wintertour_getCategoria($turno->ID)?></td>
                             <td><?=$riga->punteggio?></td>
                         </tr>

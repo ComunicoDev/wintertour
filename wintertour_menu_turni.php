@@ -12,7 +12,7 @@
     if ( !function_exists( 'plugins_url' ) ) {
         exit;
     }
-    wintertour_searchTurni();
+    
     if(isset($_POST['socioadd'])) {
         wintertour_addTurno();
     } else if(isset($_POST['turnomodifica'])) {
@@ -162,7 +162,7 @@
         }
     ?>
         <?php if(count($turni) > 0) { ?>
-            <h3>Elenco tappe</h3>
+            <h3><?=(isset($_POST['ricerca'])) ? "Risultati della ricerca" : "Elenco tappe"?></h3>
             <table class="output-table">
                 <thead>
                     <tr>

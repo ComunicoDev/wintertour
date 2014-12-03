@@ -974,12 +974,6 @@
         return $wpdb->get_var("SELECT COUNT(*) FROM `wintertourtennis_circoli` WHERE `ID` IN (SELECT `circolo` FROM `wintertourtennis_turni`);");
     }
     
-    function wintertour_searchTappe() {
-        global $wpdb;
-        
-        $sql = "";
-    }
-    
     function wintertour_elencaGiocatori() {
         global $wpdb;
         
@@ -991,7 +985,7 @@
 	function wintertour_elencapunteggi() {
 	    global $wpdb;
         
-        $sql = "SELECT * FROM `wintertourtennis_punteggi`;";
+        $sql = "SELECT `wintertourtennis_punteggi`.*, `wintertourtennis_turni`.`data` FROM `wintertourtennis_punteggi` LEFT JOIN `wintertourtennis_turni` ON `wintertourtennis_punteggi`.`turno` = `wintertourtennis_turni`.`ID` ORDER BY `data`;";
         
         return $wpdb->get_results($sql);
 	}
@@ -1078,6 +1072,39 @@
         
         return $wpdb->get_results($sql);
     }
+    
+    function wintertour_searchPunteggi() {
+        global $wpdb;
+        
+        $sql = "SELECT `wintertourtennis_punteggi`.*, `wintertourtennis_turni`.`data` FROM `wintertourtennis_punteggi` LEFT JOIN `wintertourtennis_turni` ON `wintertourtennis_punteggi`.`turno` = `wintertourtennis_turni`.`ID`";
+        $check = false;
+        
+        if(!empty($_POST['turno'])) {
+            if(!$check) {
+                $sql .= " WHERE ";
+                $check = true;
+            } else {
+                $sql .= " AND ";
+            }
+            
+            $sql .= " `turno` = $_POST[turno]";
+        }
+        
+        if(!empty($_POST['socio'])) {
+            if(!$check) {
+                $sql .= " WHERE ";
+                $check = true;
+            } else {
+                $sql .= " AND ";
+            }
+            
+            $sql .= " `socio` = $_POST[socio]";
+        }
+        
+        $sql .= " ORDER BY `data`;";
+        
+        return $wpdb->get_results($sql);
+    } 
 	
 	function wintertour_elencatipi() {
 		global $wpdb;
@@ -1179,8 +1206,8 @@
                 <li><a href="<?php echo admin_url('admin.php?page=wintertour_circoli'); ?>">Circoli</a></li>
                 <li><a href="<?php echo admin_url('admin.php?page=wintertour_turni'); ?>">Tappe</a></li>
                 <li><a href="<?php echo admin_url('admin.php?page=wintertour_punteggi'); ?>">Punteggi</a></li>
-                <li><a href="<?php echo admin_url('admin.php?page=wintertour_risultati'); ?>">Classifica</a></li>
                 <li><a href="<?php echo admin_url('admin.php?page=wintertour_carica_risultati'); ?>">Risultati</a></li>
+                <li><a href="<?php echo admin_url('admin.php?page=wintertour_risultati'); ?>">Classifica</a></li>
                 <li><a href="<?php echo admin_url('admin.php?page=wintertour_tabella_incontri'); ?>">Tabella Incontri</a></li>
             </ul>
     <?php }
