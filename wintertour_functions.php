@@ -1039,7 +1039,7 @@
 	function wintertour_countSoci() {
 	    global $wpdb;
         
-        return $wpdb->get_var("SELECT COUNT(*) FROM `wintertourtennis_soci`;");
+        return $wpdb->get_var("SELECT COUNT(*) FROM `wintertourtennis_soci`" . (($_GET["sex"] === "M" || $_GET["sex"] === "F") ? " WHERE `sesso` = \"$_GET[sex]\"" : "") . ";");
 	}
 	
 	function wintertour_showSoci($page = 1, $limit = 20) {
