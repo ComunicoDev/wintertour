@@ -102,7 +102,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td><input type="submit" value="Visualizza tabella incontri" /></td>
+                        <td><input type="submit" value="Visualizza classifica" /></td>
                     </tr>
                 </tfoot>
             </table>

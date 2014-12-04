@@ -120,7 +120,7 @@
             
             $headers = "Content-type: text/html" . "\r\n";
             $headers .= "From: SportHappenings <info@sporthappenings.it>" . "\r\n";
-            $subject = "Un utente ha inviato il suo certificato metico";
+            $subject = "Un utente ha inviato il suo certificato medico";
             
             $message = "<!doctype html><html><head><title>$subject</title></head><body>";
             $message .= "Un utente ha inviato il suo certificato metico. Vedi allegato";
@@ -157,6 +157,28 @@
             if($socio->token === $token) {
                 wintertour_activate_socio($socio->ID);
                 echo "Operazione eseguita con successo. L'utente è stato verificato<br /><br />Carica ora il tuo certificato medico, oppure inviacelo più tardi tramite email a <a href=\"mailto:info@sporthappenings.it\">info@sporthappenings.it</a>";
+                
+                $nome = $socio->nome;
+                $cognome = $socio->cognome;
+                $email = $socio->email;
+                $cittanascita = $socio->cittanascita;
+                $datanascita = wintertour_localdate($socio->datanascita);
+                $codicefiscale = $socio->codicefiscale;
+                $citta = $socio->citta;
+                $cap = $socio->cap;
+                $indirizzo = $socio->indirizzo;
+                $telefono = $socio->telefono;
+                $cellulare = $socio->cellulare;
+                
+                $headers = "Content-type: text/html" . "\r\n";
+                $headers .= "From: $nome $cognome <$email>" . "\r\n";
+                $subject = "Iscrizione di $nome $cognome a SportHappenings";
+                
+                $message = "<!doctype html><html><head><title>$subject</title></head><body>";
+                $message .= "È pervenuta una nuova iscrizione sul sito <a href=\"http://www.sporthappenings.it/wintertourtennis/\">WinterTour Tennis</a><p><b>Il sottoscritto</b></p><p>Nome: $nome</p><p>Cognome: $cognome</p><p>Nato a: $cittanascita</p><p>Nato il: $datanascita</p><p>Codice fiscale: $codicefiscale</p><p>Residente in: $citta</p><p>CAP: $cap</p><p>Indirizzo: $indirizzo</p><p>Numero di Telefono: $telefono</p><p>Numero di Cellulare: $cellulare</p><p>La tua email: $email</p><p><b>Richiede la tessera socio all'A.S.D. Sport Happenings</b></p><p><b>Informativa ai sensi art. 13 D.lgs.196/03</b><br /><br />La presente per informarvi che presso la nostra società viene effettuato il trattamento dei Vs. dati personali nel pieno rispetto del DecretoLegislativo196/03.<br />I dati sono inseriti nelle banche dati della nostra società in seguito all'acquisizione del Vs. consenso salvo i casi in cui all'art.24 D. Lgs. 196/03. In base a<br />tale normativa il trattamento sarà improntato ai principi di correttezza, liceità,e trasparenza e di tutela della Sua riservatezza e dei Suoi diritti. Ai sensi<br />dell'art. 13 la informiamo che i dati sono raccolti al fine di obblighi contrattuali, adempimenti contabili e fiscali ed il trattamento avviene con le modalità<br />manuale e informatizzata.<br />-Il conferimento dei dati ha natura obbligatoria. In caso di rifiuto di conferire i dati le conseguenze saranno di mancata o parziale esecuzione del contratto<br />-I suoi dati non saranno comunicati ad altri soggetti, né saranno oggetto di diffusione fatta eccezione per gli studi professionali preposti alla consulenza<br />contabile e finanziaria della nostra società in quanto trattasi di soggetti responsabili ed incaricati del trattamento<br />-Al titolare ed al responsabile del trattamento Lei potrà rivolgersi per far valere i suoi diritti così come previsti dall'art. 7 del D.Lgs. 196/03, cioè la conferma<br />dell'esistenza o meno dei dati che la riguardano; la cancellazione , la trasformazione in forma anonima ed il blocco dei dati trattati in violazione di legge;<br />l'aggiornamento, la rettificazione ovvero l'integrazione dei dati; l'attestazione che le operazioni descritte sono state portate a conoscenza di coloro ai quali i<br />dati sono stati comunicati o diffusi<br />-Il Responsabile del trattamento anche ai sensi dell'art.7 D.Lgs: 196/03 è la sig.ra Margherita Vigliano</p>";
+                $message .= "</body></html>";
+                
+                wp_mail(array("info@sporthappenings.it"), $subject, $message, $headers);
 ?>
     <div class="wintertour_plugin wintertour_shortcode">
         <h3>Carica certificato</h3>

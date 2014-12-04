@@ -137,7 +137,7 @@
         6 => "Staffetta Femminile A",
         7 => "Staffetta Maschile B",
         8 => "Staffetta Femminile B",
-        9 => "Staffetta Mista B",
+        9 => "Staffetta Mista A",
         10 => "Staffetta Mista B",
         11 => "Staffetta Junior A",
         12 =>"Staffetta Junior B"

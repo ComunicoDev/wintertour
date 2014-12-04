@@ -48,7 +48,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <label for="turno">Turno:</label>
+                            <label for="turno">Tappa:</label>
                         </td>
                         <td>
                             <select name="turno" id="turno">
@@ -57,14 +57,14 @@
                                     
                                     if(!$res) {
                                 ?>
-                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessun turno--</option>
+                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessuna tappa--</option>
                                 <?php } else { ?>
-                                    <option disabled="disabled" selected="selected" value="">--Selezionare un turno--</option>
+                                    <option disabled="disabled" selected="selected" value="">--Selezionare una tappa--</option>
                                 <?php }
                                     
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
-                                        echo "<option value=\"$x->ID\">" . wintertour_localdate($x->data) ." - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
+                                        echo "<option value=\"$x->ID\">" . wintertour_localdate($x->data) . " - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
                                     }
                                 ?>
                             </select>
@@ -122,7 +122,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="turno">Turno:</label>
+                            <label for="turno">Tappa:</label>
                         </td>
                         <td>
                             <select name="turno" id="turno">
@@ -131,14 +131,14 @@
                                     
                                     if(!$res) {
                                 ?>
-                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessun turno--</option>
+                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessuna tappa--</option>
                                 <?php } else { ?>
-                                    <option disabled="disabled" selected="selected" value="">--Selezionare un turno--</option>
+                                    <option disabled="disabled" selected="selected" value="">--Selezionare una tappa--</option>
                                 <?php }
                                     
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
-                                        echo "<option value=\"$x->ID\">" . wintertour_localdate($x->data) . "- $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
+                                        echo "<option value=\"$x->ID\">" . wintertour_localdate($x->data) . " - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
                                     }
                                 ?>
                             </select>
@@ -187,7 +187,7 @@
                     <tr>
                         <th>Azione</th>
                         <th>Socio</th>
-                        <th>Turno</th>
+                        <th>Tappa</th>
                         <th>Categoria</th>
                         <th>Punteggio</th>
                     </tr>
@@ -245,7 +245,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="turno">Turno:</label>
+                            <label for="turno">Tappa:</label>
                         </td>
                         <td>
                             <select name="turno" id="turno">
@@ -254,9 +254,9 @@
                                     
                                     if(!$res) {
                                 ?>
-                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessun turno--</option>
+                                    <option disabled="disabled" selected="selected" value="">--Non esiste nessuna tappa--</option>
                                 <?php } else { ?>
-                                    <option disabled="disabled" selected="selected" value="">--Selezionare un turno--</option>
+                                    <option disabled="disabled" selected="selected" value="">--Selezionare una tappa--</option>
                                 <?php }
                                     
                                     foreach ($res as $x) {
