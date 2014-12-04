@@ -55,5 +55,7 @@
                 <?php } ?>
             </tbody>
         </table>
+    <?php } else { ?>
+        <h3>Nessun risultato</h3>
     <?php } ?>
 </div>
