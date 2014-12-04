@@ -171,7 +171,7 @@
                             <td><?=$riga->nomereferente?></td>
                             <td><?=$riga->telefono?></td>
                             <td><?=$riga->cellulare?></td>
-                            <td><?=$riga->email?></td>
+                            <td><a href="mailto:<?=$riga->email?>"><?=$riga->email?></a></td>
                         </tr>
                     <?php } ?>
                 </tbody>
