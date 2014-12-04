@@ -92,7 +92,7 @@
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
                                     ?>
-                                        <option value="<?=$x->ID?>"<?php if($x->ID === $_POST['tappa']) { ?> selected="selected"<?php } ?>><?=$x->data?> - <?=$circolo->nome?> - <?=wintertour_getCategoria($x->ID)?></option>
+                                        <option value="<?=$x->ID?>"<?php if($x->ID === $_POST['tappa']) { ?> selected="selected"<?php } ?>><?=wintertour_localdate($x->data)?> - <?=$circolo->nome?> - <?=wintertour_getCategoria($x->ID)?></option>
                                     <?php } ?>
                             </select>
                         </td>
@@ -156,7 +156,7 @@
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
                                     ?>
-                                        <option value="<?=$x->ID?>"<?php if($x->ID === $_POST['tappa']) { ?> selected="selected"<?php } ?>><?=$x->data?> - <?=$circolo->nome?> - <?=wintertour_getCategoria($x->ID)?></option>
+                                        <option value="<?=$x->ID?>"<?php if($x->ID === $_POST['tappa']) { ?> selected="selected"<?php } ?>><?=wintertour_localdate($x->data)?> - <?=$circolo->nome?> - <?=wintertour_getCategoria($x->ID)?></option>
                                     <?php } ?>
                             </select>
                         </td>
@@ -246,7 +246,7 @@
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
                                     ?>
-                                        <option value="<?=$x->ID?>"<?php if($x->ID === $_POST['tappa']) { ?> selected="selected"<?php } ?>><?=$x->data?> - <?=$circolo->nome?> - <?=wintertour_getCategoria($x->ID)?></option>
+                                        <option value="<?=$x->ID?>"<?php if($x->ID === $_POST['tappa']) { ?> selected="selected"<?php } ?>><?=wintertour_localdate($x->data)?> - <?=$circolo->nome?> - <?=wintertour_getCategoria($x->ID)?></option>
                                     <?php } ?>
                             </select>
                         </td>
@@ -325,7 +325,7 @@
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
                                     ?>
-                                        <option value="<?=$x->ID?>"<?php if($x->ID === $_POST['tappa']) { ?> selected="selected"<?php } ?>><?=$x->data?> - <?=$circolo->nome?> - <?=wintertour_getCategoria($x->ID)?></option>
+                                        <option value="<?=$x->ID?>"<?php if($x->ID === $_POST['tappa']) { ?> selected="selected"<?php } ?>><?=wintertour_localdate($x->data)?> - <?=$circolo->nome?> - <?=wintertour_getCategoria($x->ID)?></option>
                                     <?php } ?>
                             </select>
                         </td>
@@ -441,7 +441,7 @@
                             <td><?=$riga->puntigiocatori1e3?></td>
                             <td><?=$riga->puntigiocatori2e4?></td>
                             <td>
-                                <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=$turno->data?> <?=$circolo->nome?> - <?=wintertour_getCategoria($turno->ID)?></a>
+                                <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=wintertour_localdate($turno->data)?> <?=$circolo->nome?> - <?=wintertour_getCategoria($turno->ID)?></a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -503,7 +503,7 @@
                             <td><?=$riga->puntigiocatori1e3?></td>
                             <td><?=$riga->puntigiocatori2e4?></td>
                             <td>
-                                <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=$turno->data?> <?=$circolo->nome?></a>
+                                <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=wintertour_localdate($turno->data)?> <?=$circolo->nome?></a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -545,7 +545,7 @@
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
                                     ?>
-                                        <option value="<?=$x->ID?>"<?php if($x->ID === $risultato->turno) { ?> selected="selected"<?php } ?>><?=$x->data?> - <?=$circolo->nome?> - <?=wintertour_getCategoria($x->ID)?></option>
+                                        <option value="<?=$x->ID?>"<?php if($x->ID === $risultato->turno) { ?> selected="selected"<?php } ?>><?=wintertour_localdate($x->data)?> - <?=$circolo->nome?> - <?=wintertour_getCategoria($x->ID)?></option>
                                     <?php } ?>
                             </select>
                         </td>
