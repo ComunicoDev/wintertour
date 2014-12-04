@@ -365,10 +365,37 @@
         return $wpdb->get_results("SELECT * FROM `wintertourtennis_turni` WHERE `ID` IN (SELECT `turno` FROM `wintertourtennis_risultati`);");
     }
     
+    function wintertour_tappeCategoria($categoria) {
+        global $wpdb;
+        
+        $sql = $wpdb->prepare(
+            "SELECT * FROM `wintertourtennis_turni` WHERE `ID` IN (SELECT `turno` FROM `wintertourtennis_risultati`) AND `categoria` = %d;",
+            $categoria
+        );
+        
+        return $wpdb->get_results($sql);
+    }
+    
     function wintertour_elencaPartecipanti() {
         global $wpdb;
         
         return $wpdb->get_results("SELECT `ID`, `cognome`, `nome`, @row := @row + 1 AS n FROM (SELECT `ID`, `nome`, `cognome` FROM `wintertourtennis_soci` WHERE `ID` IN (SELECT `giocatore1` FROM `wintertourtennis_risultati`) OR `ID` IN (SELECT `giocatore2` FROM `wintertourtennis_risultati`) OR `ID` IN (SELECT `giocatore3` FROM `wintertourtennis_risultati`) OR `ID` IN (SELECT `giocatore4` FROM `wintertourtennis_risultati`) ORDER BY `cognome`) AS t CROSS JOIN (SELECT @row := 0) AS row;");
+    }
+    
+    function wintertour_partecipantiCategoria($categoria) {
+        global $wpdb;
+        
+        $sql = $wpdb->prepare(
+            "SELECT `ID`, `cognome`, `nome`, @row := @row + 1 AS n FROM (SELECT `ID`, `nome`, `cognome` FROM `wintertourtennis_soci` WHERE" .
+                "`ID` IN (SELECT `giocatore1` FROM `wintertourtennis_risultati` WHERE `turno` IN (SELECT `ID` FROM `wintertourtennis_turni` WHERE `categoria` = %d)) OR" .
+                "`ID` IN (SELECT `giocatore2` FROM `wintertourtennis_risultati` WHERE `turno` IN (SELECT `ID` FROM `wintertourtennis_turni` WHERE `categoria` = %d)) OR" .
+                "`ID` IN (SELECT `giocatore3` FROM `wintertourtennis_risultati` WHERE `turno` IN (SELECT `ID` FROM `wintertourtennis_turni` WHERE `categoria` = %d)) OR" .
+                "`ID` IN (SELECT `giocatore4` FROM `wintertourtennis_risultati` WHERE `turno` IN (SELECT `ID` FROM `wintertourtennis_turni` WHERE `categoria` = %d))" .
+            "ORDER BY `cognome`) AS t CROSS JOIN (SELECT @row := 0) AS row",
+            $categoria, $categoria, $categoria, $categoria
+        );
+        
+        return $wpdb->get_results($sql);
     }
     
     function wintertour_getCategoria($turnoid) {
@@ -1041,6 +1068,17 @@
         global $wpdb;
         
         $sql = "SELECT `wintertourtennis_soci`.`ID`, `nome`, `cognome`, `punteggi`.`punteggio` FROM `wintertourtennis_soci` LEFT JOIN (SELECT `socio` AS `ID`, SUM(`punteggio`) AS `punteggio` FROM `wintertourtennis_punteggi` GROUP BY `socio`) AS `punteggi` ON `wintertourtennis_soci`.`ID`=`punteggi`.`ID` WHERE `wintertourtennis_soci`.`ID` IN (SELECT `socio` FROM `wintertourtennis_punteggi`) ORDER BY `punteggio` DESC;";
+        
+        return $wpdb->get_results($sql);
+    }
+    
+    function wintertour_giocatoriCategoria($categoria) {
+        global $wpdb;
+        
+        $sql = $wpdb->prepare(
+            "SELECT `wintertourtennis_soci`.`ID`, `nome`, `cognome`, `punteggi`.`punteggio` FROM `wintertourtennis_soci` LEFT JOIN (SELECT `socio` AS `ID`, SUM(`punteggio`) AS `punteggio` FROM `wintertourtennis_punteggi` WHERE `turno` IN (SELECT `ID` FROM `wintertourtennis_turni` WHERE `categoria` = %d) GROUP BY `socio`) AS `punteggi` ON `wintertourtennis_soci`.`ID`=`punteggi`.`ID` WHERE `wintertourtennis_soci`.`ID` IN (SELECT `socio` FROM `wintertourtennis_punteggi` WHERE `turno` IN (SELECT `ID` FROM `wintertourtennis_turni` WHERE `categoria` = %d)) ORDER BY `punteggio` DESC;",
+            $categoria, $categoria
+        );
         
         return $wpdb->get_results($sql);
     }
