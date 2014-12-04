@@ -13,6 +13,8 @@
         exit;
     }
     
+    global $categorie;
+    
     if(isset($_POST['punteggioadd'])) {
         wintertour_addPunteggio();
     } else if(isset($_POST['punteggiomodifica'])) {
@@ -34,6 +36,7 @@
             
             if($giocatori != null && count($giocatori) > 0) {
         ?>
+            <h3>Classifica - <?=$categorie[$_REQUEST['categoria']]?></h3>
             <table class="output-table">
                 <thead>
                     <tr>
@@ -81,7 +84,7 @@
                 </tbody>
             </table>
         <?php } else { ?>
-            <h3>Nessun punteggio</h3>
+            <h3><?=$categorie[$_REQUEST['categoria']]?> - Nessun punteggio</h3>
         <?php } ?>
     <?php } else { ?>
         <form action="<?=admin_url('admin.php?page=wintertour_tabella_incontri')?>" method="get">
