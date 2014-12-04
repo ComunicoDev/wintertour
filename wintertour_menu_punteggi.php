@@ -64,7 +64,7 @@
                                     
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
-                                        echo "<option value=\"$x->ID\">$x->data - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
+                                        echo "<option value=\"$x->ID\">wintertour_localdate($x->data) - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
                                     }
                                 ?>
                             </select>
@@ -137,7 +137,7 @@
                                     
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
-                                        echo "<option value=\"$x->ID\">$x->data - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
+                                        echo "<option value=\"$x->ID\">wintertour_localdate($x->data) - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
                                     }
                                 ?>
                             </select>
@@ -260,7 +260,7 @@
                                     
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
-                                        echo "<option value=\"$x->ID\"". (($x->ID === $punteggio->turno) ? " selected=\"selected\"" : "") . ">$x->data - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
+                                        echo "<option value=\"$x->ID\"". (($x->ID === $punteggio->turno) ? " selected=\"selected\"" : "") . ">wintertour_localdate($x->data) - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
                                     }
                                 ?>
                             </select>
