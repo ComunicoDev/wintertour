@@ -64,7 +64,7 @@
                                     
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
-                                        echo "<option value=\"$x->ID\">wintertour_localdate($x->data) - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
+                                        echo "<option value=\"$x->ID\">" . wintertour_localdate($x->data) ." - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
                                     }
                                 ?>
                             </select>
@@ -82,6 +82,7 @@
                                     </td>
                                     <td width="60%" style="padding: 0; width: 55%;">
                                         <select data-autocomptype="soci" name="socio" class="searchbox autocompletion">
+                                        
                                             <option disabled="disabled" selected="selected" value="">--Cercare un socio--</option>
                                         </select>
                                     </td>
@@ -137,7 +138,7 @@
                                     
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
-                                        echo "<option value=\"$x->ID\">wintertour_localdate($x->data) - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
+                                        echo "<option value=\"$x->ID\">" . wintertour_localdate($x->data) . "- $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
                                     }
                                 ?>
                             </select>
@@ -260,7 +261,7 @@
                                     
                                     foreach ($res as $x) {
                                         $circolo = wintertour_getcircolo($x->circolo);
-                                        echo "<option value=\"$x->ID\"". (($x->ID === $punteggio->turno) ? " selected=\"selected\"" : "") . ">wintertour_localdate($x->data) - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
+                                        echo "<option value=\"$x->ID\"". (($x->ID === $punteggio->turno) ? " selected=\"selected\"" : "") . ">" . wintertour_localdate($x->data) . " - $circolo->nome - " . wintertour_getCategoria($x->ID) . "</option>";
                                     }
                                 ?>
                             </select>
