@@ -30,8 +30,8 @@
     
     <p>
         <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=add'); ?>">Aggiungi tappa</a><br />
-        <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=view'); ?>">Consulta e modifica tappe</a><br />
-        <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=search'); ?>">Ricerca e modifica tappe</a>
+        <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=view'); ?>">Gestisci tappe</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=search'); ?>">Ricerca tappe</a>
     </p>
     
     <?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'search') { ?>

@@ -796,19 +796,95 @@
     function wintertour_edit_risultatoSingolo() {
         global $wpdb;
         
+        $risultato = wintertour_getrisultato($_POST['ID']);
+        
+        $wpdb->update(
+            'wintertourtennis_set',
+            array(
+                'partitesquadra1' => $_POST['set1sq1'],
+                'partitesquadra2' => $_POST['set1sq2']
+            ),
+            array('ID' => $risultato->set1),
+            array(
+                '%d',
+                '%d'
+            ),
+            array('%d')
+        );
+        
+        $wpdb->update(
+            'wintertourtennis_set',
+            array(
+                'partitesquadra1' => $_POST['set2sq1'],
+                'partitesquadra2' => $_POST['set2sq2']
+            ),
+            array('ID' => $risultato->set2),
+            array(
+                '%d',
+                '%d'
+            ),
+            array('%d')
+        );
+        
+        if(!empty($risultato->set3) && isset($_POST['set3sq1']) && isset($_POST['set3sq2']) && $_POST['set3sq1'] !== "" && $_POST['set3sq2'] !== "" && $_POST['set3sq1'] !== NULL && $_POST['set3sq2'] !== NULL) {
+            $wpdb->update(
+                'wintertourtennis_set',
+                array(
+                    'partitesquadra1' => $_POST['set3sq1'],
+                    'partitesquadra2' => $_POST['set3sq2']
+                ),
+                array('ID' => $risultato->set3),
+                array(
+                    '%d',
+                    '%d'
+                ),
+                array('%d')
+            );
+        } else if(empty($risultato->set3) && isset($_POST['set3sq1']) && isset($_POST['set3sq2'])) {
+            $wpdb->insert(
+                'wintertourtennis_set',
+                array(
+                    'partitesquadra1' => $_POST['set3sq1'],
+                    'partitesquadra2' => $_POST['set3sq2']
+                ),
+                array(
+                    '%d',
+                    '%d'
+                )
+            );
+            $wpdb->update(
+                'wintertourtennis_risultati',
+                array(
+                    'set3' => $wpdb->insert_id
+                ),
+                array('ID' => $_POST['ID']),
+                array(
+                    '%d'
+                ),
+                array('%d')
+            );
+        } else if(!empty($risultato->set3) && ($_POST['set3sq1'] === "" && $_POST['set3sq2'] === "") || ($_POST['set3sq1'] === NULL && $_POST['set3sq2'] === NULL)) {
+            $wpdb->query($wpdb->prepare(
+                "UPDATE `wintertourtennis_risultati` SET `set3` = NULL WHERE `ID` = %d;",
+                $_POST['ID']
+            ));
+            $wpdb->delete(
+                "wintertourtennis_set",
+                array(
+                    "ID" => $risultato->set3
+                ), array("%d")
+            );
+        }
+        
         return $wpdb->update(
             'wintertourtennis_risultati',
             array(
-                'giocatore1' => $_POST['socio21'],
-                'giocatore2' => $_POST['socio22'],
-                'puntigiocatori1e3' => $_POST['punteggio1'],
-                'puntigiocatori2e4' => $_POST['punteggio2'],
+                'giocatore1' => $_POST['socio11'],
+                'giocatore2' => $_POST['socio12'],
                 'turno' => $_POST['tappa']
             ),
             array('ID' => $_POST['ID']),
             array(
-                '%d',
-                '%d',
                 '%d',
                 '%d',
                 '%d'
@@ -820,6 +896,86 @@
     function wintertour_edit_risultatoDoppio() {
         global $wpdb;
         
+        $risultato = wintertour_getrisultato($_POST['ID']);
+        
+        $wpdb->update(
+            'wintertourtennis_set',
+            array(
+                'partitesquadra1' => $_POST['set1sq1'],
+                'partitesquadra2' => $_POST['set1sq2']
+            ),
+            array('ID' => $risultato->set1),
+            array(
+                '%d',
+                '%d'
+            ),
+            array('%d')
+        );
+        
+        $wpdb->update(
+            'wintertourtennis_set',
+            array(
+                'partitesquadra1' => $_POST['set2sq1'],
+                'partitesquadra2' => $_POST['set2sq2']
+            ),
+            array('ID' => $risultato->set2),
+            array(
+                '%d',
+                '%d'
+            ),
+            array('%d')
+        );
+        
+        if(!empty($risultato->set3) && isset($_POST['set3sq1']) && isset($_POST['set3sq2']) && $_POST['set3sq1'] !== "" && $_POST['set3sq2'] !== "" && $_POST['set3sq1'] !== NULL && $_POST['set3sq2'] !== NULL) {
+            $wpdb->update(
+                'wintertourtennis_set',
+                array(
+                    'partitesquadra1' => $_POST['set3sq1'],
+                    'partitesquadra2' => $_POST['set3sq2']
+                ),
+                array('ID' => $risultato->set3),
+                array(
+                    '%d',
+                    '%d'
+                ),
+                array('%d')
+            );
+        } else if(empty($risultato->set3) && isset($_POST['set3sq1']) && isset($_POST['set3sq2'])) {
+            $wpdb->insert(
+                'wintertourtennis_set',
+                array(
+                    'partitesquadra1' => $_POST['set3sq1'],
+                    'partitesquadra2' => $_POST['set3sq2']
+                ),
+                array(
+                    '%d',
+                    '%d'
+                )
+            );
+            $wpdb->update(
+                'wintertourtennis_risultati',
+                array(
+                    'set3' => $wpdb->insert_id
+                ),
+                array('ID' => $_POST['ID']),
+                array(
+                    '%d'
+                ),
+                array('%d')
+            );
+        } else if(!empty($risultato->set3) && ($_POST['set3sq1'] === "" && $_POST['set3sq2'] === "") || ($_POST['set3sq1'] === NULL && $_POST['set3sq2'] === NULL)) {
+            $wpdb->query($wpdb->prepare(
+                "UPDATE `wintertourtennis_risultati` SET `set3` = NULL WHERE `ID` = %d;",
+                $_POST['ID']
+            ));
+            $wpdb->delete(
+                "wintertourtennis_set",
+                array(
+                    "ID" => $risultato->set3
+                ), array("%d")
+            );
+        }
+        
         return $wpdb->update(
             'wintertourtennis_risultati',
             array(
@@ -827,14 +983,10 @@
                 'giocatore2' => $_POST['socio22'],
                 'giocatore3' => $_POST['socio23'],
                 'giocatore4' => $_POST['socio24'],
-                'puntigiocatori1e3' => $_POST['punteggio1'],
-                'puntigiocatori2e4' => $_POST['punteggio2'],
                 'turno' => $_POST['tappa']
             ),
             array('ID' => $_POST['ID']),
             array(
-                '%d',
-                '%d',
                 '%d',
                 '%d',
                 '%d',

@@ -35,9 +35,7 @@
                     <th>Categoria</th>
                     <th>Incontro</th>
                     <th>Avversario</th>
-                    <th>Set 1</th>
-                    <th>Set 2</th>
-                    <th>Set 3</th>
+                    <th>Risultati</th>
                 </thead>
                 <tbody>
                     <?php
@@ -61,9 +59,7 @@
                                 <td>
                                     <?=$avversario->nome?> <?=$avversario->cognome?>
                                 </td>
-                                <td><?=$set1->partitesquadra1?>-<?=$set1->partitesquadra2?></td>
-                                <td><?=$set2->partitesquadra1?>-<?=$set2->partitesquadra2?></td>
-                                <td><?=($set3 !== NULL) ? ($set3->partitesquadra1 . "-" . $set3->partitesquadra2) : "No"?></td>
+                                <td><?=$set1->partitesquadra1?>-<?=$set1->partitesquadra2?>; <?=$set2->partitesquadra1?>-<?=$set2->partitesquadra2?><?=($set3 !== NULL) ? ("; " . $set3->partitesquadra1 . "-" . $set3->partitesquadra2) : ""?></td>
                             </tr>
                         <?php }
                     ?>
@@ -84,9 +80,7 @@
                     <th>Incontro</th>
                     <th>Compagno</th>
                     <th>Avversari</th>
-                    <th>Set 1</th>
-                    <th>Set 2</th>
-                    <th>Set 3</th>
+                    <th>Risultati</th>
                 </thead>
                 <tbody>
                     <?php
@@ -109,9 +103,7 @@
                                 </td>
                                 <td><?=$compagno->nome?> <?=$compagno->cognome?></td>
                                 <td><?=wintertour_getAvversari($giocatore->ID, $risultato)?></td>
-                                <td><?=$set1->partitesquadra1?>-<?=$set1->partitesquadra2?></td>
-                                <td><?=$set2->partitesquadra1?>-<?=$set2->partitesquadra2?></td>
-                                <td><?=($set3 !== NULL) ? ($set3->partitesquadra1 . "-" . $set3->partitesquadra2) : "No"?></td>
+                                <td><?=$set1->partitesquadra1?>-<?=$set1->partitesquadra2?>; <?=$set2->partitesquadra1?>-<?=$set2->partitesquadra2?><?=($set3 !== NULL) ? ("; " . $set3->partitesquadra1 . "-" . $set3->partitesquadra2) : ""?></td>
                             </tr>
                         <?php }
                     ?>

@@ -13,11 +13,7 @@
         exit;
     }
     
-    if(isset($_POST['punteggioadd'])) {
-        wintertour_addPunteggio();
-    } else if(isset($_POST['punteggiomodifica'])) {
-        wintertour_edit_punteggio($_POST['punteggioid'], $_POST['punteggio'], $_POST['turno'], $_POST['socio']);
-    } else if(isset($_POST['singolo'])) {
+    if(isset($_POST['singolo'])) {
         wintertour_addRisultato(array(
             'giocatore1' => $_POST['socio11'],
             'giocatore2' => $_POST['socio12'],
@@ -62,8 +58,8 @@
     
     <p>
         <a href="<?php echo admin_url('admin.php?page=wintertour_carica_risultati&action=add'); ?>">Carica risultati</a><br />
-        <a href="<?php echo admin_url('admin.php?page=wintertour_carica_risultati&action=view'); ?>">Consulta e modifica risultati</a><br />
-        <a href="<?php echo admin_url('admin.php?page=wintertour_carica_risultati&action=search'); ?>">Ricerca e modifica risultati</a>
+        <a href="<?php echo admin_url('admin.php?page=wintertour_carica_risultati&action=view'); ?>">Gestisci risultati</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_carica_risultati&action=search'); ?>">Ricerca risultati</a>
     </p>
     
     <?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'search') { ?>
@@ -281,26 +277,26 @@
                     </tr>
                     <tr>
                         <td>
-                            <input name="set1sq1" type="text" placeholder="Primo set squadra 1" />
+                            <label for="set1sq1">Primo set squadra 1</label> <input name="set1sq1" type="text" placeholder="Primo set squadra 1" />
                         </td>
                         <td>
-                            <input name="set1sq2" type="text" placeholder="Primo set squadra 2" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input name="set2sq1" type="text" placeholder="Secondo set squadra 1" />
-                        </td>
-                        <td>
-                            <input name="set2sq2" type="text" placeholder="Secondo set squadra 2" />
+                            <label for="set1sq2">Primo set squadra 2</label> <input name="set1sq2" type="text" placeholder="Primo set squadra 2" />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input name="set3sq1" type="text" placeholder="Terzo set squadra 1" />
+                            <label for="set2sq1">Secondo set squadra 1</label> <input name="set2sq1" type="text" placeholder="Secondo set squadra 1" />
                         </td>
                         <td>
-                            <input name="set3sq2" type="text" placeholder="Terzo set squadra 2" />
+                            <label for="set2sq2">Secondo set squadra 2</label> <input name="set2sq2" type="text" placeholder="Secondo set squadra 2" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="set3sq1">Terzo set squadra 1</label> <input name="set3sq1" type="text" placeholder="Terzo set squadra 1" />
+                        </td>
+                        <td>
+                            <label for="set3sq2">Terzo set squadra 2</label> <input name="set3sq2" type="text" placeholder="Terzo set squadra 2" />
                         </td>
                     </tr>
                 </tbody>
@@ -388,26 +384,26 @@
                     </tr>
                     <tr>
                         <td>
-                            <input name="set1sq1" type="text" placeholder="Primo set squadra 1" />
+                            <label for="set1sq1">Primo set squadra 1</label> <input name="set1sq1" type="text" placeholder="Primo set squadra 1" />
                         </td>
                         <td>
-                            <input name="set1sq2" type="text" placeholder="Primo set squadra 2" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input name="set2sq1" type="text" placeholder="Secondo set squadra 1" />
-                        </td>
-                        <td>
-                            <input name="set2sq2" type="text" placeholder="Secondo set squadra 2" />
+                            <label for="set1sq2">Primo set squadra 2</label> <input name="set1sq2" type="text" placeholder="Primo set squadra 2" />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input name="set3sq1" type="text" placeholder="Terzo set squadra 1" />
+                            <label for="set2sq1">Secondo set squadra 1</label> <input name="set2sq1" type="text" placeholder="Secondo set squadra 1" />
                         </td>
                         <td>
-                            <input name="set3sq2" type="text" placeholder="Terzo set squadra 2" />
+                            <label for="set2sq2">Secondo set squadra 2</label> <input name="set2sq2" type="text" placeholder="Secondo set squadra 2" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="set3sq1">Terzo set squadra 1</label> <input name="set3sq1" type="text" placeholder="Terzo set squadra 1" />
+                        </td>
+                        <td>
+                            <label for="set3sq2">Terzo set squadra 2</label> <input name="set3sq2" type="text" placeholder="Terzo set squadra 2" />
                         </td>
                     </tr>
                 </tbody>
@@ -657,20 +653,33 @@
                         </td>
                     </tr>
                     <?php } ?>
+                    <?php
+                        $set1 = wintertour_get_set($risultato->set1);
+                        $set2 = wintertour_get_set($risultato->set2);
+                        $set3 = ($risultato->set3 !== NULL) ? wintertour_get_set($risultato->set3) : NULL;
+                    ?>
                     <tr>
                         <td>
-                            <label for="punteggio1">Punteggio squadra 1</label>
+                            <label for="set1sq1">Primo set squadra 1</label> <input name="set1sq1" type="text" placeholder="Primo set squadra 1" value="<?=$set1->partitesquadra1?>" />
                         </td>
                         <td>
-                            <input name="punteggio1" type="text" placeholder="Punteggio squadra 1" value="<?=$risultato->puntigiocatori1e3?>" />
+                            <label for="set1sq2">Primo set squadra 2</label> <input name="set1sq2" type="text" placeholder="Primo set squadra 2" value="<?=$set1->partitesquadra2?>" />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="punteggio2">Punteggio squadra 2</label>
+                            <label for="set2sq1">Secondo set squadra 1</label> <input name="set2sq1" type="text" placeholder="Secondo set squadra 1" value="<?=$set2->partitesquadra1?>" />
                         </td>
                         <td>
-                            <input name="punteggio2" type="text" placeholder="Punteggio squadra 2" value="<?=$risultato->puntigiocatori2e4?>" />
+                            <label for="set2sq2">Secondo set squadra 2</label> <input name="set2sq2" type="text" placeholder="Secondo set squadra 2" value="<?=$set2->partitesquadra2?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="set3sq1">Terzo set squadra 1</label> <input name="set3sq1" type="text" placeholder="Terzo set squadra 1" value="<?=$set3->partitesquadra1?>" />
+                        </td>
+                        <td>
+                            <label for="set3sq2">Terzo set squadra 2</label> <input name="set3sq2" type="text" placeholder="Terzo set squadra 2" value="<?=$set3->partitesquadra2?>" />
                         </td>
                     </tr>
                 </tbody>

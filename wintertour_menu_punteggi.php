@@ -30,8 +30,8 @@
     
     <p>
         <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=add'); ?>">Aggiungi punteggio</a><br />
-        <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=view'); ?>">Consulta e modifica punteggi</a><br />
-        <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=search'); ?>">Ricerca e modifica punteggi</a>
+        <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=view'); ?>">Gestisci punteggi</a><br />
+        <a href="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=search'); ?>">Ricerca punteggi</a>
     </p>
     
     <?php if(isset($_REQUEST['action']) && $_REQUEST['action'] === 'search') { ?>
