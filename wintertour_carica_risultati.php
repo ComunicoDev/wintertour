@@ -21,9 +21,13 @@
         wintertour_addRisultato(array(
             'giocatore1' => $_POST['socio11'],
             'giocatore2' => $_POST['socio12'],
-            'puntigiocatori1e3' => $_POST['punteggio1'],
-            'puntigiocatori2e4' => $_POST['punteggio2'],
-            'turno' => $_POST['tappa']
+            'turno' => $_POST['tappa'],
+            'set1sq1' => $_POST['set1sq1'],
+            'set1sq2' => $_POST['set1sq2'],
+            'set2sq1' => $_POST['set2sq1'],
+            'set2sq2' => $_POST['set2sq2'],
+            'set3sq1' => $_POST['set3sq1'],
+            'set3sq2' => $_POST['set3sq2']
         ));
     } else if(isset($_POST['doppio'])) {
         wintertour_addRisultato(array(
@@ -31,9 +35,13 @@
             'giocatore2' => $_POST['socio22'],
             'giocatore3' => $_POST['socio23'],
             'giocatore4' => $_POST['socio24'],
-            'puntigiocatori1e3' => $_POST['punteggio1'],
-            'puntigiocatori2e4' => $_POST['punteggio2'],
-            'turno' => $_POST['tappa']
+            'turno' => $_POST['tappa'],
+            'set1sq1' => $_POST['set1sq1'],
+            'set1sq2' => $_POST['set1sq2'],
+            'set2sq1' => $_POST['set2sq1'],
+            'set2sq2' => $_POST['set2sq2'],
+            'set3sq1' => $_POST['set3sq1'],
+            'set3sq2' => $_POST['set3sq2']
         ));
     } else if(isset($_POST['edit'])) {
         if(isset($_POST['socio23']) && isset($_POST['socio24'])) {
@@ -273,18 +281,26 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="punteggio1">Punteggio squadra 1</label>
+                            <input name="set1sq1" type="text" placeholder="Primo set squadra 1" />
                         </td>
                         <td>
-                            <input name="punteggio1" type="text" placeholder="Punteggio squadra 1" />
+                            <input name="set1sq2" type="text" placeholder="Primo set squadra 2" />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="punteggio2">Punteggio squadra 2</label>
+                            <input name="set2sq1" type="text" placeholder="Secondo set squadra 1" />
                         </td>
                         <td>
-                            <input name="punteggio2" type="text" placeholder="Punteggio squadra 2" />
+                            <input name="set2sq2" type="text" placeholder="Secondo set squadra 2" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input name="set3sq1" type="text" placeholder="Terzo set squadra 1" />
+                        </td>
+                        <td>
+                            <input name="set3sq2" type="text" placeholder="Terzo set squadra 2" />
                         </td>
                     </tr>
                 </tbody>
@@ -372,18 +388,26 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="punteggio1">Punteggio squadra 1</label>
+                            <input name="set1sq1" type="text" placeholder="Primo set squadra 1" />
                         </td>
                         <td>
-                            <input name="punteggio1" type="text" placeholder="Punteggio squadra 1" />
+                            <input name="set1sq2" type="text" placeholder="Primo set squadra 2" />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="punteggio2">Punteggio squadra 2</label>
+                            <input name="set2sq1" type="text" placeholder="Secondo set squadra 1" />
                         </td>
                         <td>
-                            <input name="punteggio2" type="text" placeholder="Punteggio squadra 2" />
+                            <input name="set2sq2" type="text" placeholder="Secondo set squadra 2" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input name="set3sq1" type="text" placeholder="Terzo set squadra 1" />
+                        </td>
+                        <td>
+                            <input name="set3sq2" type="text" placeholder="Terzo set squadra 2" />
                         </td>
                     </tr>
                 </tbody>
@@ -413,12 +437,19 @@
             <table class="output-table">
                 <thead>
                     <tr>
+                        <th style="border:0;"></th>
+                        <th>Squadra 1</th>
+                        <th>Squadra 2</th>
+                        <th colspan="5" style="border:0;"></th>
+                    </tr>
+                    <tr>
                         <th>Azione</th>
                         <th>Giocatore 1</th>
                         <th>Giocatore 2</th>
-                        <th>Punti squadra 1</th>
-                        <th>Punti squadra 2</th>
                         <th>Tappa</th>
+                        <th>Set 1</th>
+                        <th>Set 2</th>
+                        <th>Set 3</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -427,6 +458,10 @@
                         $giocatore2 = wintertour_get_socio($riga->giocatore2);
                         $turno = wintertour_get_turno($riga->turno);
                         $circolo = wintertour_getcircolo($turno->circolo);
+                        
+                        $set1 = wintertour_get_set($riga->set1);
+                        $set2 = wintertour_get_set($riga->set2);
+                        $set3 = ($riga->set3 !== NULL) ? wintertour_get_set($riga->set3) : NULL;
                     ?>
                         <tr>
                             <td>
@@ -438,11 +473,12 @@
                             <td>
                                 <a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $giocatore2->ID); ?>"><?=$giocatore2->cognome?> <?=$giocatore2->nome?></a>
                             </td>
-                            <td><?=$riga->puntigiocatori1e3?></td>
-                            <td><?=$riga->puntigiocatori2e4?></td>
                             <td>
                                 <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=wintertour_localdate($turno->data)?> <?=$circolo->nome?> - <?=wintertour_getCategoria($turno->ID)?></a>
                             </td>
+                            <td><?=$set1->partitesquadra1?>-<?=$set1->partitesquadra2?></td>
+                            <td><?=$set2->partitesquadra1?>-<?=$set2->partitesquadra2?></td>
+                            <td><?=($set3 !== NULL) ? ($set3->partitesquadra1 . "-" . $set3->partitesquadra2) : "No"?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -466,14 +502,21 @@
             <table class="output-table">
                 <thead>
                     <tr>
+                        <th style="border:0;"></th>
+                        <th colspan="2">Squadra 1</th>
+                        <th colspan="2">Squadra 2</th>
+                        <th colspan="5" style="border:0;"></th>
+                    </tr>
+                    <tr>
                         <th>Azione</th>
                         <th>Giocatore 1</th>
                         <th>Giocatore 2</th>
-                        <th>Giocatore 3</th>
-                        <th>Giocatore 4</th>
-                        <th>Punti squadra 1</th>
-                        <th>Punti squadra 2</th>
+                        <th>Giocatore 1</th>
+                        <th>Giocatore 2</th>
                         <th>Tappa</th>
+                        <th>Set 1</th>
+                        <th>Set 2</th>
+                        <th>Set 3</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -483,6 +526,11 @@
                         $giocatore3 = wintertour_get_socio($riga->giocatore3);
                         $giocatore4 = wintertour_get_socio($riga->giocatore4);
                         $turno = wintertour_get_turno($riga->turno);
+                        $circolo = wintertour_getcircolo($turno->circolo);
+                        
+                        $set1 = wintertour_get_set($riga->set1);
+                        $set2 = wintertour_get_set($riga->set2);
+                        $set3 = ($riga->set3 !== NULL) ? wintertour_get_set($riga->set3) : NULL;
                     ?>
                         <tr>
                             <td>
@@ -492,19 +540,20 @@
                                 <a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $giocatore1->ID); ?>"><?=$giocatore1->cognome?> <?=$giocatore1->nome?></a>
                             </td>
                             <td>
-                                <a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $giocatore2->ID); ?>"><?=$giocatore2->cognome?> <?=$giocatore2->nome?></a>
+                                <a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $giocatore3->ID); ?>"><?=$giocatore3->cognome?> <?=$giocatore3->nome?></a>
                             </td>
                             <td>
-                                <a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $giocatore3->ID); ?>"><?=$giocatore3->cognome?> <?=$giocatore3->nome?></a>
+                                <a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $giocatore2->ID); ?>"><?=$giocatore2->cognome?> <?=$giocatore2->nome?></a>
                             </td>
                             <td>
                                 <a href="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $giocatore4->ID); ?>"><?=$giocatore4->cognome?> <?=$giocatore4->nome?></a>
                             </td>
-                            <td><?=$riga->puntigiocatori1e3?></td>
-                            <td><?=$riga->puntigiocatori2e4?></td>
                             <td>
-                                <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=wintertour_localdate($turno->data)?> <?=$circolo->nome?></a>
+                                <a href="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $turno->ID); ?>"><?=wintertour_localdate($turno->data)?> <?=$circolo->nome?> - <?=wintertour_getCategoria($turno->ID)?></a>
                             </td>
+                            <td><?=$set1->partitesquadra1?>-<?=$set1->partitesquadra2?></td>
+                            <td><?=$set2->partitesquadra1?>-<?=$set2->partitesquadra2?></td>
+                            <td><?=($set3 !== NULL) ? ($set3->partitesquadra1 . "-" . $set3->partitesquadra2) : "No"?></td>
                         </tr>
                     <?php } ?>
                 </tbody>

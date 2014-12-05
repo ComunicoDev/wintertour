@@ -35,7 +35,9 @@
                     <th>Categoria</th>
                     <th>Incontro</th>
                     <th>Avversario</th>
-                    <th>Risultato</th>
+                    <th>Set 1</th>
+                    <th>Set 2</th>
+                    <th>Set 3</th>
                 </thead>
                 <tbody>
                     <?php
@@ -47,6 +49,10 @@
                                     $data = $turno->data;
                                     $categoria = wintertour_getCategoria($turno->ID);
                                     $avversario = wintertour_getAvversario($giocatore->ID, $risultato);
+                                    
+                                    $set1 = wintertour_get_set($risultato->set1);
+                                    $set2 = wintertour_get_set($risultato->set2);
+                                    $set3 = ($risultato->set3 !== NULL) ? wintertour_get_set($risultato->set3) : NULL;
                                 ?>
                                 <td><?=$categoria?></td>
                                 <td>
@@ -55,7 +61,9 @@
                                 <td>
                                     <?=$avversario->nome?> <?=$avversario->cognome?>
                                 </td>
-                                <td><?=wintertourtennis_getRisultatoOrd($giocatore->ID, $risultato)?></td>
+                                <td><?=$set1->partitesquadra1?>-<?=$set1->partitesquadra2?></td>
+                                <td><?=$set2->partitesquadra1?>-<?=$set2->partitesquadra2?></td>
+                                <td><?=($set3 !== NULL) ? ($set3->partitesquadra1 . "-" . $set3->partitesquadra2) : "No"?></td>
                             </tr>
                         <?php }
                     ?>
@@ -76,7 +84,9 @@
                     <th>Incontro</th>
                     <th>Compagno</th>
                     <th>Avversari</th>
-                    <th>Risultato</th>
+                    <th>Set 1</th>
+                    <th>Set 2</th>
+                    <th>Set 3</th>
                 </thead>
                 <tbody>
                     <?php
@@ -88,6 +98,10 @@
                                     $data = $turno->data;
                                     $categoria = wintertour_getCategoria($turno->ID);
                                     $compagno = wintertour_getCompagno($giocatore->ID, $risultato);
+                                    
+                                    $set1 = wintertour_get_set($risultato->set1);
+                                    $set2 = wintertour_get_set($risultato->set2);
+                                    $set3 = ($risultato->set3 !== NULL) ? wintertour_get_set($risultato->set3) : NULL;
                                 ?>
                                 <td><?=$categoria?></td>
                                 <td>
@@ -95,7 +109,9 @@
                                 </td>
                                 <td><?=$compagno->nome?> <?=$compagno->cognome?></td>
                                 <td><?=wintertour_getAvversari($giocatore->ID, $risultato)?></td>
-                                <td><?=wintertourtennis_getRisultatoOrd($giocatore->ID, $risultato)?></td>
+                                <td><?=$set1->partitesquadra1?>-<?=$set1->partitesquadra2?></td>
+                                <td><?=$set2->partitesquadra1?>-<?=$set2->partitesquadra2?></td>
+                                <td><?=($set3 !== NULL) ? ($set3->partitesquadra1 . "-" . $set3->partitesquadra2) : "No"?></td>
                             </tr>
                         <?php }
                     ?>

@@ -611,15 +611,56 @@
     function wintertour_addRisultato($values = array()) {
         global $wpdb;
         
-        $sql = "INSERT INTO `wintertourtennis_risultati`(`giocatore1`, `giocatore2`" .
-            ((isset($values['giocatore3']) && isset($values['giocatore4'])) ? ", `giocatore3`, `giocatore4`" : "") .
-            ", `puntigiocatori1e3`, `puntigiocatori2e4`, `turno`) VALUES (" .
-            $values['giocatore1'] ."," .
-            $values['giocatore2'] . "," .
-            ((isset($values['giocatore3']) && isset($values['giocatore4'])) ? $values['giocatore3'] . "," . $values['giocatore4'] . "," : "") .
-            $values['puntigiocatori1e3'] . "," .
-            $values['puntigiocatori2e4'] . "," .
-            $values['turno'] . ");";
+        $set1 = 0;
+        $set2 = 0;
+        $set3 = 0;
+        
+        $wpdb->insert(
+            "wintertourtennis_set",
+            array(
+                "partitesquadra1" => $values['set1sq1'],
+                "partitesquadra2" => $values['set1sq2']
+            )
+        );
+        
+        $set1 = $wpdb->insert_id;
+        
+        $wpdb->insert(
+            "wintertourtennis_set",
+            array(
+                "partitesquadra1" => $values['set2sq1'],
+                "partitesquadra2" => $values['set2sq2']
+            )
+        );
+        
+        $set2 = $wpdb->insert_id;
+        
+        if(isset($values[set3sq1]) && isset($values[set3sq2]) && $values[set3sq1] !== NULL && $values[set3sq2] !== NULL && $values[set3sq1] !== "" && $values[set3sq2] !== "") {
+            $wpdb->insert(
+                "wintertourtennis_set",
+                array(
+                    "partitesquadra1" => $values['set3sq1'],
+                    "partitesquadra2" => $values['set3sq2']
+                )
+            );
+            
+            $set3 = $wpdb->insert_id;
+        }
+        
+        $sql =
+            "INSERT INTO `wintertourtennis_risultati` (`giocatore1`, `giocatore2`" .
+                ((isset($values['giocatore3']) && isset($values['giocatore4'])) ? ", `giocatore3`, `giocatore4`" : "") .
+                ", `turno`, `set1`, `set2`" .
+                (($set3 !== 0) ? ", `set3`" : "") .
+             ") VALUES (" .
+                $values['giocatore1'] .", " .
+                $values['giocatore2'] . ", " .
+                ((isset($values['giocatore3']) && isset($values['giocatore4'])) ? $values['giocatore3'] . ", " . $values['giocatore4'] . ", " : "") .
+                $values['turno'] . ", " .
+                $set1 . ", " .
+                $set2 .
+                (($set3 !== 0) ? ", " . $set3 : "") .
+            ");";
         
         $wpdb->query($sql);
     }
@@ -667,6 +708,16 @@
 		
 		mysqli_close($con);
 	}
+    
+    function wintertour_get_set($id) {
+        global $wpdb;
+        
+        if(is_numeric($id)) {
+            $sql = "SELECT * FROM `wintertourtennis_set` WHERE `ID` = %d";
+            
+            return $wpdb->get_row($wpdb->prepare($sql, $id));
+        }
+    }
 	
 	function wintertour_get_tipologia_soci($id) {
 		global $wpdb;
