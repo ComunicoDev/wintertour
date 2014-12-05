@@ -194,6 +194,7 @@
         $turno = wintertour_get_turno($_GET['turno']);
     ?>
         <form action="<?php echo admin_url('admin.php?page=wintertour_turni&action=turniedit&turno=' . $_GET['turno']); ?>" method="post">
+            <input name="ID" type="hidden" value="<?=$turno->ID?>" />
             <table>
                 <thead>
                     <tr>
@@ -203,14 +204,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <label for="ID">ID</label>
-                        </td>
-                        <td>
-                            <input name="ID" readonly="readonly" type="text" value="<?=$turno->ID?>" />
-                        </td>
-                    </tr>
                     <tr>
                         <td>
                             <label for="data">Data: </label>

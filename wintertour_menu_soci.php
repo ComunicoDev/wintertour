@@ -422,16 +422,9 @@
 		<h3>Modifica Socio</h3>
 		<form class="editor" action="<?php echo admin_url('admin.php?page=wintertour_soci&action=sociedit&socio=' . $_REQUEST['socio']); ?>" method="post">
 			<input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
+			<input name="ID" type="hidden" value="<?=$obj_socio->ID?>" />
 			<table>
 				<tbody>
-					<tr>
-						<td>
-							<label for="ID">ID</label>
-						</td>
-						<td>
-							<input autocomplete="off" name="ID" readonly="readonly" type="text" value="<?=$obj_socio->ID?>" />
-						</td>
-					</tr>
                     <tr>
                         <td>
                             <label for="cognome">Cognome:</label>

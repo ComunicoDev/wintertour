@@ -143,7 +143,7 @@
         $circoli = wintertour_elencacircoli();
     ?>
         <?php if(count($circoli) > 0) { ?>
-            <h3>Elenco punteggi</h3>
+            <h3>Elenco circoli</h3>
             <table class="output-table">
                 <thead>
                     <tr>
@@ -160,13 +160,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($circoli as $index => $riga) { ?>
+                    <?php foreach($circoli as $index => $riga) { global $provincie; ?>
                         <tr>
                             <td><a href="<?=admin_url('admin.php?page=wintertour_circoli&action=circoliedit&circolo=') . $riga->ID?>">Gestisci</a></td>
                             <td><?=$riga->nome?></td>
                             <td><?=$riga->indirizzo?></td>
                             <td><?=$riga->citta?></td>
-                            <td><?=$riga->provincia?></td>
+                            <td><?=$provincie[$riga->provincia]?></td>
                             <td><?=$riga->cognomereferente?></td>
                             <td><?=$riga->nomereferente?></td>
                             <td><?=$riga->telefono?></td>
@@ -184,6 +184,7 @@
     ?>
         <form action="<?php echo admin_url('admin.php?page=wintertour_circoli&action=circoliedit&circolo=' . $_REQUEST['circolo']); ?>" method="post">
             <input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
+            <input name="ID" type="hidden" value="<?=$circolo->ID?>" />
             <table>
                 <thead>
                     <tr>
@@ -193,14 +194,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <label for="ID">ID</label>
-                        </td>
-                        <td>
-                            <input autocomplete="off" name="ID" readonly="readonly" type="text" value="<?=$circolo->ID?>" />
-                        </td>
-                    </tr>
                     <tr>
                         <td>
                             <label for="nome">Nome: </label>

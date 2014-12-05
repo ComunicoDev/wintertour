@@ -218,6 +218,7 @@
     ?>
         <form action="<?php echo admin_url('admin.php?page=wintertour_punteggi&action=punteggiedit&punteggio=' . $_GET['punteggio']); ?>" method="post">
             <input name="wt_nonce" type="hidden" value="<?php echo wp_create_nonce(wt_nonce); ?>" />
+            <input name="punteggioid" type="hidden" value="<?=$punteggio->ID?>" />
             <table>
                 <thead>
                     <tr>
@@ -227,14 +228,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <label for="punteggioid">ID</label>
-                        </td>
-                        <td>
-                            <input name="punteggioid" readonly="readonly" type="text" value="<?=$punteggio->ID?>" />
-                        </td>
-                    </tr>
                     <tr>
                         <td>
                             <label for="punteggio">Punteggio: </label>
