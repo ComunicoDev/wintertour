@@ -17,6 +17,8 @@
 		wintertour_addSocio();
 	} else if(isset($_POST['savesocio'])) {
         wintertour_edit_socio($_REQUEST['socio'], $_POST);
+    } else if(isset($_POST['deletesocio'])) {
+        wintertour_deleteSocio($_POST['ID']);
     }
 ?>
 <div class="wgest_page wgest_soci">
@@ -624,8 +626,11 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td>
-							<input name="savesocio" type="submit" value="Salva" />
+                        <td align="center">
+                            <input class="confirm" style="width:200px;" name="deletesocio" id="deletesocio" type="submit" value="Elmina" />
+                        </td>
+						<td align="center">
+							<input style="width:200px;" name="savesocio" type="submit" value="Salva" />
 						</td>
 					</tr>
 				</tfoot>

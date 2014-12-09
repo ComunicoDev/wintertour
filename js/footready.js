@@ -24,7 +24,6 @@
 		});
 		
 		//Autocompletion
-		
 		$('select.searchbox.autocompletion').autoCompletion();
 		
 		//Showone
@@ -37,6 +36,20 @@
 					$("#" + $(this).val()).hide();
 				} else {
 					$("#" + $(this).val()).show();
+				}
+			});
+		});
+		
+		// Confirm
+		$("input.confirm").each(function() {
+			var form = $(this).closest("form").first();
+			$(form).closest("form").submit(function() {
+				var action = $(form).attr("action") || window.location.href;
+				if($(document.activeElement).hasClass("confirm")) {
+					$(form).attr("action", action.substring(0, action.indexOf('?') + 1) + action.substring(action.indexOf('page='), action.indexOf('page=') + action.substring(action.indexOf('page=')).indexOf("&")) + '&action=view');
+					return window.confirm("L'azione che stai eseguendo non è reversibile.\nSei sicuro di voler continuare?");
+				} else {
+					$(form).attr("action", action);
 				}
 			});
 		});

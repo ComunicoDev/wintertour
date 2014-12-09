@@ -17,6 +17,8 @@
         wintertour_addPunteggio();
     } else if(isset($_POST['punteggiomodifica'])) {
         wintertour_edit_punteggio($_POST['punteggioid'], $_POST['punteggio'], $_POST['turno'], $_POST['socio']);
+    } else if(isset($_POST['deletepunteggio'])) {
+        wintertour_deletePunteggio($_POST['punteggioid']);
     }
 ?>
 <div class="wgest_page wgest_opt">
@@ -286,8 +288,11 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td>
-                            <input data-autocompname="socio" name="punteggiomodifica" type="submit" value="Modifica" />
+                        <td align="center">
+                            <input style="width:200px;" class="confirm" name="deletepunteggio" type="submit" value="Elimina" />
+                        </td>
+                        <td align="center">
+                            <input style="width:200px;" name="punteggiomodifica" type="submit" value="Modifica" />
                         </td>
                     </tr>
                 </tfoot>

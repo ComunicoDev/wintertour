@@ -143,6 +143,80 @@
         12 =>"Staffetta Junior B"
 	);
     
+    function sqlError() {
+        die("Errore nella cancellazione dell'elemento: controllare che esso non sia referenziato in altre tabelle." . "<br />\n<a href=\"$_SERVER[HTTP_REFERER]\">Torna indietro</a>");
+    }
+    
+    function wintertour_deletePunteggio($ID) {
+        global $wpdb;
+        
+        $wpdb->delete(
+            "wintertourtennis_punteggi",
+            array(
+                "ID" => $ID
+            ),
+            array(
+                "%d"
+            )
+        ) or sqlError();
+    }
+    
+    function wintertour_deleteRisultato($ID) {
+        global $wpdb;
+        
+        $wpdb->delete(
+            "wintertourtennis_risultati",
+            array(
+                "ID" => $ID
+            ),
+            array(
+                "%d"
+            )
+        ) or sqlError();
+    }
+    
+    function wintertour_deleteSocio($ID) {
+        global $wpdb;
+        
+        $wpdb->delete(
+            "wintertourtennis_soci",
+            array(
+                "ID" => $ID
+            ),
+            array(
+                "%d"
+            )
+        ) or sqlError();
+    }
+    
+    function wintertour_deleteCircolo($ID) {
+        global $wpdb;
+        
+        $wpdb->delete(
+            "wintertourtennis_circoli",
+            array(
+                "ID" => $ID
+            ),
+            array(
+                "%d"
+            )
+        ) or sqlError();
+    }
+    
+    function wintertour_deleteTurno($ID) {
+        global $wpdb;
+        
+        $wpdb->delete(
+            "wintertourtennis_turni",
+            array(
+                "ID" => $ID
+            ),
+            array(
+                "%d"
+            )
+        ) or sqlError();
+    }
+    
     function toggleSort() {
         $tmpstr = strtolower(trim($_GET["sort"]));
         

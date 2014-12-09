@@ -17,6 +17,8 @@
 		wintertour_addCircolo();
 	} else if($_POST['circolomodifica']) {
 	    wintertour_edit_circolo();
+	} else if($_POST['deletecircolo']) {
+	    wintertour_deleteCircolo($_POST["ID"]);
 	}
 ?>
 <div class="wgest_page wgest_soci">
@@ -276,8 +278,11 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td>
-                            <input data-autocompname="referente" name="circolomodifica" type="submit" value="Modifica" />
+                        <td align="center">
+                            <input class="confirm" style="width:200px;" name="deletecircolo" id="deletecircolo" type="submit" value="Elmina" />
+                        </td>
+                        <td align="center">
+                            <input style="width:200px;" name="circolomodifica" type="submit" value="Salva" />
                         </td>
                     </tr>
                 </tfoot>

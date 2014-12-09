@@ -17,6 +17,8 @@
         wintertour_addTurno();
     } else if(isset($_POST['turnomodifica'])) {
         wintertour_edit_turno($_POST['ID'], $_POST['data'], $_POST['circolo'], $_POST['categoria']);
+    } else if(isset($_POST['deleteturno'])) {
+        wintertour_deleteTurno($_POST['ID']);
     }
 ?>
 <div class="wgest_page wgest_opt">
@@ -246,8 +248,11 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td>
-                            <input data-autocompname="socio" name="turnomodifica" type="submit" value="Modifica" />
+                        <td align="center">
+                            <input class="confirm" style="width:200px;" name="deleteturno" id="deleteturno" type="submit" value="Elmina" />
+                        </td>
+                        <td align="center">
+                            <input style="width:200px;" data-autocompname="socio" name="turnomodifica" type="submit" value="Modifica" />
                         </td>
                     </tr>
                 </tfoot>

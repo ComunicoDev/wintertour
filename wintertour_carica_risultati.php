@@ -45,6 +45,8 @@
         } else {
             wintertour_edit_risultatoSingolo();
         }
+    } else if(isset($_POST['delete'])) {
+        wintertour_deleteRisultato($_POST['ID']);
     }
 ?>
 <div class="wgest_page wgest_opt">
@@ -685,8 +687,12 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td>
-                            <input type="submit" name="edit" value="Modifica" />
+                        <td align="center">
+                            <input style="width:200px;" class="confirm" name="delete" type="submit" value="Elimina" />
+                        </td>
+                        <td align="center">
+                            <input style="width:200px;" name="edit" type="submit" value="Modifica" />
+                        </td>
                         </td>
                     </tr>
                 </tfoot>
