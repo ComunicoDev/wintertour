@@ -37,26 +37,19 @@
             if($giocatori != null && count($giocatori) > 0) {
         ?>
             <h3>Classifica - <?=$categorie[$_REQUEST['categoria']]?></h3>
-            <table class="output-table">
+            <table class="table table-header-rotated output-table">
                 <thead>
                     <tr>
-                        <th style="border: 0 !important;"></th>
-                        <th style="border: 0 !important;"></th>
-                        <th style="border: 0 !important;"></th>
-                        <th colspan="<?=wintertour_countTappe()?>" style="text-align: left; padding-left: 8px !important;">
-                            Punti delle Tappe
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>Posizione</th>
+                        <th>Pos</th>
                         <th>Giocatori</th>
-                        <th>Totale punti</th>
+                        <th>Tot</th>
                         <?php
-                            $tappe = wintertour_elencaTappe();
+                            $tappe = wintertour_elencaTurni_withCategoria($_REQUEST['categoria']);
                             
                             foreach($tappe as $tappa) {
+                                $circolo = wintertour_getcircolo($tappa->circolo);
                         ?>
-                            <th><?=$tappa->nome?></th>
+                            <th class="rotate"><div><span><?=capitalize($circolo->nome)?></span></div></th>
                         <?php } ?>
                     </tr>
                 </thead>
@@ -64,18 +57,16 @@
                     <?php foreach($giocatori as $giocatore) {  ?>
                         <tr>
                             <th><?=$count++?></th>
-                            <th><?=$giocatore->cognome?> <?=$giocatore->nome?></th>
+                            <th><?=capitalize($giocatore->cognome)?> <?=capitalize($giocatore->nome)?></th>
                             <td><?=$giocatore->punteggio?></td>
                             <?php
-                                foreach($tappe as $circolo) {
-                                    $punti = 0;
-                                    $turni = wintertour_elencaTurni_withCircoloAndCategoria($circolo->ID, $_REQUEST['categoria']);
+                                    $turni = $tappe;
                                     foreach($turni as $turno) {
-                                        $punteggi = wintertour_elencaTurni_withTurnoAndSocio($turno->ID, $giocatore->ID);
+                                        $punti = 0;
+                                        $punteggi = wintertour_elencaPunteggi_withTurnoAndSocio($turno->ID, $giocatore->ID);
                                         foreach($punteggi as $punteggio) {
                                             $punti += $punteggio->punteggio;
                                         }
-                                    }
                             ?>
                                 <td><?=$punti?></td>
                             <?php } ?>

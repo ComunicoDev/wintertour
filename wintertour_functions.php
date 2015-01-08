@@ -1292,16 +1292,16 @@
         ));
     }
     
-    function wintertour_elencaTurni_withCircoloAndCategoria($idcircolo, $categoria) {
+    function wintertour_elencaTurni_withCategoria($idcircolo, $categoria) {
         global $wpdb;
         
         return $wpdb->get_results($wpdb->prepare(
-            "SELECT * FROM `wintertourtennis_turni` WHERE `circolo` = %d AND `categoria` = %d",
+            "SELECT * FROM `wintertourtennis_turni` WHERE `categoria` = %d",
             $idcircolo, $categoria
         ));
     }
     
-    function wintertour_elencaTurni_withTurnoAndSocio($turnoid, $socioid) {
+    function wintertour_elencaPunteggi_withTurnoAndSocio($turnoid, $socioid) {
         global $wpdb;
         
         return $wpdb->get_results($wpdb->prepare(
@@ -1330,13 +1330,13 @@
     function wintertour_countTappe() {
         global $wpdb;
         
-        return $wpdb->get_var("SELECT COUNT(*) FROM `wintertourtennis_circoli` WHERE `ID` IN (SELECT `circolo` FROM `wintertourtennis_turni`);");
+        return $wpdb->get_var("SELECT COUNT(*) FROM `wintertourtennis_turni`;");
     }
     
     function wintertour_elencaTappe() {
         global $wpdb;
         
-        $sql = "SELECT * FROM `wintertourtennis_circoli` WHERE `ID` IN (SELECT `circolo` FROM `wintertourtennis_turni` WHERE `ID` IN (SELECT `turno` FROM `wintertourtennis_punteggi`)) ORDER BY `nome` ASC;";
+        $sql = "SELECT * FROM `wintertourtennis_turni` WHERE `ID` IN (SELECT `turno` FROM `wintertourtennis_punteggi`) ORDER BY `data`;";
         
         return $wpdb->get_results($sql);
     }
