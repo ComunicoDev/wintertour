@@ -147,6 +147,16 @@
         die("Errore nella cancellazione dell'elemento: controllare che esso non sia referenziato in altre tabelle." . "<br />\n<a href=\"$_SERVER[HTTP_REFERER]\">Torna indietro</a>");
     }
     
+    function stripdata() {
+        $_GET    = stripslashes_deep($_GET);
+        $_POST   = stripslashes_deep($_POST);
+        $_COOKIE = stripslashes_deep($_COOKIE);
+        
+        $_GET    = array_map('stripslashes_deep', $_GET);
+        $_POST   = array_map('stripslashes_deep', $_POST);
+        $_COOKIE = array_map('stripslashes_deep', $_COOKIE);
+    }
+    
     function wintertour_deletePunteggio($ID) {
         global $wpdb;
         
@@ -1089,6 +1099,8 @@
     
     function wintertour_edit_circolo() {
         global $wpdb;
+        
+        echo $_POST['nome'];
         
         return $wpdb->update(
             'wintertourtennis_circoli',

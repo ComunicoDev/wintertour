@@ -25,68 +25,77 @@
 	if (!function_exists( 'add_action' )) {
 		exit;
 	}
+    
+    function wintertour_subpage($page) {
+        $_POST      = array_map( 'stripslashes_deep', $_POST );
+        $_GET       = array_map( 'stripslashes_deep', $_GET );
+        $_COOKIE    = array_map( 'stripslashes_deep', $_COOKIE );
+        $_REQUEST   = array_map( 'stripslashes_deep', $_REQUEST );
+        
+        include($page);
+    }
 	
 	/**
 	 * Admin options handler
 	 */
 	function wintertour_options() {
-		include ('wintertour_options.php');
+		wintertour_subpage('wintertour_options.php');
 	}
 	
 	/**
 	 * Admin menu handler
 	 */
 	function wintertour_menu() {
-		include ('wintertour_menu.php');
+		wintertour_subpage('wintertour_menu.php');
 	}
 	
 	/**
 	 * Admin menu_soci handler
 	 */
 	function wintertour_menu_soci() {
-		include ('wintertour_menu_soci.php');
+		wintertour_subpage('wintertour_menu_soci.php');
 	}
 	
 	/**
 	 * Admin menu_circoli handler
 	 */
 	function wintertour_menu_circoli() {
-		include ('wintertour_menu_circoli.php');
+		wintertour_subpage('wintertour_menu_circoli.php');
 	}
     
     /**
      * Admin menu_turni handler
      */
     function wintertour_menu_turni() {
-        include ('wintertour_menu_turni.php');
+        wintertour_subpage('wintertour_menu_turni.php');
     }
     
     /**
      * Admin menu_punteggi handler
      */
     function wintertour_menu_punteggi() {
-        include ('wintertour_menu_punteggi.php');
+        wintertour_subpage('wintertour_menu_punteggi.php');
     }
     
     /**
      * Admin menu_risultati handler
      */
     function wintertour_carica_risultati() {
-        include ('wintertour_carica_risultati.php');
+        wintertour_subpage('wintertour_carica_risultati.php');
     }
     
     /**
      * Admin menu_risultati handler
      */
     function wintertour_menu_risultati() {
-        include ('wintertour_menu_risultati.php');
+        wintertour_subpage('wintertour_menu_risultati.php');
     }
     
     /**
      * Admin menu_incontri handler
      */
     function wintertour_menu_incontri() {
-        include ('wintertour_menu_incontri.php');
+        wintertour_subpage('wintertour_menu_incontri.php');
     }
 	
 	/**
@@ -198,11 +207,11 @@
 	
 	//[wintertour_register]
 	function wintertour_registerForm($atts) {
-		include ("wintertour_registerform.php");
+		wintertour_subpage("wintertour_registerform.php");
 	}
     //[wintertour_playercard
     function wintertour_playercard($atts) {
-        include ("wintertour_playercard.php");
+        wintertour_subpage("wintertour_playercard.php");
     }
 	add_shortcode( 'wintertour_register', 'wintertour_registerForm' );
     add_shortcode( 'wintertour_playercard', 'wintertour_playercard' );
